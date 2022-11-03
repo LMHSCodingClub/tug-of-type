@@ -18,8 +18,12 @@ import type {
   UseMutationForAPI,
   UseConvexForAPI,
 } from "convex/react";
+import type * as createRace from "../createRace";
+import type * as createText from "../createText";
+import type * as createUser from "../createUser";
 import type * as getCounter from "../getCounter";
 import type * as incrementCounter from "../incrementCounter";
+import type * as readRace from "../readRace";
 
 /**
  * A type describing your app's public Convex API.
@@ -31,8 +35,12 @@ import type * as incrementCounter from "../incrementCounter";
  * `ConvexReactClient` to create app-specific types.
  */
 export type ConvexAPI = ApiFromModules<{
+  createRace: typeof createRace;
+  createText: typeof createText;
+  createUser: typeof createUser;
   getCounter: typeof getCounter;
   incrementCounter: typeof incrementCounter;
+  readRace: typeof readRace;
 }>;
 
 /**
