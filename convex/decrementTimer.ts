@@ -8,7 +8,7 @@ export default mutation(
       .first()
     if (updateTimer.tmr !== 0) {
       updateTimer.tmr += 1;
-      db.replace(tmr, updateTimer.tmr)
+      db.replace(updateTimer._id, updateTimer.tmr)
     }
   }
 )
