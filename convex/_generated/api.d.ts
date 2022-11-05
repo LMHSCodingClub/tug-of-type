@@ -18,7 +18,6 @@ import type * as getCounter from "../getCounter";
 import type * as incrementCounter from "../incrementCounter";
 import type * as listTexts from "../listTexts";
 import type * as readRace from "../readRace";
-import type * as readUser from "../readUser";
 import type * as storeUser from "../storeUser";
 
 /**
@@ -39,6 +38,5 @@ export type API = ApiFromModules<{
   incrementCounter: typeof incrementCounter;
   listTexts: typeof listTexts;
   readRace: typeof readRace;
-  readUser: typeof readUser;
   storeUser: typeof storeUser;
 }>;
