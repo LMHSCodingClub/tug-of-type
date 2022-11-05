@@ -12,7 +12,6 @@
 import type { ApiFromModules } from "convex/browser";
 import type * as createRace from "../createRace";
 import type * as createText from "../createText";
-import type * as createUser from "../createUser";
 import type * as decrementTimer from "../decrementTimer";
 import type * as getCounter from "../getCounter";
 import type * as incrementCounter from "../incrementCounter";
@@ -32,7 +31,6 @@ import type * as storeUser from "../storeUser";
 export type API = ApiFromModules<{
   createRace: typeof createRace;
   createText: typeof createText;
-  createUser: typeof createUser;
   decrementTimer: typeof decrementTimer;
   getCounter: typeof getCounter;
   incrementCounter: typeof incrementCounter;

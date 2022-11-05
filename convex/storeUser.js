@@ -9,7 +9,7 @@ export default mutation(async ({ db, auth }, bio = "") => {
     // Check if we've already stored this identity before.
     //filter for users
     const user = await db
-        .table("users")
+        .query("users")
         .filter(q => q.eq(q.field("tokenIdentifier"), identity.tokenIdentifier))
         .first();
     if (user !== null) {

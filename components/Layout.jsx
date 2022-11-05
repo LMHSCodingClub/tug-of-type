@@ -27,15 +27,15 @@ export default function Layout(props) {
     return (
         <div>
             <Navbar color="secondary" dark expand="md" container="fluid">
-                <Link href="/"><NavbarBrand href="/"><img alt='logo' height={50} src="/favicon.png" /> Hopscotch</NavbarBrand></Link>
+                <Link href="/"><NavbarBrand href="/"><img alt='logo' height={50} src="/favicon.png" /> Tug of War Typeracer</NavbarBrand></Link>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="ms-5 me-auto align-items-center" navbar>
                         <NavItem>
-                            <Link href="/"><NavLink href="/">Browse Competitions</NavLink></Link>
+                            <Link href="/textbank"><NavLink href="">Texts</NavLink></Link>
                         </NavItem>
                         <NavItem>
-                            <Link href="/new-competition"><NavLink href="/new-competition">Host a Competition</NavLink></Link>
+                            <Link href="/about"><NavLink href="">About Us</NavLink></Link>
                         </NavItem>
                     </Nav>
                     <Logout />
