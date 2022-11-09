@@ -4,7 +4,7 @@ export default mutation(
   async ({ db }, txt, src) => {
     await db
       .insert('texts', {
-        words: txt
+        words: txt,
         source: scr
       })
   }
