@@ -5,7 +5,6 @@ export default mutation(
     await db
       .insert('texts', {
         words: txt
-        source: src
       })
 
   }
