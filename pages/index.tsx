@@ -44,7 +44,7 @@ const Home: NextPage = () => {
         <p className={styles.description}>
 
         </p>
-        <button className={styles.button} onClick={() => createRace()}>
+        <button className={styles.button}>
           Create a Race
         </button>
 

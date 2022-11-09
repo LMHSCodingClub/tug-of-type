@@ -31,7 +31,7 @@ export default function About() {
                             <p>Alan Joseph, Backend Developer</p>
                         </figure>
                         <figure className="w-200 mx-3">
-                            <Image src="/varun-singh.jpg" width={100} height={100} />
+                            <Image src="/jason-nagel.jpg" width={100} height={100} />
                             <p>Varun Singh, Lead Developer</p>
                         </figure>
                         <figure className="w-200 mx-3">
