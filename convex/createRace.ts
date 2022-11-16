@@ -7,12 +7,13 @@ export default mutation(
     const rowNumber = Math.random() * ((totalRows) - 1) + 1;
     const txt = (await db.query('texts').collect())[rowNumber]
 
-    await db.insert('races', {
+    await db.insert('races',
+    {
       userList: [],
       timer: 120,
       text: txt,
-    })
-
+    }
+    )
   }
 
 )
