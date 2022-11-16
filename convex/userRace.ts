@@ -1,10 +1,11 @@
 import { mutation } from './_generated/server'
 
 export default mutation(
-  async ({ db }: any, score:number) => {
+  async ({ db }: any, wpm:number, point:number) => {
     await db
-      .insert('point', {
-        sco: score
+      .insert('typingGame', {
+        sco: wpm,
+        pt: point
       })
   }
 )
