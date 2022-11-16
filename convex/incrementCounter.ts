@@ -1,10 +1,10 @@
 import { mutation } from './_generated/server'
 
 export default mutation(
-  async ({ db }, counterName: string, increment: number) => {
+  async ({ db }: any, counterName: string, increment: number) => {
     const counterDoc = await db
       .query('counter_table')
-      .filter((q) => q.eq(q.field('name'), counterName))
+      .filter((q: any) => q.eq(q.field('name'), counterName))
       .first()
     if (counterDoc === null) {
       db.insert('counter_table', {
