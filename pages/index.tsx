@@ -18,11 +18,16 @@ import { Button, FormGroup, Label, Input, Form, Alert, Breadcrumb, BreadcrumbIte
 import Layout from "../components/Layout";
 import { useState } from 'react'
 import Link from 'next/link'
+import createRace from '../convex/createRace'
+import { useRouter } from 'next/router'
 
 const Home: NextPage = () => {
   const addText = useMutation('createText');
   const [newText, setNewText] = useState('');
   const [textSubmissionAlert, setTextSubmissionAlert] = useState(false);
+
+  const createRace = useMutation('createRace');
+  const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -44,7 +49,10 @@ const Home: NextPage = () => {
         <p className={styles.description}>
 
         </p>
-        <button className={styles.button}>
+        <button className={styles.button} onClick={async () => { 
+          const id = await createRace(); 
+          router.push(`/races?id=${id}`); 
+        }}>
           Create a Race
         </button>
 
