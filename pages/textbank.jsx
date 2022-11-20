@@ -12,6 +12,9 @@ export default function TextBank() {
             <ul>
                 {allTexts.map(item => <li>{item.words}</li>)}
             </ul>
+            <ul>
+                {allTexts.map(item => <li>{item.source}</li>)}
+            </ul>
         </main>
     );
 }
