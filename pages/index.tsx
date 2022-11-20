@@ -1,37 +1,15 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { Alert, Button, Form, Input, Label } from "reactstrap"
 import { useMutation } from '../convex/_generated/react'
 import styles from '../styles/Home.module.css'
-import { Button, FormGroup, Label, Input, Form, Alert, Breadcrumb, BreadcrumbItem, Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  NavbarText } from "reactstrap"
-import Layout from "../components/Layout";
-import { useState } from 'react'
-import Link from 'next/link'
-import createRace from '../convex/createRace'
-import { useRouter } from 'next/router'
 
 const Home: NextPage = () => {
-  const addText = useMutation('createText');
-  const [newText, setNewText] = useState('');
-  const [textSubmissionAlert, setTextSubmissionAlert] = useState(false);
-
   const createRace = useMutation('createRace');
   const router = useRouter();
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggle = () => setIsOpen(!isOpen);
 
   return (
     <div className={styles.container}>
@@ -55,17 +33,6 @@ const Home: NextPage = () => {
         }}>
           Create a Race
         </button>
-
-        <Form>
-          <Label>Add a text to the dealership</Label>
-          <Input type="textarea" cols="100" rows="10" style={{resize: 'none'}} value={newText} onChange={e => setNewText(e.target.value)} />
-          <Button color="primary" className="mt-3" onClick={e => addText(newText).then(msg => {
-            setTextSubmissionAlert(true);
-            setNewText("");
-          })}>Submit Text</Button>
-
-        </Form>
-        <Alert isOpen={textSubmissionAlert}>Text submitted successfully! Toodloo!</Alert>
       </main>
 
       <footer className={styles.footer}>

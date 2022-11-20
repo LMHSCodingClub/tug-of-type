@@ -9,12 +9,20 @@ export default function TextBank() {
                 <title>The Tug of War Typeracer Bank</title>
             </Head>
             <h1>The Tug of War Typeracer Bank</h1>
-            <ul>
-                {allTexts.map(item => <li>{item.words}</li>)}
-            </ul>
-            <ul>
-                {allTexts.map(item => <li>{item.source}</li>)}
-            </ul>
+            <table border="2">
+                <thead>
+                    <tr>
+                        <th>Text</th>
+                        <th>Source</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {allTexts.map(item => (<tr>
+                        <td>{item.words}</td>
+                        <td>{item.source}</td>
+                    </tr>))}
+                </tbody>
+            </table>
         </main>
     );
 }

@@ -37,6 +37,9 @@ export default function Layout(props) {
                         <NavItem>
                             <Link href="/about"><NavLink href="">About Us</NavLink></Link>
                         </NavItem>
+                        <NavItem>
+                            <Link href="/submit-text"><NavLink href="">Submit Text</NavLink></Link>
+                        </NavItem>
                     </Nav>
                     <Logout />
                 </Collapse>
