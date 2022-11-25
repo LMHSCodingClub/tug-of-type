@@ -17,6 +17,7 @@ import type * as endTimer from "../endTimer";
 import type * as getCounter from "../getCounter";
 import type * as incrementCounter from "../incrementCounter";
 import type * as listBestScores from "../listBestScores";
+import type * as listRaces from "../listRaces";
 import type * as listTexts from "../listTexts";
 import type * as readRace from "../readRace";
 import type * as storeUser from "../storeUser";
@@ -39,6 +40,7 @@ export type API = ApiFromModules<{
   getCounter: typeof getCounter;
   incrementCounter: typeof incrementCounter;
   listBestScores: typeof listBestScores;
+  listRaces: typeof listRaces;
   listTexts: typeof listTexts;
   readRace: typeof readRace;
   storeUser: typeof storeUser;

@@ -47,6 +47,9 @@ export default function Layout(props) {
                         <NavItem>
                             <Link href="/submit-text"><NavLink href="">Submit Text</NavLink></Link>
                         </NavItem>
+                        <NavItem>
+                            <Link href="/top-races"><NavLink href="">Top Races</NavLink></Link>
+                        </NavItem>
                     </Nav>
                     <Logout />
                 </Collapse>
@@ -62,7 +65,7 @@ export default function Layout(props) {
 /**
  * @link https://nextjs.org/docs/api-reference/next/link#if-the-child-is-a-functional-component
  */
-const CustomNavbarBrand = forwardRef(({ onClick, href }, ref) => {
+const CustomNavbarBrand = forwardRef(({ href }, ref) => {
     return (
         <NavbarBrand className="d-flex align-items-center" href={href}>
             <Image width={50} height={50} src="/favicon.ico" />

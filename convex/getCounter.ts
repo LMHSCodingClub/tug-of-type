@@ -2,7 +2,7 @@ import { query } from './_generated/server'
 
 export default query(async ({ db }: any, counterName: string): Promise<number> => {
   const counterDoc = await db
-    .query('counter_table')
+    .query('races')
     .filter((q: any) => q.eq(q.field('name'), counterName))
     .first()
   console.log('Got stuff')

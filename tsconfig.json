@@ -23,7 +23,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "convex/storeUser.js"
+    "convex/storeUser.js",
+    "convex/listRaces.js"
   ],
   "exclude": [
     "node_modules"
