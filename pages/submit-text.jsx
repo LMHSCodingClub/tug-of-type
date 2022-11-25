@@ -9,6 +9,7 @@ const SubmitTextPage = () => {
     const addText = useMutation('createText');
     const [newText, setNewText] = useState('');
     const [source, setSource] = useState('');
+    const [checked, setChecked] = useState(false);
     const [textSubmissionAlert, setTextSubmissionAlert] = useState(false);
 
     const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +33,14 @@ const SubmitTextPage = () => {
                 </p>
 
                 <Alert isOpen={textSubmissionAlert}>Text submitted successfully! Toodloo!</Alert>
-                <Form method="post" action="/textbank">
+                <Form action="" method="post" onSubmit={e => {
+                    e.preventDefault();
+                    addText(newText, source)
+                    setTextSubmissionAlert(true);
+                    setNewText("");
+                    setSource("");
+                    setChecked(false);
+                }}>
                     <FormGroup>
                         <Label htmlFor="words">Add a text to the dealership</Label>
                         <Input required id="words" type="textarea" cols="100" rows="10" style={{ resize: 'none' }} value={newText} onChange={e => setNewText(e.target.value)} />
@@ -41,20 +49,12 @@ const SubmitTextPage = () => {
                     </FormGroup>
 
                     <FormGroup>
-                        <Input id="agreement" type="checkbox" required />
+                        <Input id="agreement" type="checkbox" required checked={checked} />
                         <Label htmlFor="agreement" check>I understand that this is a request and my text may not added to the text bank if not approved</Label>
                     </FormGroup>
                     <FormGroup>
 
-                        <Button type="submit" color="primary" className="mt-3" onSubmit={e => addText(newText, source).then(msg => {
-                            e.preventDefault();
-
-                            setTextSubmissionAlert(true);
-                            setNewText("");
-                            setSource("");
-
-                            return false;
-                        })}>Submit Text</Button>
+                        <Button type="submit" color="primary" className="mt-3">Submit Text</Button>
                     </FormGroup>
                 </Form>
             </main>
