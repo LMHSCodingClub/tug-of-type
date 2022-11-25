@@ -32,7 +32,7 @@ const SubmitTextPage = () => {
                 </p>
 
                 <Alert isOpen={textSubmissionAlert}>Text submitted successfully! Toodloo!</Alert>
-                <Form method="post" action="">
+                <Form method="post" action="/textbank">
                     <FormGroup>
                         <Label htmlFor="words">Add a text to the dealership</Label>
                         <Input required id="words" type="textarea" cols="100" rows="10" style={{ resize: 'none' }} value={newText} onChange={e => setNewText(e.target.value)} />
@@ -47,9 +47,13 @@ const SubmitTextPage = () => {
                     <FormGroup>
 
                         <Button type="submit" color="primary" className="mt-3" onSubmit={e => addText(newText, source).then(msg => {
+                            e.preventDefault();
+
                             setTextSubmissionAlert(true);
                             setNewText("");
                             setSource("");
+
+                            return false;
                         })}>Submit Text</Button>
                     </FormGroup>
                 </Form>
@@ -67,7 +71,7 @@ const SubmitTextPage = () => {
                     </span>
                 </a>
             </footer>
-        </div>
+        </div >
     )
 }
 
