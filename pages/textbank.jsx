@@ -18,7 +18,7 @@ export default function TextBank() {
                     </tr>
                 </thead>
                 <tbody>
-                    {allTexts.map(item => (<tr>
+                    {allTexts.map(item => (<tr key={item._id}>
                         <td>{item.words}</td>
                         <td>{item.source}</td>
                     </tr>))}
