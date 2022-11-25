@@ -8,7 +8,7 @@ export default function Race(props) {
     const decrementTimer = useMutation("decrementTimer");
     const timer = useQuery('getCounter', "timer");
     const params = new URLSearchParams(window.location.search);
-    const race = useQuery('readRace', params.get('id'))
+    const race = useQuery('readRace', params.get('id')) || {}
 
     const [carPosition, setCarPosition] = useState(0);
 
@@ -22,10 +22,9 @@ export default function Race(props) {
                 <title>Race | Tug of Type</title>
             </Head>
             <p>Id: {params.get('id')}</p>
-            <p>{JSON.stringify(race)}</p>
-            {/* <p>Race: {race.words}</p> */}
+            <p className="border p-5 h3">{race.text?.words}</p>
             <ul>
-                <li>{carPosition}</li>
+                <li style={{ position: 'relative', left: carPosition }}>Position</li>
             </ul>
             <Input />
         </div>

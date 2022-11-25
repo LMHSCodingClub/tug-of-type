@@ -7,8 +7,6 @@ export default mutation(
     const rowNumber = Math.round(Math.random() * ((totalRows) - 1) + 1);
     const txt = texts[rowNumber];
 
-    console.debug("[createRace]", rowNumber, txt);
-
     const id = await db.insert('races', {
       userList: [],
       timer: 120,

@@ -5,7 +5,7 @@ export default query(async ({ db }: any, counterName: string): Promise<number> =
     .query('races')
     .filter((q: any) => q.eq(q.field('name'), counterName))
     .first()
-  console.log('Got stuff')
+
   if (counterDoc === null) {
     return 0
   }
