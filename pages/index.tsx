@@ -29,7 +29,7 @@ const Home: NextPage = () => {
         </p>
         <button className={styles.button} onClick={async () => { 
           const id = await createRace(); 
-          router.push(`/races?id=${id}`); 
+          router.push(`/race?id=${id}`); 
         }}>
           Create a Race
         </button>

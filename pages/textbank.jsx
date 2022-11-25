@@ -1,5 +1,6 @@
 import { useQuery } from '../convex/_generated/react'
 import Head from 'next/head';
+import { Table } from 'reactstrap';
 
 export default function TextBank() {
     const allTexts = useQuery('listTexts') || [];
@@ -9,7 +10,7 @@ export default function TextBank() {
                 <title>The Tug of War Typeracer Bank</title>
             </Head>
             <h1>The Tug of War Typeracer Bank</h1>
-            <table border="2">
+            <Table border="2">
                 <thead>
                     <tr>
                         <th>Text</th>
@@ -22,7 +23,7 @@ export default function TextBank() {
                         <td>{item.source}</td>
                     </tr>))}
                 </tbody>
-            </table>
+            </Table>
         </main>
     );
 }

@@ -2,16 +2,17 @@ import { mutation } from "./_generated/server"
 
 export default mutation(
   async ({ db }) => {
-    // TODO: Use Math.random() inside a filter to randomly return that text instead of two expensive queriesz
     const texts = await db.query('texts').collect();
     const totalRows = texts.length;
-    const rowNumber = Math.random() * ((totalRows) - 1) + 1;
+    const rowNumber = Math.round(Math.random() * ((totalRows) - 1) + 1);
     const txt = texts[rowNumber];
+
+    console.debug("[createRace]", rowNumber, txt);
 
     const id = await db.insert('races', {
       userList: [],
       timer: 120,
-      text: txt,
+      text: txt._id,
     });
 
     return id;
