@@ -49,7 +49,7 @@ const SubmitTextPage = () => {
                     </FormGroup>
 
                     <FormGroup>
-                        <Input id="agreement" type="checkbox" required checked={checked} />
+                        <Input id="agreement" type="checkbox" required onChange={e => setChecked(e.target.checked)} checked={checked} />
                         <Label htmlFor="agreement" check>I understand that this is a request and my text may not added to the text bank if not approved</Label>
                     </FormGroup>
                     <FormGroup>
