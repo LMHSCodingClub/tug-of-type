@@ -71,7 +71,7 @@ const SubmitTextPage = () => {
                     </span>
                 </a>
             </footer>
-        </div >
+        </div>
     )
 }
 
