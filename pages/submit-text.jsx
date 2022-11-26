@@ -59,18 +59,7 @@ const SubmitTextPage = () => {
                 </Form>
             </main>
 
-            <footer className={styles.footer}>
-                <a
-                    href="https://www.convex.dev/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Powered by{' '}
-                    <span className={styles.logo}>
-                        <Image src="/convex.svg" alt="Convex Logo" width={90} height={18} />
-                    </span>
-                </a>
-            </footer>
+
         </div>
     )
 }

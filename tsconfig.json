@@ -24,7 +24,8 @@
     "**/*.ts",
     "**/*.tsx",
     "convex/storeUser.js",
-    "convex/listRaces.js"
+    "convex/listRaces.js",
+    "pages/index.jsx"
   ],
   "exclude": [
     "node_modules"

@@ -1,11 +1,10 @@
-import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useMutation } from '../convex/_generated/react'
 import styles from '../styles/Home.module.css'
 
-const Home: NextPage = () => {
+const Home = () => {
   const createRace = useMutation('createRace');
   const router = useRouter();
 
@@ -25,26 +24,13 @@ const Home: NextPage = () => {
         <p className={styles.description}>
 
         </p>
-        <button className={styles.button} onClick={async () => { 
-          const id = await createRace(); 
-          router.push(`/race?id=${id}`); 
+        <button className={styles.button} onClick={async () => {
+          const id = await createRace();
+          router.push(`/race?id=${id}`);
         }}>
           Create a Race
         </button>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://www.convex.dev/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/convex.svg" alt="Convex Logo" width={90} height={18} />
-          </span>
-        </a>
-      </footer>
     </div>
   )
 }

@@ -6,6 +6,8 @@ import { forwardRef, useEffect, useState } from "react";
 import { Collapse, Container, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from "reactstrap";
 import { useMutation } from "../convex/_generated/react";
 import { Logout } from "../lib/account-auth";
+import styles from "../styles/Home.module.css";
+
 // Render a chat message.
 export default function Layout(props) {
     const storeUser = useMutation("storeUser");
@@ -48,7 +50,7 @@ export default function Layout(props) {
                             <Link href="/submit-text"><NavLink href="">Submit Text</NavLink></Link>
                         </NavItem>
                         <NavItem>
-                            <Link href="/top-races"><NavLink href="">Top Races</NavLink></Link>
+                            <Link href="/ongoing-races"><NavLink href="">Ongoing Races</NavLink></Link>
                         </NavItem>
                     </Nav>
                     <Logout />
@@ -58,6 +60,18 @@ export default function Layout(props) {
             <Container fluid>
                 {props.children}
             </Container>
+            <footer className={styles.footer}>
+                <a
+                    href="https://www.convex.dev/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Powered by{' '}
+                    <span className={styles.logo}>
+                        <Image src="/convex.svg" alt="Convex Logo" width={90} height={18} />
+                    </span>
+                </a>
+            </footer>
         </div>
     );
 }
