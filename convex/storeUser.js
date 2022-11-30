@@ -31,7 +31,7 @@ export default mutation(async ({ db, auth }, bio = "") => {
         tokenIdentifier: identity.tokenIdentifier,
         pictureURL: identity.pictureUrl,
         bio: bio,
-        bestScore : wpm
+        bestScore: wpm
         // The `_id` field will be assigned by the backend.
     });
 });

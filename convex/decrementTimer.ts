@@ -7,8 +7,8 @@ export default mutation(
       .filter((q: any) => q.field('timer'))
       .first()
     if (updateTimer.tmr !== 0) {
-      updateTimer.tmr += 1;
-      db.replace(updateTimer._id, updateTimer.tmr)
+      updateTimer.tmr -= 1;
+      db.replace(tmr, updateTimer.tmr)
     }
   }
 )

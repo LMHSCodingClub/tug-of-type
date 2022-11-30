@@ -1,10 +1,13 @@
+import Head from "next/head";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { Collapse, Container, FormGroup, Input, Label, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from "reactstrap";
-import { Id } from "../convex/_generated/dataModel";
+import { forwardRef, useEffect, useState } from "react";
+import { Collapse, Container, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from "reactstrap";
 import { useMutation } from "../convex/_generated/react";
 import { Logout } from "../lib/account-auth";
+import styles from "../styles/Home.module.css";
+
 // Render a chat message.
 export default function Layout(props) {
     const storeUser = useMutation("storeUser");
@@ -26,8 +29,14 @@ export default function Layout(props) {
 
     return (
         <div>
+            <Head>
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
             <Navbar color="secondary" dark expand="md" container="fluid">
-                <Link href="/"><NavbarBrand href="/"><img alt='logo' height={50} src="/favicon.png" /> Tug of War Typeracer</NavbarBrand></Link>
+                <Link href="/" passHref legacyBehavior>
+                    <CustomNavbarBrand />
+                </Link>
+
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="ms-5 me-auto align-items-center" navbar>
@@ -37,6 +46,12 @@ export default function Layout(props) {
                         <NavItem>
                             <Link href="/about"><NavLink href="">About Us</NavLink></Link>
                         </NavItem>
+                        <NavItem>
+                            <Link href="/submit-text"><NavLink href="">Submit Text</NavLink></Link>
+                        </NavItem>
+                        <NavItem>
+                            <Link href="/ongoing-races"><NavLink href="">Ongoing Races</NavLink></Link>
+                        </NavItem>
                     </Nav>
                     <Logout />
                 </Collapse>
@@ -45,6 +60,30 @@ export default function Layout(props) {
             <Container fluid>
                 {props.children}
             </Container>
+            <footer className={styles.footer}>
+                <a
+                    href="https://www.convex.dev/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Powered by{' '}
+                    <span className={styles.logo}>
+                        <Image src="/convex.svg" alt="Convex Logo" width={90} height={18} />
+                    </span>
+                </a>
+            </footer>
         </div>
     );
 }
+
+/**
+ * @link https://nextjs.org/docs/api-reference/next/link#if-the-child-is-a-functional-component
+ */
+const CustomNavbarBrand = forwardRef(({ href }, ref) => {
+    return (
+        <NavbarBrand className="d-flex align-items-center" href={href}>
+            <Image width={50} height={50} src="/favicon.ico" />
+            <span className="mx-3">Tug of Type</span>
+        </NavbarBrand>
+    )
+})
