@@ -1,9 +1,9 @@
-import styles from "../styles/race.module.css"
-import { useMutation, useQuery } from '../convex/_generated/react'
-import { Input } from "reactstrap";
 import Head from "next/head";
+import { useRef } from "react";
 import { useEffect, useState } from "react";
-import useEventListener from "../lib/useEventListener";
+import { Input } from "reactstrap";
+import { useMutation, useQuery } from '../convex/_generated/react';
+import styles from "../styles/race.module.css";
 
 export default function Race(props) {
     const decrementTimer = useMutation("decrementTimer");
@@ -12,13 +12,14 @@ export default function Race(props) {
     const race = useQuery('readRace', params.get('id')) || {}
     const [raceTextInput, setRaceTextInput] = useState('');
     const [clientCarPosition, setClientCarPosition] = useState(0);
+    const carEl = useRef();
 
-    useEventListener("keyup", e => {
+    useEffect(() => {
         console.debug("[keyup: raceTextInput]", raceTextInput);
-        const proportionOfRaceCompleted = raceTextInput.length / race.text.words.length;
+        const proportionOfRaceCompleted = raceTextInput.length / race?.text?.words.length;
         console.info(`[${Date.now()}] proportionOfRaceCompleted: ${proportionOfRaceCompleted}`)
-        setClientCarPosition(proportionOfRaceCompleted * 100);
-    })
+        carEl.current.style.left = proportionOfRaceCompleted * 90 + '%';
+    }, [raceTextInput]);
 
     return (
         <div>
@@ -29,7 +30,7 @@ export default function Race(props) {
             <p className="border p-5 h3">{race.text?.words}</p>
             <div>
                 <div className={styles.carContainer} style={{ position: 'relative' }}>
-                    <p className={styles.car} style={{ position: 'absolute', left: clientCarPosition + '%' }}></p>
+                    <p ref={carEl} className={styles.car} style={{ position: 'absolute', left: clientCarPosition + '%' }}></p>
                 </div>
             </div>
             <Input value={raceTextInput} onChange={e => setRaceTextInput(e.target.value)}

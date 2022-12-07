@@ -10,5 +10,5 @@
     background-size: cover;
     display: inline-block;
     position: absolute;
-    transition: left cubic-bezier(1, 0, 0, 1) 0.5s;
+    transition: left linear 0.1s;
 }
