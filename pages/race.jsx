@@ -4,6 +4,7 @@ import { Input } from "reactstrap";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import useEventListener from "../lib/useEventListener";
+import { validate } from "../lib/validate";
 
 export default function Race(props) {
     const decrementTimer = useMutation("decrementTimer");
@@ -14,6 +15,7 @@ export default function Race(props) {
     const [clientCarPosition, setClientCarPosition] = useState(0);
 
     useEventListener("keyup", e => {
+        //validate(e.key);
         console.debug("[keyup: raceTextInput]", raceTextInput);
         const proportionOfRaceCompleted = raceTextInput.length / race.text.words.length;
         console.info(`[${Date.now()}] proportionOfRaceCompleted: ${proportionOfRaceCompleted}`)
