@@ -1,8 +1,8 @@
 import { mutation } from './_generated/server'
 
-export default mutation(
-  async ({ db }, userId, newId) => {
-    db.replace(userId: String, newId: string): string
+export default Change_Id(new_Id)(
+  async ({ db }, userId) => {
+    db.replace({userId, newId})
     /*
     if (counterDoc === null) {
       db.insert('counter_table', {
