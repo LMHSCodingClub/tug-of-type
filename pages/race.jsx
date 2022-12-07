@@ -12,14 +12,24 @@ export default function Race(props) {
     const race = useQuery('readRace', params.get('id')) || {}
     const [raceTextInput, setRaceTextInput] = useState('');
     const [clientCarPosition, setClientCarPosition] = useState(0);
-    const carEl = useRef();
+    const promptTextEl = useRef();
 
-    useEffect(() => {
-        console.debug("[keyup: raceTextInput]", raceTextInput);
-        const proportionOfRaceCompleted = raceTextInput.length / race?.text?.words.length;
+    const handleInputChange = e => {
+        const inputText = e.target.value;
+        setRaceTextInput(inputText)
+        console.debug("[keyup: raceTextInput]", inputText);
+        const proportionOfRaceCompleted = inputText.length / race?.text?.words.length;
         console.info(`[${Date.now()}] proportionOfRaceCompleted: ${proportionOfRaceCompleted}`)
-        carEl.current.style.left = proportionOfRaceCompleted * 90 + '%';
-    }, [raceTextInput]);
+        // Increases or decreases the x-position of the car in proportion to total length of prompt
+        const index = inputText.length;
+        console.debug(race.text.words.substring(0, index));
+        if (inputText === race.text.words.substring(0, index)) {
+            setClientCarPosition(proportionOfRaceCompleted * 90);
+            promptTextEl.current.style.color = "";
+        } else {
+            promptTextEl.current.style.color = "red";
+        }
+    }
 
     return (
         <div>
@@ -27,13 +37,13 @@ export default function Race(props) {
                 <title>Race | Tug of Type</title>
             </Head>
             <p>Id: {params.get('id')}</p>
-            <p className="border p-5 h3">{race.text?.words}</p>
+            <p className={`border p-5 h3 ${styles.prompt}`} ref={promptTextEl}>{race.text?.words}</p>
             <div>
                 <div className={styles.carContainer} style={{ position: 'relative' }}>
-                    <p ref={carEl} className={styles.car} style={{ position: 'absolute', left: clientCarPosition + '%' }}></p>
+                    <p className={styles.car} style={{ position: 'absolute', left: clientCarPosition + '%' }}></p>
                 </div>
             </div>
-            <Input value={raceTextInput} onChange={e => setRaceTextInput(e.target.value)}
+            <Input value={raceTextInput} className={styles.inputBox} onChange={handleInputChange}
                 type="textarea" style={{ resize: 'none' }} rows="5" cols="5" />
         </div>
     );

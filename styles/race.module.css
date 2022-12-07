@@ -12,3 +12,19 @@
     position: absolute;
     transition: left linear 0.1s;
 }
+
+.prompt {
+    white-space: pre-wrap;
+    opacity: 0.6;
+    /* position: absolute;
+    left: 10px;
+    z-index: 1; */
+}
+
+/* 
+.inputBox {
+    position: absolute;
+    z-index: 2;
+    top: 200px;
+    background: transparent;
+} */
