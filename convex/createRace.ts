@@ -1,18 +1,19 @@
-import { mutation } from './_generated/server'
+import { mutation } from "./_generated/server"
 
 export default mutation(
-  async ({ db }, ul: string[], tmr: number, txt: string) => {
-    const totalRows = await db.query('texts').length
-    const rowNumber = Math.random() * ((totalRows)-1) + 1
-    await db
-    .query('texts')[rowNumber].text
-    
-      .insert('races', {
-        userList: ul,
-        timer: tmr,
-        text: txt,
-      })
+  async ({ db }) => {
+    const texts = await db.query('texts').collect();
+    const totalRows = texts.length;
+    const rowNumber = Math.round(Math.random() * ((totalRows) - 1) + 1);
+    const txt = texts[rowNumber];
 
-    }
+    const id = await db.insert('races', {
+      userList: [],
+      timer: 120,
+      text: txt._id,
+    });
+
+    return id;
+  }
 
 )

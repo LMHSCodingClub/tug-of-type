@@ -3,5 +3,10 @@
   "team": "asj5630",
   "prodUrl": "https://blissful-quail-88.convex.cloud",
   "functions": "convex/",
-  "authInfo": []
+  "authInfo": [
+    {
+      "applicationID": "bC5JCuZRRlb6ZxLKSWZd0kOiXNunuJAn",
+      "domain": "https://dev-un5arvwuk2iaposi.us.auth0.com/"
+    }
+  ]
 }
