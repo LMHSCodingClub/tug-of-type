@@ -1,6 +1,9 @@
-import { query } from './_generated/server'
+import { DatabaseWriter, query } from './_generated/server'
 
-export default query(async ({ db }: any, counterName: string): Promise<number> => {
+/**
+ * @param 
+ */
+export default query(async ({ db }, counterName: string): Promise<number> => {
   const counterDoc = await db
     .query('races')
     .filter((q: any) => q.eq(q.field('name'), counterName))

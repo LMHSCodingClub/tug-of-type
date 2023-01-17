@@ -4,15 +4,15 @@ import { Table } from "reactstrap";
 import { useQuery } from "../convex/_generated/react"
 
 export default function OngoingRacesPage() {
-    const allRaces = useQuery('listRaces', false) || [];
+    const allRaces = useQuery('listRaces', true) || [];
     return (
         <Table>
             <Head>
-                <title>Ongoing Races | Tug of Type</title>
+                <title>Completed Races | Tug of Type</title>
             </Head>
             <thead>
                 <tr>
-                    <th style={{ width: '15%' }}>Creator</th>
+                    <th style={{ width: '15%' }}>Host</th>
                     <th>Text</th>
                     <th>Mode</th>
                     <th></th>
@@ -23,7 +23,7 @@ export default function OngoingRacesPage() {
                     <td>John Doe</td>
                     <td>{item.text.words}</td>
                     <td>Normal</td>
-                    <td><Link href={`/race?id=${item._id}`}>Join</Link></td>
+                    <td><Link href={`/race?id=${item._id}`}>View</Link></td>
                 </tr>))}
             </tbody>
         </Table>

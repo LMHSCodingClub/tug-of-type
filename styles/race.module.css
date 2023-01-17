@@ -1,3 +1,7 @@
+.container {
+    padding: 1em;
+}
+
 .carContainer {
     width: 100%;
     height: 100px;
@@ -13,18 +17,35 @@
     transition: left linear 0.1s;
 }
 
+.promptContainer {
+    display: flex;
+}
+
 .prompt {
     white-space: pre-wrap;
     opacity: 0.6;
-    /* position: absolute;
-    left: 10px;
-    z-index: 1; */
+    width: 100%;
 }
 
-/* 
-.inputBox {
-    position: absolute;
-    z-index: 2;
-    top: 200px;
-    background: transparent;
-} */
+.raceEnd .promptContainer>* {
+    width: 48%;
+    height: 300px;
+    transition: all linear 0.8s;
+}
+
+.raceEnd .prompt {
+    font-size: 1.5em;
+    text-overflow: ellipsis;
+}
+
+.raceEnd .promptContainer {
+    justify-content: space-around;
+}
+
+:not(.raceEnd)>.promptContainer>.stats {
+    display: none;
+}
+
+.stats {
+    padding: 1em;
+}

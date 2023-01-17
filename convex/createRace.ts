@@ -11,6 +11,12 @@ export default mutation(
       userList: [],
       timer: 120,
       text: txt._id,
+      ended: false
+    });
+
+    await db.insert('standings', {
+      user: 'aa',
+      race: id
     });
 
     return id;

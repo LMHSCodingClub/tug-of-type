@@ -1,13 +1,10 @@
-import { mutation } from './_generated/server'
+import { mutation, MutationCtx } from './_generated/server'
 
-export default mutation(async ({ db }, user: string, race: string) => function() {
-        await db
-          .insert('user-race', {
-            user: user,
-            race: race
-            
-          })    
-    }
-  } 
+export default mutation(async ({ db }: MutationCtx, user: string, race: string) => {
+  await db.insert('user-race', {
+    user: user,
+    race: race
 
-)
+  })
+
+})

@@ -52,6 +52,9 @@ export default function Layout(props) {
                         <NavItem>
                             <Link href="/ongoing-races"><NavLink href="">Ongoing Races</NavLink></Link>
                         </NavItem>
+                        <NavItem>
+                            <Link href="/completed-races"><NavLink href="">Completed Races</NavLink></Link>
+                        </NavItem>
                     </Nav>
                     <Logout />
                 </Collapse>
