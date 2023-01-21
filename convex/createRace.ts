@@ -4,19 +4,13 @@ export default mutation(
   async ({ db }) => {
     const texts = await db.query('texts').collect();
     const totalRows = texts.length;
-    const rowNumber = Math.round(Math.random() * ((totalRows) - 1) + 1);
+    const rowNumber = Math.round(Math.random() * ((totalRows) - 1));
     const txt = texts[rowNumber];
 
     const id = await db.insert('races', {
-      userList: [],
       timer: 120,
       text: txt._id,
       ended: false
-    });
-
-    await db.insert('standings', {
-      user: 'aa',
-      race: id
     });
 
     return id;
