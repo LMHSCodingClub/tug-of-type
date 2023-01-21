@@ -1,14 +1,14 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import type { AppProps } from 'next/app';
 import Layout from "../components/Layout";
+import '../styles/globals.css';
 
-import { ConvexProviderWithAuth0 } from "convex/react-auth0"
-import convexConfig from "../convex.json"
-import { ConvexProvider, ConvexReactClient } from 'convex/react'
-import clientConfig from '../convex/_generated/clientConfig'
+import { ConvexReactClient } from 'convex/react';
+import { ConvexProviderWithAuth0 } from "convex/react-auth0";
+import convexConfig from "../convex.json";
+import clientConfig from '../convex/_generated/clientConfig';
 
-import { Login } from "../lib/account-auth"
+import { Login } from "../lib/account-auth";
 
 const convex = new ConvexReactClient(clientConfig)
 const authInfo = convexConfig.authInfo[0];

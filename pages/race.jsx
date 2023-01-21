@@ -29,7 +29,6 @@ export default function Race() {
     };
 
     useEffect(() => {
-        // TODO: If the user hosts the race, auto-join him
         async function join() {
             await joinRace(params.get('id'));
         }
@@ -96,7 +95,7 @@ export default function Race() {
             </p>
             <article className={styles.promptContainer}>
                 <p className={`border p-5 h3 ${styles.prompt}`} ref={promptTextEl}>{race.text?.words}</p>
-                <div className={`border p - 5 ${styles.stats}`} ref={statsEl}>
+                <div className={`border p-5 h3 ${styles.stats}`} ref={statsEl}>
                     <p><strong>This quote is from </strong>{race.text?.source}</p>
                     <p><strong>Typing Speed </strong>{standing ? standing.speed : Math.round(typingSpeed)} wpm</p>
                     <p><strong>Accuracy </strong></p>
@@ -107,8 +106,8 @@ export default function Race() {
                     <p className={styles.car} style={{ position: 'absolute', left: clientCarPosition + '%' }}></p>
                 </div>
             </div>
-            <Input value={raceTextInput} className={styles.inputBox} onChange={handleInputChange} disabled={race?.ended}
-                type="textarea" style={{ resize: 'none' }} rows="5" cols="5" />
+            {race?.ended ? null : <Input value={raceTextInput} className={styles.inputBox} onChange={handleInputChange} disabled={race?.ended}
+                type="textarea" style={{ resize: 'none' }} rows="5" cols="5" />}
         </div>
     );
 }

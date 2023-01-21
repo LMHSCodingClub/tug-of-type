@@ -27,8 +27,14 @@ export default function Layout(props) {
 
     const router = useRouter()
 
+    const [loaded, setLoaded] = useState('preload');
+
+    useEffect(() => {
+        setTimeout(() => setLoaded(''), 1000);
+    }, [])
+
     return (
-        <div>
+        <div className={loaded}>
             <Head>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
@@ -42,9 +48,6 @@ export default function Layout(props) {
                     <Nav className="ms-5 me-auto align-items-center" navbar>
                         <NavItem>
                             <Link href="/textbank"><NavLink href="">Texts</NavLink></Link>
-                        </NavItem>
-                        <NavItem>
-                            <Link href="/about"><NavLink href="">About Us</NavLink></Link>
                         </NavItem>
                         <NavItem>
                             <Link href="/submit-text"><NavLink href="">Submit Text</NavLink></Link>
