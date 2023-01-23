@@ -5,7 +5,8 @@ export default query(async ({ db }, finished = false) => {
     races = await Promise.all(races.map(async (race, index) => {
         return {
             ...race,
-            text: await db.get(race.text)
+            text: await db.get(race.text),
+            host: await db.get(race.host)
         }
     }))
 

@@ -55,15 +55,20 @@ export default function Race() {
 
         const inputText = e.target.value;
         setRaceTextInput(inputText)
-        const proportionOfRaceCompleted = inputText.length / race?.text?.words.length;
+        const position = inputText.length;
+        const proportionOfRaceCompleted = position / race?.text?.words.length;
 
         if (race?.ended) return
 
         // Increases or decreases the x-position of the car in proportion to total length of prompt
-        const index = inputText.length;
-        if (inputText === race.text?.words.substring(0, index)) { // Text is accurate so far
-            lastCorrectCharacter.current = index - 1;
+
+        if (inputText === race.text?.words.substring(0, position)) { // Text is accurate so far
+            lastCorrectCharacter.current = position - 1;
             setClientCarPosition(proportionOfRaceCompleted * 90);
+        }
+
+        if (position % 40 === 0) {
+            promptTextEl.current.scroll({ top: promptTextEl.current.scrollTop + 10, behavior: 'smooth' })
         }
 
         // If user has completed the text accurately
@@ -75,7 +80,7 @@ export default function Race() {
 
     const handleKeyDown = e => {
         if (e.key === 'Enter') {
-            promptTextEl.current.scroll({ top: promptTextEl.current.scrollTop + 10, smooth: true })
+            promptTextEl.current.scroll({ top: promptTextEl.current.scrollTop + 30, behavior: 'smooth' })
         }
     }
 

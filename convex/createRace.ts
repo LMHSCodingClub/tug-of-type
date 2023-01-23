@@ -11,7 +11,7 @@ export default mutation(withUser(async ({ db, user }) => {
   const id = await db.insert('races', {
     timer: 120,
     text: txt._id,
-    host: { id: user._id, name: user.name },
+    host: user._id,
     mode: 'Normal',
     ended: false
   });

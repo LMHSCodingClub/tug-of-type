@@ -6,10 +6,7 @@ export default defineSchema({
         text: s.id("texts"),
         timer: s.number(),
         mode: s.string(),
-        host: s.object({
-            id: s.id("users"),
-            name: s.string()
-        })
+        host: s.id("users")
     }),
     standings: defineTable({ race: s.string(), user: s.string() }).index('combo', ["race", "user"]),
     texts: defineTable({ source: s.string(), words: s.string() }),

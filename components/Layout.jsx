@@ -34,7 +34,7 @@ export default function Layout(props) {
             </Head>
             <Navbar color="secondary" dark expand="md" container="fluid">
                 <Link href="/" passHref legacyBehavior>
-                    <CustomNavbarBrand />
+                    Tug of Type
                 </Link>
 
                 <NavbarToggler onClick={toggle} />
@@ -81,9 +81,9 @@ export default function Layout(props) {
  */
 const CustomNavbarBrand = forwardRef(({ href }, ref) => {
     return (
-        <NavbarBrand className="d-flex align-items-center" href={href}>
-            <Image width={50} height={50} src="/favicon.ico" />
+        <a href={href}>
             <span className="mx-3">Tug of Type</span>
-        </NavbarBrand>
+        </a>
+
     )
 })
