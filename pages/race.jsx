@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 import { Input } from "reactstrap";
@@ -12,6 +13,8 @@ export default function Race() {
     const endRace = useMutation('endRace');
     const joinRace = useMutation('joinRace');
     const standing = useQuery('readStanding', params.get('id')) || {};
+    const endStanding = useMutation('endStanding');
+    const updatePosition = useMutation('updatePosition')
 
     const [raceTextInput, setRaceTextInput] = useState('');
     const [clientCarPosition, setClientCarPosition] = useState(0);
@@ -22,11 +25,16 @@ export default function Race() {
     const wrongWordCounter = useRef(0); // Don't need to constantly get the value, only at the end ==> ref
 
     const timerCallback = useRef();
+
     const timer = (id) => {
-        if (race?.ended) return
+        if (race?.ended || !standing.userIsHost) {
+            clearInterval(id)
+            return
+        }
         if (race.timer === 0) {
-            if (!standing.speed) { // Race did not already end
-                endRace(race._id, standing._id, { speed: typingSpeed(Date.now()), accuracy: typingAccuracy() });
+            if (!standing.mine.speed) { // Race did not already end
+                endStanding(standing.mine._id, { speed: typingSpeed(Date.now()), accuracy: typingAccuracy() })
+                endRace(race._id);
             }
             clearInterval(id);
         } else {
@@ -49,12 +57,11 @@ export default function Race() {
         const minutesToComplete = Math.abs(endTime - race?._creationTime) / 1000 / 60;
         const numberOfWords = raceTextInput.split(" ").length;
         const speed = numberOfWords / minutesToComplete;
+
         return Math.round(speed);
     }
 
     const typingAccuracy = (inputSize = raceTextInput.length) => {
-        console.info(race?.text.words)
-        console.info(inputSize)
         return Math.round(inputSize / (race?.text.words.length + wrongWordCounter.current) * 100)
     }
 
@@ -81,18 +88,24 @@ export default function Race() {
             wrongWordCounter.current++
         }
 
-        if (position % 40 === 0 && !scrolledToBottom) {
+        updatePosition(standing.mine._id, proportionOfRaceCompleted * 100)
+
+        if (position % 40 === 0 && !scrolledToBottom(promptTextEl.current)) {
             promptTextEl.current.scroll({ top: promptTextEl.current.scrollTop + 10, behavior: 'smooth' })
         }
 
         // If user has completed the text accurately
         if ((proportionOfRaceCompleted === 1 && inputText === race?.text?.words)) {
-            endRace(race._id, standing._id, { speed: typingSpeed(Date.now()), accuracy: typingAccuracy(position) });
+            endStanding(standing.mine._id, { speed: typingSpeed(Date.now()), accuracy: typingAccuracy(position) });
+
+            if (standing.opponents.every(item => item.speed)) {
+                endRace(race._id)
+            }
         }
     }
 
     const handleKeyDown = e => {
-        if (e.key === 'Enter' && !scrolledToBottom) {
+        if (e.key === 'Enter' && !scrolledToBottom(promptTextEl.current)) {
             promptTextEl.current.scroll({ top: promptTextEl.current.scrollTop + 30, behavior: 'smooth' })
         }
     }
@@ -122,26 +135,29 @@ export default function Race() {
     }, [])
 
     return (
-        <div className={`${loaded} ${styles.container} ${race.timer === 0 || race.ended ? styles.raceEnd : ''}`}>
+        <div className={`${loaded} ${styles.container} ${race.timer === 0 || standing.allFinished || race.ended ? styles.raceEnd : ''}`}>
             <Head>
                 <title>Race | Tug of Type</title>
             </Head>
-            <p className={styles.timer}>
-                <time>{race.timer}</time>
-            </p>
+            <div className="d-flex">
+                <p className={styles.timer}>
+                    <time>{race.timer}</time>
+                </p>
+                <div className={styles.carContainer} style={{ position: 'relative' }}>
+                    <p className={styles.car} style={{ position: 'absolute', left: clientCarPosition + '%' }}></p>
+                    {standing.opponents?.map(item => (
+                        <p key={item._id.toString()} className={styles.car} style={{ position: 'absolute', left: item.position + '%' }}></p>
+                    ))}
+                </div>
+            </div>
             <article className={styles.promptContainer}>
                 <p className={`border p-5 h3 ${styles.prompt}`} ref={promptTextEl}>{race.text?.words.split("").map((item, index) => <span key={index} style={{ color: calculateColorOfLetter(index) }}>{item}</span>)}</p>
                 <div className={`border p-5 h3 ${styles.stats}`} ref={statsEl}>
                     <p><strong>This quote is from </strong>{race.text?.source}</p>
-                    <p><strong>Typing Speed </strong>{standing.speed} wpm</p>
-                    <p><strong>Accuracy </strong>{standing.accuracy}%</p>
+                    <p><strong>Typing Speed </strong>{standing.mine?.speed} wpm</p>
+                    <p><strong>Accuracy </strong>{standing.mine?.accuracy}%</p>
                 </div>
             </article>
-            <div>
-                <div className={styles.carContainer} style={{ position: 'relative' }}>
-                    <p className={styles.car} style={{ position: 'absolute', left: clientCarPosition + '%' }}></p>
-                </div>
-            </div>
             <div>
                 <Input value={raceTextInput} className={styles.inputBox} onChange={handleInputChange} onKeyDown={handleKeyDown} disabled={race?.ended}
                     type="textarea" />

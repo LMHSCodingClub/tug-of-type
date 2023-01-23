@@ -15,6 +15,7 @@ import type * as createText from "../createText";
 import type * as decrementTimer from "../decrementTimer";
 import type * as editUser from "../editUser";
 import type * as endRace from "../endRace";
+import type * as endStanding from "../endStanding";
 import type * as incrementCounter from "../incrementCounter";
 import type * as joinRace from "../joinRace";
 import type * as listBestScores from "../listBestScores";
@@ -23,6 +24,7 @@ import type * as listTexts from "../listTexts";
 import type * as readRace from "../readRace";
 import type * as readStanding from "../readStanding";
 import type * as storeUser from "../storeUser";
+import type * as updatePosition from "../updatePosition";
 import type * as withUser from "../withUser";
 
 /**
@@ -40,6 +42,7 @@ export type API = ApiFromModules<{
   decrementTimer: typeof decrementTimer;
   editUser: typeof editUser;
   endRace: typeof endRace;
+  endStanding: typeof endStanding;
   incrementCounter: typeof incrementCounter;
   joinRace: typeof joinRace;
   listBestScores: typeof listBestScores;
@@ -48,5 +51,6 @@ export type API = ApiFromModules<{
   readRace: typeof readRace;
   readStanding: typeof readStanding;
   storeUser: typeof storeUser;
+  updatePosition: typeof updatePosition;
   withUser: typeof withUser;
 }>;

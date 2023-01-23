@@ -10,11 +10,11 @@ export default mutation(withUser(async ({ db, user }, race) => {
 
   if ((await db.get(raceId)).ended) {
     return;
-    throw new Error("You cannot join the race anymore because it has already ended");
   }
 
   return await db.insert('standings', {
     race: new Id('races', race),
-    user: user._id
+    user: user._id,
+    position: 0
   })
 }));

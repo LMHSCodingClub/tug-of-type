@@ -8,7 +8,7 @@ export default defineSchema({
         mode: s.string(),
         host: s.id("users")
     }),
-    standings: defineTable({ race: s.string(), user: s.string() }).index('combo', ["race", "user"]),
+    standings: defineTable({ race: s.string(), user: s.string() }).index('combo', ["race", "user"]).index('by_race', ['race']),
     texts: defineTable({ source: s.string(), words: s.string() }),
     users: defineTable({
         bestScore: s.number(),
