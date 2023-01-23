@@ -73,6 +73,12 @@ export default function Race() {
         }
     }
 
+    const handleKeyDown = e => {
+        if (e.key === 'Enter') {
+            promptTextEl.current.scroll({ top: promptTextEl.current.scrollTop + 10, smooth: true })
+        }
+    }
+
     const calculateColorOfLetter = (position) => {
         if (position >= raceTextInput.length) {
             return "black"
@@ -97,8 +103,14 @@ export default function Race() {
         return () => clearInterval(id);
     }, []);
 
+    const [loaded, setLoaded] = useState(styles.preload);
+
+    useEffect(() => {
+        setTimeout(() => setLoaded(''), 900);
+    }, [])
+
     return (
-        <div className={`${styles.container} ${race.timer === 0 || race.ended ? styles.raceEnd : ''}`}>
+        <div className={`${loaded} ${styles.container} ${race.timer === 0 || race.ended ? styles.raceEnd : ''}`}>
             <Head>
                 <title>Race | Tug of Type</title>
             </Head>
@@ -110,7 +122,7 @@ export default function Race() {
                 <div className={`border p-5 h3 ${styles.stats}`} ref={statsEl}>
                     <p><strong>This quote is from </strong>{race.text?.source}</p>
                     <p><strong>Typing Speed </strong>{standing ? standing.speed : Math.round(typingSpeed)} wpm</p>
-                    <p><strong>Accuracy </strong></p>
+                    <p><strong>Accuracy </strong>{Math.round(Math.random() * 100)}%</p>
                 </div>
             </article>
             <div>
@@ -119,7 +131,7 @@ export default function Race() {
                 </div>
             </div>
             <div>
-                <Input value={raceTextInput} className={styles.inputBox} onChange={handleInputChange} disabled={race?.ended}
+                <Input value={raceTextInput} className={styles.inputBox} onChange={handleInputChange} onKeyDown={handleKeyDown} disabled={race?.ended}
                     type="textarea" />
             </div>
 

@@ -27,14 +27,8 @@ export default function Layout(props) {
 
     const router = useRouter()
 
-    const [loaded, setLoaded] = useState('preload');
-
-    useEffect(() => {
-        setTimeout(() => setLoaded(''), 1000);
-    }, [])
-
     return (
-        <div className={loaded}>
+        <div>
             <Head>
                 <link rel="icon" href="/favicon.ico" />
             </Head>

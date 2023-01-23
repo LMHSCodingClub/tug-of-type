@@ -42,23 +42,29 @@
     white-space: pre-wrap;
     user-select: none;
     -webkit-user-select: none;
-    opacity: 0.6;
+    overflow-y: auto;
     width: 100%;
+}
+
+.container:not(.raceEnd) .prompt {
+    height: 115px;
 }
 
 .raceEnd .promptContainer>* {
     width: 48%;
+}
+
+:not(.preload).raceEnd .promptContainer>* {
     transition: all linear 0.8s;
 }
 
 .raceEnd .prompt {
     font-size: 1.5em;
-    overflow-y: auto;
 }
 
 .raceEnd .promptContainer {
     justify-content: space-around;
-    min-height: 300px;
+    height: 300px;
 }
 
 :not(.raceEnd)>.promptContainer>.stats {
