@@ -40,6 +40,8 @@
 
 .prompt {
     white-space: pre-wrap;
+    user-select: none;
+    -webkit-user-select: none;
     opacity: 0.6;
     width: 100%;
 }
@@ -51,7 +53,7 @@
 
 .raceEnd .prompt {
     font-size: 1.5em;
-    text-overflow: ellipsis;
+    overflow-y: auto;
 }
 
 .raceEnd .promptContainer {
@@ -65,4 +67,8 @@
 
 .stats {
     padding: 1em;
+}
+
+.inputBox {
+    resize: none;
 }

@@ -1,19 +1,22 @@
+import { withUser } from "./withUser";
+import { Id } from "./_generated/dataModel";
 import { mutation } from "./_generated/server"
 
-export default mutation(
-  async ({ db }) => {
-    const texts = await db.query('texts').collect();
-    const totalRows = texts.length;
-    const rowNumber = Math.round(Math.random() * ((totalRows) - 1));
-    const txt = texts[rowNumber];
+export default mutation(withUser(async ({ db, user }) => {
+  const texts = await db.query('texts').collect();
+  const totalRows = texts.length;
+  const rowNumber = Math.round(Math.random() * ((totalRows) - 1));
+  const txt = texts[rowNumber];
 
-    const id = await db.insert('races', {
-      timer: 120,
-      text: txt._id,
-      ended: false
-    });
+  const id = await db.insert('races', {
+    timer: 120,
+    text: txt._id,
+    host: { id: user._id, name: user.name },
+    mode: 'Normal',
+    ended: false
+  });
 
-    return id;
-  }
+  return id;
+}
 
-)
+))
