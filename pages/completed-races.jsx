@@ -16,7 +16,6 @@ export default function OngoingRacesPage() {
                     <th style={{ width: '15%' }}>Host</th>
                     <th className={styles.textPreviewHeader}>Text</th>
                     <th>Mode</th>
-                    <th>Winner's Speed</th>
                     <th></th>
                 </tr>
             </thead>
@@ -25,7 +24,6 @@ export default function OngoingRacesPage() {
                     <td>{item.host.name}</td>
                     <td className={styles.textPreview}>{item.text.words}</td>
                     <td>{item.mode}</td>
-                    <td>{Math.round(Math.random() * 60) + 70} wpm</td>
                     <td><Link href={`/race?id=${item._id}`}>View</Link></td>
                 </tr>))}
             </tbody>

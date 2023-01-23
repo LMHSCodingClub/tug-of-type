@@ -1,36 +1,42 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import Head from "next/head";
-import { useRef } from "react";
-import { useCallback } from "react";
-import { useMemo } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Input } from "reactstrap";
 import { useMutation, useQuery } from '../convex/_generated/react';
 import styles from "../styles/race.module.css";
 
 export default function Race() {
-    const decrementTimer = useMutation("decrementTimer");
     const params = new URLSearchParams(window.location.search);
+
+    const decrementTimer = useMutation("decrementTimer");
     const race = useQuery('readRace', params.get('id')) || {}
     const endRace = useMutation('endRace');
     const joinRace = useMutation('joinRace');
     const standing = useQuery('readStanding', params.get('id')) || {};
+
     const [raceTextInput, setRaceTextInput] = useState('');
     const [clientCarPosition, setClientCarPosition] = useState(0);
+
     const lastCorrectCharacter = useRef(0);
     const promptTextEl = useRef();
     const statsEl = useRef();
-    const [endTime, setEndTime] = useState();
+    const wrongWordCounter = useRef(0); // Don't need to constantly get the value, only at the end ==> ref
+
     const timerCallback = useRef();
     const timer = (id) => {
-        if (race.timer === 0 || race?.ended) {
-            if (!standing.speed)
-                setEndTime(Date.now());
+        if (race?.ended) return
+        if (race.timer === 0) {
+            if (!standing.speed) { // Race did not already end
+                endRace(race._id, standing._id, { speed: typingSpeed(Date.now()), accuracy: typingAccuracy() });
+            }
             clearInterval(id);
         } else {
             decrementTimer(params.get('id'));
         }
     };
+
+    useEffect(() => {
+        timerCallback.current = timer;
+    }, [timer]);
 
     useEffect(() => {
         async function join() {
@@ -39,16 +45,22 @@ export default function Race() {
         join();
     }, [])
 
-    useEffect(() => {
-        timerCallback.current = timer;
-    });
-
-    const typingSpeed = useMemo(() => {
+    const typingSpeed = (endTime) => {
         const minutesToComplete = Math.abs(endTime - race?._creationTime) / 1000 / 60;
         const numberOfWords = raceTextInput.split(" ").length;
         const speed = numberOfWords / minutesToComplete;
         return Math.round(speed);
-    }, [endTime]);
+    }
+
+    const typingAccuracy = (inputSize = raceTextInput.length) => {
+        console.info(race?.text.words)
+        console.info(inputSize)
+        return Math.round(inputSize / (race?.text.words.length + wrongWordCounter.current) * 100)
+    }
+
+    const scrolledToBottom = (element) => {
+        return Math.abs(element.scrollHeight - element.scrollTop - element.clientHeight) < 1
+    }
 
     const handleInputChange = e => {
         e.preventDefault();
@@ -65,21 +77,22 @@ export default function Race() {
         if (inputText === race.text?.words.substring(0, position)) { // Text is accurate so far
             lastCorrectCharacter.current = position - 1;
             setClientCarPosition(proportionOfRaceCompleted * 90);
+        } else {
+            wrongWordCounter.current++
         }
 
-        if (position % 40 === 0) {
+        if (position % 40 === 0 && !scrolledToBottom) {
             promptTextEl.current.scroll({ top: promptTextEl.current.scrollTop + 10, behavior: 'smooth' })
         }
 
         // If user has completed the text accurately
-        if ((proportionOfRaceCompleted === 1 && inputText === race?.text?.words) || race.timer === 0) {
-            setEndTime(Date.now());
-            promptTextEl.current.classList.add(styles.raceEnd);
+        if ((proportionOfRaceCompleted === 1 && inputText === race?.text?.words)) {
+            endRace(race._id, standing._id, { speed: typingSpeed(Date.now()), accuracy: typingAccuracy(position) });
         }
     }
 
     const handleKeyDown = e => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && !scrolledToBottom) {
             promptTextEl.current.scroll({ top: promptTextEl.current.scrollTop + 30, behavior: 'smooth' })
         }
     }
@@ -93,12 +106,6 @@ export default function Race() {
             return "red"
         }
     }
-
-    useEffect(() => {
-        if (endTime) {
-            endRace(race._id, standing._id, typingSpeed);
-        }
-    }, [endTime]);
 
     useEffect(() => {
         const id = setInterval(() => {
@@ -126,8 +133,8 @@ export default function Race() {
                 <p className={`border p-5 h3 ${styles.prompt}`} ref={promptTextEl}>{race.text?.words.split("").map((item, index) => <span key={index} style={{ color: calculateColorOfLetter(index) }}>{item}</span>)}</p>
                 <div className={`border p-5 h3 ${styles.stats}`} ref={statsEl}>
                     <p><strong>This quote is from </strong>{race.text?.source}</p>
-                    <p><strong>Typing Speed </strong>{standing ? standing.speed : Math.round(typingSpeed)} wpm</p>
-                    <p><strong>Accuracy </strong>{Math.round(Math.random() * 100)}%</p>
+                    <p><strong>Typing Speed </strong>{standing.speed} wpm</p>
+                    <p><strong>Accuracy </strong>{standing.accuracy}%</p>
                 </div>
             </article>
             <div>
