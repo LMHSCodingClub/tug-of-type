@@ -88,7 +88,7 @@ export default function Race() {
             wrongWordCounter.current++
         }
 
-        updatePosition(standing.mine._id, proportionOfRaceCompleted * 100)
+        updatePosition(standing.mine._id, proportionOfRaceCompleted * 90)
 
         if (position % 40 === 0 && !scrolledToBottom(promptTextEl.current)) {
             promptTextEl.current.scroll({ top: promptTextEl.current.scrollTop + 10, behavior: 'smooth' })
@@ -146,7 +146,7 @@ export default function Race() {
                 <div className={styles.carContainer} style={{ position: 'relative' }}>
                     <p className={styles.car} style={{ position: 'absolute', left: clientCarPosition + '%' }}></p>
                     {standing.opponents?.map(item => (
-                        <p key={item._id.toString()} className={styles.car} style={{ position: 'absolute', left: item.position + '%' }}></p>
+                        <p key={item._id.toString()} className={styles.car} style={{ position: 'absolute', left: item.position + '%' }}>{item.speed}</p>
                     ))}
                 </div>
             </div>
