@@ -12,7 +12,6 @@ export default mutation(withUser(async ({ db, user }) => {
     timer: 120,
     text: txt._id,
     host: user._id,
-    mode: 'Normal',
     ended: false
   });
 

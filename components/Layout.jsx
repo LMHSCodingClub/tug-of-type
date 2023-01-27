@@ -33,9 +33,7 @@ export default function Layout(props) {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Navbar color="secondary" dark expand="md" container="fluid">
-                <Link href="/" passHref legacyBehavior>
-                    Tug of Type
-                </Link>
+                <Link href="/"><a style={{ color: 'white' }}>Tug of Type</a></Link>
 
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>

@@ -6,6 +6,7 @@ import styles from '../styles/Home.module.css'
 
 const Home = () => {
   const createRace = useMutation('createRace');
+  const createTug = useMutation('createTug');
   const router = useRouter();
 
   return (
@@ -18,18 +19,22 @@ const Home = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to LMHS Coding Club's <a href="https://tugofwartyperacer.lmhscodingclub.com">Tug of War Typeracer</a>
+          Welcome to LMHS Coding Club's <a href="https://tugoftype.lmhscodingclub.com">Tug of Type</a>
         </h1>
 
         <p className={styles.description}>
-
+          <button onClick={async () => {
+            const id = await createRace();
+            router.push(`/race?id=${id}`);
+          }}>
+            Create a Race
+          </button>
+          <button onClick={async () => {
+            const id = await createTug();
+            router.push(`/tug?id=${id}`)
+          }}>Create a Tug</button>
         </p>
-        <button className={styles.button} onClick={async () => {
-          const id = await createRace();
-          router.push(`/race?id=${id}`);
-        }}>
-          Create a Race
-        </button>
+
       </main>
     </div>
   )

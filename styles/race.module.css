@@ -47,7 +47,7 @@
 }
 
 .container:not(.raceEnd) .prompt {
-    height: 115px;
+    height: 255px;
 }
 
 .raceEnd .promptContainer>* {

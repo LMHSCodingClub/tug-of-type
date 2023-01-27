@@ -1,6 +1,5 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import Head from "next/head";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Input } from "reactstrap";
 import { useMutation, useQuery } from '../convex/_generated/react';
 import styles from "../styles/race.module.css";
@@ -47,6 +46,7 @@ export default function Race() {
     }, [timer]);
 
     useEffect(() => {
+
         async function join() {
             await joinRace(params.get('id'));
         }
@@ -64,6 +64,10 @@ export default function Race() {
     const typingAccuracy = (inputSize = raceTextInput.length) => {
         return Math.round(inputSize / (race?.text.words.length + wrongWordCounter.current) * 100)
     }
+
+    const isRight = useMemo(() => {
+        return !raceTextInput || race?.text?.words.substring(0, raceTextInput.length) === raceTextInput || raceTextInput.length !== 0
+    }, [raceTextInput])
 
     const scrolledToBottom = (element) => {
         return Math.abs(element.scrollHeight - element.scrollTop - element.clientHeight) < 1
@@ -83,12 +87,12 @@ export default function Race() {
 
         if (inputText === race.text?.words.substring(0, position)) { // Text is accurate so far
             lastCorrectCharacter.current = position - 1;
-            setClientCarPosition(proportionOfRaceCompleted * 90);
+            setClientCarPosition(proportionOfRaceCompleted);
         } else {
             wrongWordCounter.current++
         }
 
-        updatePosition(standing.mine._id, proportionOfRaceCompleted * 90)
+        updatePosition(standing.mine._id, Math.round(proportionOfRaceCompleted * 10) / 10)
 
         if (position % 40 === 0 && !scrolledToBottom(promptTextEl.current)) {
             promptTextEl.current.scroll({ top: promptTextEl.current.scrollTop + 10, behavior: 'smooth' })
@@ -144,9 +148,9 @@ export default function Race() {
                     <time>{race.timer}</time>
                 </p>
                 <div className={styles.carContainer} style={{ position: 'relative' }}>
-                    <p className={styles.car} style={{ position: 'absolute', left: clientCarPosition + '%' }}></p>
+                    <p className={styles.car} style={{ position: 'absolute', left: clientCarPosition * 90 + '%' }}></p>
                     {standing.opponents?.map(item => (
-                        <p key={item._id.toString()} className={styles.car} style={{ position: 'absolute', left: item.position + '%' }}>{item.speed}</p>
+                        <p key={item._id.toString()} className={styles.car} style={{ position: 'absolute', left: item.position * 90 + '%' }}>{item.speed}</p>
                     ))}
                 </div>
             </div>
@@ -156,11 +160,12 @@ export default function Race() {
                     <p><strong>This quote is from </strong>{race.text?.source}</p>
                     <p><strong>Typing Speed </strong>{standing.mine?.speed} wpm</p>
                     <p><strong>Accuracy </strong>{standing.mine?.accuracy}%</p>
+                    {raceTextInput ? <p><strong>Completion </strong>{Math.round(raceTextInput.length / race?.text?.words.length * 100)}%</p> : null}
                 </div>
             </article>
             <div>
                 <Input value={raceTextInput} className={styles.inputBox} onChange={handleInputChange} onKeyDown={handleKeyDown} disabled={race?.ended}
-                    type="textarea" />
+                    type="textarea" style={{ backgroundColor: isRight ? '' : 'bisque' }} autoFocus />
             </div>
 
         </div>
