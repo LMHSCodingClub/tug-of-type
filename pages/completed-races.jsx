@@ -24,7 +24,7 @@ export default function OngoingRacesPage() {
                     <td>{item.host.name}</td>
                     <td className={styles.textPreview}>{item.text.words}</td>
                     <td>{item.mode}</td>
-                    <td><Link href={`/race?id=${item._id}`}>View</Link></td>
+                    <td><Link href={`/${item.mode.toLocaleLowerCase()}?id=${item._id}`}>View</Link></td>
                 </tr>))}
             </tbody>
         </Table>

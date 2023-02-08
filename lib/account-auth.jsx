@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { Button } from "reactstrap"
 import { useAuth0 } from "@auth0/auth0-react"
+import Layout from "../components/Layout";
 
 export function Login() {
     const { isLoading, loginWithRedirect } = useAuth0();
@@ -9,12 +10,12 @@ export function Login() {
     }
 
     return (
-        <main className="py-4">
-            <h1 className="text-center">Tug-of-War Typeracer</h1>
+        <Layout className="py-4">
+            <h1 className="text-center">Tug of Type</h1>
             <div className="text-center">
                 <Button color="primary" onClick={loginWithRedirect}>Log In</Button>
             </div>
-        </main>
+        </Layout>
     );
 }
 
