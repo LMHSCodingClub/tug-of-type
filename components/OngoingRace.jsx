@@ -1,43 +1,43 @@
-import Head from "next/head";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
+import { useMutation, useQuery } from "../convex/_generated/react"
+import styles from "../styles/race.module.css"
 import { Input } from "reactstrap";
-import { useMutation, useQuery } from '../convex/_generated/react';
-import styles from "../styles/race.module.css";
-
-export default function Race() {
-    const params = new URLSearchParams(window.location.search);
+export default function OngoingRace({ raceId }) {
+    const race = useQuery('readRace', { id: raceId }) || {}
+    const promptTextEl = useRef();
+    const statsEl = useRef();
 
     const decrementTimer = useMutation("decrementTimer");
-    const race = useQuery('readRace', params.get('id')) || {}
-    const endRace = useMutation('endRace');
-    const joinRace = useMutation('joinRace');
-    const standing = useQuery('readStanding', params.get('id')) || {};
-    const endStanding = useMutation('endStanding');
-    const updatePosition = useMutation('updatePosition')
 
     const [raceTextInput, setRaceTextInput] = useState('');
     const [clientCarPosition, setClientCarPosition] = useState(0);
-
+    const standing = useQuery('readStanding', { raceId }) || {};
+    const endStanding = useMutation('endStanding');
     const lastCorrectCharacter = useRef(0);
-    const promptTextEl = useRef();
-    const statsEl = useRef();
+    const updatePosition = useMutation('updatePosition')
+
     const wrongWordCounter = useRef(0); // Don't need to constantly get the value, only at the end ==> ref
+
+    const joinRace = useMutation('joinRace');
+    const endRace = useMutation('endRace');
 
     const timerCallback = useRef();
 
     const timer = (id) => {
         if (race?.ended || !standing.userIsHost) {
+
+            console.log(standing);
             clearInterval(id)
             return
         }
         if (race.timer === 0) {
             if (!standing.mine.speed) { // Race did not already end
-                endStanding(standing.mine._id, { speed: typingSpeed(Date.now()), accuracy: typingAccuracy() })
-                endRace(race._id);
+                endStanding({ standingId: standing.mine._id, speed: typingSpeed(Date.now()), accuracy: typingAccuracy() })
+                endRace({ raceId: race._id });
             }
             clearInterval(id);
         } else {
-            decrementTimer(params.get('id'));
+            decrementTimer({ raceId });
         }
     };
 
@@ -48,10 +48,21 @@ export default function Race() {
     useEffect(() => {
 
         async function join() {
-            await joinRace(params.get('id'));
+            await joinRace({ race: raceId });
         }
         join();
     }, [])
+
+
+    useEffect(() => {
+        const id = setInterval(() => {
+            timerCallback.current(id);
+        }, 1000);
+
+        return () => clearInterval(id);
+    }, []);
+
+
 
     const typingSpeed = (endTime) => {
         const minutesToComplete = Math.abs(endTime - race?._creationTime) / 1000 / 60;
@@ -63,14 +74,6 @@ export default function Race() {
 
     const typingAccuracy = (inputSize = raceTextInput.length) => {
         return Math.round(inputSize / (race?.text.words.length + wrongWordCounter.current) * 100)
-    }
-
-    const isRight = useMemo(() => {
-        return !raceTextInput || race?.text?.words.substring(0, raceTextInput.length) === raceTextInput || raceTextInput.length !== 0
-    }, [raceTextInput])
-
-    const scrolledToBottom = (element) => {
-        return Math.abs(element.scrollHeight - element.scrollTop - element.clientHeight) < 1
     }
 
     const handleInputChange = e => {
@@ -92,7 +95,7 @@ export default function Race() {
             wrongWordCounter.current++
         }
 
-        updatePosition(standing.mine._id, Math.round(proportionOfRaceCompleted * 10) / 10)
+        updatePosition({ standingId: standing.mine._id, position: Math.round(proportionOfRaceCompleted * 20) / 20 })
 
         if (position % 40 === 0 && !scrolledToBottom(promptTextEl.current)) {
             promptTextEl.current.scroll({ top: promptTextEl.current.scrollTop + 10, behavior: 'smooth' })
@@ -100,10 +103,10 @@ export default function Race() {
 
         // If user has completed the text accurately
         if ((proportionOfRaceCompleted === 1 && inputText === race?.text?.words)) {
-            endStanding(standing.mine._id, { speed: typingSpeed(Date.now()), accuracy: typingAccuracy(position) });
+            endStanding({ standingId: standing.mine._id, speed: typingSpeed(Date.now()), accuracy: typingAccuracy(position) });
 
             if (standing.opponents.every(item => item.speed)) {
-                endRace(race._id)
+                endRace({ raceId: race._id })
             }
         }
     }
@@ -124,50 +127,56 @@ export default function Race() {
         }
     }
 
-    useEffect(() => {
-        const id = setInterval(() => {
-            timerCallback.current(id);
-        }, 1000);
+    const isRight = useMemo(() => {
+        return !raceTextInput || race?.text?.words.substring(0, raceTextInput.length) === raceTextInput || raceTextInput.length !== 0
+    }, [raceTextInput])
 
-        return () => clearInterval(id);
-    }, []);
-
-    const [loaded, setLoaded] = useState(styles.preload);
-
-    useEffect(() => {
-        setTimeout(() => setLoaded(''), 900);
-    }, [])
+    const scrolledToBottom = (element) => {
+        return Math.abs(element.scrollHeight - element.scrollTop - element.clientHeight) < 1
+    }
 
     return (
-        <div className={`${loaded} ${styles.container} ${race.timer === 0 || standing.allFinished || race.ended ? styles.raceEnd : ''}`}>
-            <Head>
-                <title>Race | Tug of Type</title>
-            </Head>
+        <div>
             <div className="d-flex">
                 <p className={styles.timer}>
                     <time>{race.timer}</time>
                 </p>
                 <div className={styles.carContainer} style={{ position: 'relative' }}>
-                    <p className={styles.car} style={{ position: 'absolute', left: clientCarPosition * 90 + '%' }}></p>
-                    {standing.opponents?.map(item => (
-                        <p key={item._id.toString()} className={styles.car} style={{ position: 'absolute', left: item.position * 90 + '%' }}>{item.speed}</p>
+                    <p
+                        className={styles.car}
+                        style={{ position: 'absolute', left: clientCarPosition * 90 + '%' }}
+                    ></p>
+                    {standing.opponents?.map((item) => (
+                        <p
+                            key={item._id.toString()}
+                            className={styles.car}
+                            style={{ position: 'absolute', left: item.position * 90 + '%' }}
+                        >
+                        </p>
                     ))}
                 </div>
             </div>
             <article className={styles.promptContainer}>
-                <p className={`border p-5 h3 ${styles.prompt}`} ref={promptTextEl}>{race.text?.words.split("").map((item, index) => <span key={index} style={{ color: calculateColorOfLetter(index) }}>{item}</span>)}</p>
-                <div className={`border p-5 h3 ${styles.stats}`} ref={statsEl}>
-                    <p><strong>This quote is from </strong>{race.text?.source}</p>
-                    <p><strong>Typing Speed </strong>{standing.mine?.speed} wpm</p>
-                    <p><strong>Accuracy </strong>{standing.mine?.accuracy}%</p>
-                    {raceTextInput ? <p><strong>Completion </strong>{Math.round(raceTextInput.length / race?.text?.words.length * 100)}%</p> : null}
-                </div>
+                <p className={`border p-5 h3 ${styles.prompt}`} ref={promptTextEl}>
+                    {race.text?.words.split('').map((item, index) => (
+                        <span key={index} style={{ color: calculateColorOfLetter(index) }}>
+                            {item}
+                        </span>
+                    ))}
+                </p>
             </article>
             <div>
-                <Input value={raceTextInput} className={styles.inputBox} onChange={handleInputChange} onKeyDown={handleKeyDown} disabled={race?.ended}
-                    type="textarea" style={{ backgroundColor: isRight ? '' : 'bisque' }} autoFocus />
+                <Input
+                    value={raceTextInput}
+                    className={styles.inputBox}
+                    onChange={handleInputChange}
+                    onKeyDown={handleKeyDown}
+                    disabled={race?.ended}
+                    type="textarea"
+                    style={{ backgroundColor: isRight ? '' : 'bisque' }}
+                    autoFocus
+                />
             </div>
-
         </div>
-    );
+    )
 }

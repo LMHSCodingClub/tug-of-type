@@ -1,7 +1,7 @@
 import { mutation } from "./_generated/server"
 
 export default mutation(
-  async ({ db }: any, txt: string) => {
+  async ({ db }, { txt }) => {
     // TODO: make leaderboard that displays the top 5 best scores
 
     const topScore = 1000; //need to find maximum score in user array
@@ -12,9 +12,9 @@ export default mutation(
 
     await db
       .insert('leaderboard', {
-        
+
       }
-    )
+      )
   }
 
 )

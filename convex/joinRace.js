@@ -2,7 +2,7 @@ import { withUser } from "./withUser";
 import { Id } from './_generated/dataModel';
 import { mutation } from './_generated/server';
 
-export default mutation(withUser(async ({ db, user }, race) => {
+export default mutation(withUser(async ({ db, user }, { race }) => {
   const raceId = new Id('races', race);
   const standingId = await db.query('standings').withIndex('combo', q => q.eq('race', raceId).eq('user', user._id)).first();
 

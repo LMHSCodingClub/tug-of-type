@@ -77,10 +77,6 @@
     width: 48%;
 }
 
-:not(.preload).raceEnd .promptContainer>* {
-    transition: all linear 0.8s;
-}
-
 .raceEnd .prompt {
     font-size: 1.5em;
 }
@@ -101,3 +97,14 @@
 .inputBox {
     resize: none;
 }
+
+.endedRace {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.endedRace .numbers {
+    justify-self: center;
+}
+
+.endedRace .textInfo {}

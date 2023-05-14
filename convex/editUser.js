@@ -1,6 +1,6 @@
 import { query } from './_generated/server'
 
-export default query(async ({ db }, userId) => {
+export default query(async ({ db }, { userId }) => {
   db.replace({ userId, newId })
   /*
   if (counterDoc === null) {

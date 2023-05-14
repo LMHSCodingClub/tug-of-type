@@ -1,24 +1,51 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import type { AppProps } from 'next/app';
-import Layout from "../components/Layout";
-import '../styles/globals.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import type { AppProps } from 'next/app'
+import Layout from '../components/Layout'
+import '../styles/globals.css'
 
-import { ConvexReactClient } from 'convex/react';
-import { ConvexProviderWithAuth0 } from "convex/react-auth0";
-import convexConfig from "../convex.json";
-
-import { Login } from "../lib/account-auth";
+import { Auth0Provider } from '@auth0/auth0-react'
+import {
+  AuthLoading,
+  Authenticated,
+  ConvexReactClient,
+  Unauthenticated,
+} from 'convex/react'
+import { ConvexProviderWithAuth0 } from 'convex/react-auth0'
+import Login from '../components/Login'
 
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL || '')
-const authInfo = convexConfig.authInfo[0];
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const config = {
+    domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN || '',
+    clientId: process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || '',
+  }
+  console.log(config.domain)
   return (
-    <ConvexProviderWithAuth0 client={convex} authInfo={authInfo} loggedOut={<Login />}>
-      <Layout>
-      <Component {...pageProps} />
-      </Layout>
-    </ConvexProviderWithAuth0>
+    <Auth0Provider
+      domain={config.domain}
+      clientId={config.clientId}
+      authorizationParams={{
+        redirect_uri:
+          typeof window === 'undefined' ? undefined : window.location.origin,
+      }}
+      useRefreshTokens={true}
+      cacheLocation="localstorage"
+    >
+      <ConvexProviderWithAuth0 client={convex}>
+        <Authenticated>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </Authenticated>
+        <Unauthenticated>
+          <Layout>
+            <Login />
+          </Layout>
+        </Unauthenticated>
+        <AuthLoading>Loading</AuthLoading>
+      </ConvexProviderWithAuth0>
+    </Auth0Provider>
   )
 }
 

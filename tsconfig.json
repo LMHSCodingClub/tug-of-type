@@ -26,7 +26,14 @@
     "convex/storeUser.js",
     "convex/listRaces.js",
     "convex/joinRace.js",
-    "pages/index.jsx"
+    "pages/index.jsx",
+    "convex/decrementTimer.js",
+    "convex/createRace.js",
+    "convex/incrementCounter.js",
+    "convex/listTexts.js",
+    "convex/listBestScores.js",
+    "convex/withUser.js",
+    "convex/readRace.js"
   ],
   "exclude": [
     "node_modules"

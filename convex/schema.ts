@@ -1,20 +1,27 @@
-import { defineSchema, defineTable, s } from "convex/schema";
+import { defineSchema, defineTable, } from "convex/schema";
+import { v } from "convex/values";
 
 export default defineSchema({
     races: defineTable({
-        ended: s.boolean(),
-        text: s.id("texts"),
-        timer: s.number(),
-        host: s.id("users"),
-        mode: s.union(s.literal("Relay"), s.literal("Tug"))
+        ended: v.boolean(),
+        text: v.id("texts"),
+        timer: v.number(),
+        host: v.id("users"),
+        mode: v.union(v.literal("Race"), v.literal("Tug"))
     }),
-    standings: defineTable({ race: s.string(), user: s.string() }).index('combo', ["race", "user"]).index('by_race', ['race']),
-    texts: defineTable({ source: s.string(), words: s.string() }),
+    standings: defineTable({
+        race: v.id("races"),
+        user: v.id("users"),
+        accuracy: v.optional(v.number()),
+        position: v.number(),
+        speed: v.optional(v.number())
+    }).index('combo', ["race", "user"]).index('by_race', ['race']),
+    texts: defineTable({ source: v.string(), words: v.string() }),
     users: defineTable({
-        bestScore: s.number(),
-        bio: s.string(),
-        name: s.string(),
-        pictureURL: s.string(),
-        tokenIdentifier: s.string(),
+        bestScore: v.number(),
+        bio: v.string(),
+        name: v.string(),
+        pictureURL: v.optional(v.string()),
+        tokenIdentifier: v.string(),
     }).index("by_token", ["tokenIdentifier"]),
 });

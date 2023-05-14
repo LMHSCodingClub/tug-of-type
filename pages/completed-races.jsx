@@ -5,7 +5,7 @@ import { useQuery } from "../convex/_generated/react"
 import styles from "../styles/raceList.module.css"
 
 export default function OngoingRacesPage() {
-    const allRaces = useQuery('listRaces', true) || [];
+    const allRaces = useQuery('listRaces', { finished: true }) || [];
     return (
         <Table className={styles.container}>
             <Head>

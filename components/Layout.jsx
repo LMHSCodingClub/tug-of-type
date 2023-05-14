@@ -2,26 +2,16 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { forwardRef, useEffect, useState } from "react";
-import { Collapse, Container, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from "reactstrap";
-import { useMutation } from "../convex/_generated/react";
-import { Logout } from "../lib/account-auth";
+import { useState } from "react";
+import { Collapse, Container, Nav, NavItem, NavLink, Navbar, NavbarToggler } from "reactstrap";
 import styles from "../styles/Home.module.css";
+import Logout from "./Logout";
+import { useConvexAuth } from "convex/react";
 
 // Render a chat message.
 export default function Layout(props) {
-    const storeUser = useMutation("storeUser");
-    useEffect(() => {
-        // Store the user in the database.
-        // Recall that `storeUser` gets the user information via the `auth`
-        // object on the server. You don't need to pass anything manually here.
-        async function createUser() {
-            const id = await storeUser();
-        }
-        createUser();
-    }, [storeUser]);
-
     const [isOpen, setIsOpen] = useState(false);
+    const { isAuthenticated } = useConvexAuth();
 
     const toggle = () => setIsOpen(!isOpen);
 
@@ -51,7 +41,7 @@ export default function Layout(props) {
                             <Link href="/completed-races"><NavLink href="">Completed Races</NavLink></Link>
                         </NavItem>
                     </Nav>
-                    <Logout />
+                    {isAuthenticated ? <Logout /> : null}
                 </Collapse>
 
             </Navbar>
@@ -73,15 +63,3 @@ export default function Layout(props) {
         </div>
     );
 }
-
-/**
- * @link https://nextjs.org/docs/api-reference/next/link#if-the-child-is-a-functional-component
- */
-const CustomNavbarBrand = forwardRef(({ href }, ref) => {
-    return (
-        <a href={href}>
-            <span className="mx-3">Tug of Type</span>
-        </a>
-
-    )
-})
