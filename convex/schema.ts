@@ -7,7 +7,8 @@ export default defineSchema({
         text: v.id("texts"),
         timer: v.number(),
         host: v.id("users"),
-        mode: v.union(v.literal("Race"), v.literal("Tug"))
+        mode: v.union(v.literal("Race"), v.literal("Tug")),
+        winner: v.optional(v.id("users"))
     }),
     standings: defineTable({
         race: v.id("races"),

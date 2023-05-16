@@ -9,9 +9,12 @@ export default query(withUser(async ({ db, user }, { raceId }) => {
     }) || {}
     const host = (await db.get(new Id('races', raceId))).host
 
+    standings.sort((a, b) => a.position - b.position);
+
     return {
         mine,
         opponents: standings.filter(item => item !== mine),
+        players: standings,
         userIsHost: host.equals(user._id)
     }
 }));
