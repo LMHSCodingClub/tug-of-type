@@ -23,6 +23,7 @@ import type * as listTexts from "../listTexts";
 import type * as readRace from "../readRace";
 import type * as readStanding from "../readStanding";
 import type * as readText from "../readText";
+import type * as readUser from "../readUser";
 import type * as storeUser from "../storeUser";
 import type * as updatePosition from "../updatePosition";
 import type * as withUser from "../withUser";
@@ -50,6 +51,7 @@ export type API = ApiFromModules<{
   readRace: typeof readRace;
   readStanding: typeof readStanding;
   readText: typeof readText;
+  readUser: typeof readUser;
   storeUser: typeof storeUser;
   updatePosition: typeof updatePosition;
   withUser: typeof withUser;

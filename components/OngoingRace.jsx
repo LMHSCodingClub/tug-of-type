@@ -25,8 +25,6 @@ export default function OngoingRace({ raceId }) {
 
     const timer = (id) => {
         if (race?.ended || !standing.userIsHost) {
-
-            console.log(standing);
             clearInterval(id)
             return
         }

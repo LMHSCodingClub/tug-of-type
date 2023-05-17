@@ -15,13 +15,13 @@ const Home = () => {
     // Recall that `storeUser` gets the user information via the `auth`
     // object on the server. You don't need to pass anything manually here.
     async function createUser() {
-      const id = await storeUser();
+      await storeUser();
     }
     createUser();
   }, [storeUser]);
 
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Tug of War Typeracer | LMHS Coding Club</title>
         <meta name="description" content="A typeracing game" />

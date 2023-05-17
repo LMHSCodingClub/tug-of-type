@@ -7,7 +7,7 @@ export default function EndedRace({ id }) {
     const standing = useQuery('readStanding', { raceId: id }) || {};
 
     const textLeaderboard = useQuery('readText', { raceId: id })
-    // console.log("Leaderboard", textLeaderboard);
+
     return (
         <div className={styles.endedRace}>
             {standing.mine !== undefined ? <h2>Your Stats</h2> : null}
@@ -38,7 +38,7 @@ export default function EndedRace({ id }) {
             <div className={styles.leaderboard}>
                 <img src="/track.jpg" />
                 <div className={styles.playerContainer}>
-                    {standing?.players?.map((item, index) => <img className={styles.player} key={item._id.id} src="/car.png" width="70" style={{ position: 'absolute', top: Math.min(index * 55, index * 4 * 55) + 'px', left: item.position * 90 + '%', transform: 'translate(-50%, 0)' }} />)}
+                    {standing?.players?.map((item, index) => <img className={styles.player} key={item._id.id} src="/car.png" width="70" style={{ position: 'absolute', top: Math.min(index * 55, index * 4 * 55) + 'px', left: item.position * 88 + '%' }} />)}
                 </div>
 
                 <img src="/track.jpg" />
@@ -50,7 +50,7 @@ export default function EndedRace({ id }) {
             <h2 style={{ gridRow: 3, gridColumn: 2, justifySelf: 'center' }}>Top Racers of this Text</h2>
             <div style={{ gridRow: 4, gridColumn: 2, justifySelf: 'center' }} className={styles.textLeaderboard}>
                 <ol>
-                    {textLeaderboard?.topTypers.map(item => <li key={item.user._id.id}>{item.user.name}</li>)}
+                    {textLeaderboard?.topTypers.map(item => <li key={item.user._id.id}>{item.user.name} at {item.standing.speed} wpm</li>)}
                 </ol>
             </div>
         </div>

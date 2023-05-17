@@ -9,7 +9,7 @@ export default function Race() {
     const race = useQuery('readRace', { id: params.get('id') }) || {}
 
     return (
-        <div className={styles.container}>
+        <div>
             <Head>
                 <title>Race | Tug of Type</title>
             </Head>

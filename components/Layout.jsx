@@ -6,9 +6,11 @@ import { useState } from "react";
 import { Collapse, Container, Nav, NavItem, NavLink, Navbar, NavbarToggler } from "reactstrap";
 import styles from "../styles/Home.module.css";
 import Logout from "./Logout";
+import AuthenticatedHeaderWidget from "./AuthenticatedHeaderWidget"
 import { useConvexAuth } from "convex/react";
+import { useQuery } from "../convex/_generated/react";
+import Login from "./Login";
 
-// Render a chat message.
 export default function Layout(props) {
     const [isOpen, setIsOpen] = useState(false);
     const { isAuthenticated } = useConvexAuth();
@@ -22,8 +24,8 @@ export default function Layout(props) {
             <Head>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <Navbar color="secondary" dark expand="md" container="fluid">
-                <Link href="/"><a style={{ color: 'white' }}>Tug of Type</a></Link>
+            <Navbar expand="md" container="fluid" style={{ borderBottom: '3px solid #f5b01a' }}>
+                <Link href="/"><a>Tug of Type</a></Link>
 
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
@@ -41,11 +43,11 @@ export default function Layout(props) {
                             <Link href="/completed-races"><NavLink href="">Completed Races</NavLink></Link>
                         </NavItem>
                     </Nav>
-                    {isAuthenticated ? <Logout /> : null}
+                    {isAuthenticated ? <AuthenticatedHeaderWidget /> : <Login />}
                 </Collapse>
 
             </Navbar>
-            <Container fluid>
+            <Container fluid className={styles.container}>
                 {props.children}
             </Container>
             <footer className={styles.footer}>

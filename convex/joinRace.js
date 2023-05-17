@@ -6,7 +6,7 @@ export default mutation(withUser(async ({ db, user }, { race }) => {
   const raceId = new Id('races', race);
   const standingId = await db.query('standings').withIndex('combo', q => q.eq('race', raceId).eq('user', user._id)).first();
 
-  if (standingId) return standingId
+  if (standingId) throw new Error("user is already in that race")
 
   if ((await db.get(raceId)).ended) {
     return;

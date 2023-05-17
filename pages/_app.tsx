@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN || '',
     clientId: process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || '',
   }
-  console.log(config.domain)
+
   return (
     <Auth0Provider
       domain={config.domain}
@@ -39,11 +39,11 @@ function MyApp({ Component, pageProps }: AppProps) {
           </Layout>
         </Authenticated>
         <Unauthenticated>
-          <Layout>
-            <Login />
-          </Layout>
+          <Layout></Layout>
         </Unauthenticated>
-        <AuthLoading>Loading</AuthLoading>
+        <AuthLoading>
+          <Layout>Loading...</Layout>
+        </AuthLoading>
       </ConvexProviderWithAuth0>
     </Auth0Provider>
   )

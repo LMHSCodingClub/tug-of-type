@@ -11,9 +11,14 @@ export default query(async ({ db }, { raceId, textId }) => {
     const baseInfo = await db.get(id);
     const racesWithThisText = await db.query('races').filter(q => q.eq(q.field('text'), id)).collect();
 
-    racesWithThisText.sort((a, b) => a.timer - b.timer)
+    const topTypers = [];
+    for (const race of racesWithThisText) {
+        if (!race.winner) continue;
 
-    const topTypers = racesWithThisText.map(item => item.winner).filter(item => item)
+        const user = await db.get(race.winner)
+        const standing = await db.query('standings').withIndex('combo', q => q.eq('race', race._id).eq('user', race.winner)).first();
+        topTypers.push({ user, standing })
+    }
 
     return {
         baseInfo,

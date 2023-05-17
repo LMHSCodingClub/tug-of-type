@@ -6,6 +6,9 @@ import styles from "../styles/raceList.module.css"
 
 export default function OngoingRacesPage() {
     const allRaces = useQuery('listRaces', { finished: true }) || [];
+
+    const sourceName = item => item.text.source.substring(0, item.text.source.indexOf(" by"))
+
     return (
         <Table className={styles.container}>
             <Head>
@@ -22,7 +25,7 @@ export default function OngoingRacesPage() {
             <tbody>
                 {allRaces.map(item => (<tr key={item._id}>
                     <td>{item.host.name}</td>
-                    <td className={styles.textPreview}>{item.text.words}</td>
+                    <td className={styles.textPreview}>Excerpt from <em>{sourceName(item)}</em></td>
                     <td>{item.mode}</td>
                     <td><Link href={`/${item.mode.toLocaleLowerCase()}?id=${item._id}`}>View</Link></td>
                 </tr>))}
