@@ -39,7 +39,7 @@ const Home = () => {
             Create a Race
           </button>
           <button onClick={async () => {
-            const id = await createRace('Tug');
+            const id = await createRace({ mode: 'Tug' });
             router.push(`/tug?id=${id}`)
           }}>Create a Tug</button>
         </p>
