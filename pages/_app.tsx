@@ -39,7 +39,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           </Layout>
         </Authenticated>
         <Unauthenticated>
-          <Layout></Layout>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </Unauthenticated>
         <AuthLoading>
           <Layout>Loading...</Layout>

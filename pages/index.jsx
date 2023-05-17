@@ -4,21 +4,14 @@ import { useRouter } from 'next/router'
 import { useMutation } from '../convex/_generated/react'
 import styles from '../styles/Home.module.css'
 import { useEffect } from 'react'
+import AuthenticatedHomeWidget from "../components/AuthenticatedHomeWidget"
+import { useConvexAuth } from 'convex/react'
 
 const Home = () => {
   const createRace = useMutation('createRace');
   const router = useRouter();
 
-  const storeUser = useMutation("storeUser");
-  useEffect(() => {
-    // Store the user in the database.
-    // Recall that `storeUser` gets the user information via the `auth`
-    // object on the server. You don't need to pass anything manually here.
-    async function createUser() {
-      await storeUser();
-    }
-    createUser();
-  }, [storeUser]);
+  const { isAuthenticated } = useConvexAuth();
 
   return (
     <div>
@@ -43,7 +36,7 @@ const Home = () => {
             router.push(`/tug?id=${id}`)
           }}>Create a Tug</button>
         </p>
-
+        {isAuthenticated ? <AuthenticatedHomeWidget /> : null}
       </main>
     </div>
   )
