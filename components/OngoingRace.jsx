@@ -11,7 +11,7 @@ export default function OngoingRace({ raceId }) {
 
     const [raceTextInput, setRaceTextInput] = useState('');
     const [clientCarPosition, setClientCarPosition] = useState(0);
-    const standing = useQuery('readStanding', { raceId }) || {};
+    const standing = useQuery('readStanding', { raceId })
     const endStanding = useMutation('endStanding');
     const lastCorrectCharacter = useRef(0);
     const updatePosition = useMutation('updatePosition')
@@ -29,7 +29,7 @@ export default function OngoingRace({ raceId }) {
             return
         }
         if (race.timer === 0) {
-            if (!standing.mine.speed) { // Race did not already end
+            if (!standing.mine.speed) { // User did not already finish
                 endStanding({ standingId: standing.mine._id, speed: typingSpeed(Date.now()), accuracy: typingAccuracy() })
                 endRace({ raceId: race._id });
             }
@@ -44,13 +44,9 @@ export default function OngoingRace({ raceId }) {
     }, [timer]);
 
     useEffect(() => {
-
-        async function join() {
-            await joinRace({ race: raceId });
-        }
-        join();
+        if (!(standing || race.ended))
+            joinRace({ race: raceId });
     }, [])
-
 
     useEffect(() => {
         const id = setInterval(() => {
@@ -59,8 +55,6 @@ export default function OngoingRace({ raceId }) {
 
         return () => clearInterval(id);
     }, []);
-
-
 
     const typingSpeed = (endTime) => {
         const minutesToComplete = Math.abs(endTime - race?._creationTime) / 1000 / 60;
@@ -144,7 +138,7 @@ export default function OngoingRace({ raceId }) {
                         className={styles.car}
                         style={{ position: 'absolute', left: clientCarPosition * 90 + '%' }}
                     ></p>
-                    {standing.opponents?.map((item) => (
+                    {standing?.opponents?.map((item) => (
                         <p
                             key={item._id.toString()}
                             className={styles.car}

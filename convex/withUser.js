@@ -12,8 +12,8 @@ import { mutation } from './_generated/server';
  * @returns A function to be passed to `query` or `mutation`.
  */
 export const withUser = (func) => {
-    return async (ctx, args) => {
-        const identity = await ctx.auth.getUserIdentity();
+    return async (context, args) => {
+        const identity = await context.auth.getUserIdentity();
         if (!identity) {
             throw new Error(
                 'Unauthenticated call to a function requiring authentication'
@@ -23,14 +23,14 @@ export const withUser = (func) => {
         // db.query("users")
         //  .filter(q => q.eq(q.field("tokenIdentifier"), identity.tokenIdentifier))
         //  .unique();
-        const user = await ctx.db
+        const user = await context.db
             .query('users')
             .withIndex('by_token', (q) =>
                 q.eq('tokenIdentifier', identity.tokenIdentifier)
             )
             .unique();
         if (!user) throw new Error('User not found');
-        return await func({ ...ctx, user }, args);
+        return await func({ ...context, user }, args);
     };
 };
 

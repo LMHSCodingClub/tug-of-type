@@ -6,11 +6,9 @@ export default mutation(withUser(async ({ db, user }, { race }) => {
   const raceId = new Id('races', race);
   const standingId = await db.query('standings').withIndex('combo', q => q.eq('race', raceId).eq('user', user._id)).first();
 
-  if (standingId) throw new Error("user is already in that race")
+  if ((await db.get(raceId)).ended) throw new Error("cannot join ended race")
 
-  if ((await db.get(raceId)).ended) {
-    return;
-  }
+  if (standingId) throw new Error("user is already in that race")
 
   return await db.insert('standings', {
     race: new Id('races', race),

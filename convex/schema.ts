@@ -16,13 +16,13 @@ export default defineSchema({
         accuracy: v.optional(v.number()),
         position: v.number(),
         speed: v.optional(v.number())
-    }).index('combo', ["race", "user"]).index('by_race', ['race']),
+    }).index('combo', ["race", "user"]).index('by_race', ['race']).index('by_user', ['user']),
     texts: defineTable({ source: v.string(), words: v.string() }),
     users: defineTable({
         bestScore: v.number(),
-        bio: v.string(),
         name: v.string(),
-        pictureURL: v.optional(v.string()),
+        username: v.optional(v.string()),
+        pictureUrl: v.optional(v.string()),
         tokenIdentifier: v.string(),
     }).index("by_token", ["tokenIdentifier"]),
 });

@@ -26,9 +26,8 @@ export default mutation(async ({ db, auth }) => {
         )
         .unique();
     if (user !== null) {
-        // If we've seen this identity before but the name has changed, patch the value.
-        if (user.name != identity.name) {
-            await db.patch(user._id, { name: identity.name });
+        if (!(user.name === identity.name && user.pictureUrl === identity.pictureUrl && user.username === identity.nickname)) {
+            await db.patch(user._id, { name: identity.name, pictureUrl: identity.pictureUrl, username: identity.nickname });
         }
         return user._id;
     }
@@ -36,7 +35,8 @@ export default mutation(async ({ db, auth }) => {
     return db.insert("users", {
         name: identity.name,
         tokenIdentifier: identity.tokenIdentifier,
-        bio: '',
-        bestScore: 0
+        bestScore: 0,
+        pictureUrl: identity.pictureUrl,
+        username: identity.nickname
     });
 });

@@ -3,7 +3,7 @@ import { useQuery } from "../convex/_generated/react"
 import { Id } from "../convex/_generated/dataModel";
 
 export default function EndedRace({ id }) {
-    const race = useQuery('readRace', { id }) || {}
+    const race = useQuery('readRace', { id })
     const standing = useQuery('readStanding', { raceId: id }) || {};
 
     const textLeaderboard = useQuery('readText', { raceId: id })
@@ -50,7 +50,7 @@ export default function EndedRace({ id }) {
             <h2 style={{ gridRow: 3, gridColumn: 2, justifySelf: 'center' }}>Top Racers of this Text</h2>
             <div style={{ gridRow: 4, gridColumn: 2, justifySelf: 'center' }} className={styles.textLeaderboard}>
                 <ol>
-                    {textLeaderboard?.topTypers.map(item => <li key={item.user._id.id}>{item.user.name} at {item.standing.speed} wpm</li>)}
+                    {textLeaderboard?.topTypers.map(item => <li key={item.standing._id.id}>{item.user.name} at {item.standing.speed} wpm</li>)}
                 </ol>
             </div>
         </div>
