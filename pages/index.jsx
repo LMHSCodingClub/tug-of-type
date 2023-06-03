@@ -9,6 +9,7 @@ import { useConvexAuth } from 'convex/react'
 
 const Home = () => {
   const createRace = useMutation('createRace');
+  const createTug = useMutation('createTug')
   const router = useRouter();
 
   const { isAuthenticated } = useConvexAuth();
@@ -26,13 +27,13 @@ const Home = () => {
 
         <p className={styles.description}>
           <button onClick={async () => {
-            const id = await createRace({ mode: 'Race' });
+            const id = await createRace();
             router.push(`/race?id=${id}`);
           }}>
             Create a Race
           </button>
           <button onClick={async () => {
-            const id = await createRace({ mode: 'Tug' });
+            const id = await createTug();
             router.push(`/tug?id=${id}`)
           }}>Create a Tug</button>
         </p>

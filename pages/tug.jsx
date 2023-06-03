@@ -1,16 +1,25 @@
 import Image from "next/image";
 import { useState } from "react";
 import { Input } from "reactstrap";
-import styles from "../styles/race.module.css";
+import tugStyles from "../styles/tug.module.css";
+import Head from "next/head";
+import typeStyles from "../styles/type.module.css"
 
 export default function Tug(props) {
+    const styles = { ...typeStyles, ...tugStyles }
+
     const [raceTextInput, setRaceTextInput] = useState('');
     const [clientCarPosition, setClientCarPosition] = useState(0.29);
 
     return (
         <div className={styles.container}>
-            <h1>Coming Soon! Currently in rapid development</h1>
+            <Head>
+                <title>Tug of Type</title>
+            </Head>
             <Input onChange={e => setClientCarPosition(s => Math.min(s + 0.009, 0.9))} />
+            <div className={styles.tickLines}>
+
+            </div>
             <div className={styles.tugContainer}>
                 <div className={styles.carContainer}>
                     <p className={styles.car} style={{ right: clientCarPosition * 90 + '%' }}></p>

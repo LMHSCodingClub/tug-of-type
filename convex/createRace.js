@@ -2,7 +2,7 @@ import { withUser } from "./withUser";
 import { Id } from "./_generated/dataModel";
 import { mutation } from "./_generated/server"
 
-export default mutation(withUser(async ({ db, user }, { mode = 'Race' }) => {
+export default mutation(withUser(async ({ db, user }) => {
   const texts = await db.query('texts').collect();
   const totalRows = texts.length;
   const rowNumber = Math.round(Math.random() * ((totalRows) - 1));
@@ -12,8 +12,7 @@ export default mutation(withUser(async ({ db, user }, { mode = 'Race' }) => {
     timer: 120,
     text: txt._id,
     host: user._id,
-    ended: false,
-    mode
+    ended: false
   });
 
   return id;

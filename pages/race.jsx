@@ -1,11 +1,10 @@
-import Head from "next/head";
 import EndedRace from "../components/EndedRace";
 import OngoingRace from "../components/OngoingRace";
 import { useQuery } from '../convex/_generated/react';
-import styles from "../styles/race.module.css";
 import { useEffect } from "react";
 
 export default function Race() {
+
     const params = new URLSearchParams(window.location.search);
     const race = useQuery('readRace', { id: params.get('id') })
 

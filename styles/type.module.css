@@ -1,0 +1,14 @@
+.carContainer {
+    width: 100%;
+    height: 100px;
+}
+
+.car {
+    background-image: url('/car.png');
+    width: 100px;
+    height: 100px;
+    background-size: cover;
+    display: inline-block;
+    position: absolute;
+    transition: left linear 0.1s;
+}

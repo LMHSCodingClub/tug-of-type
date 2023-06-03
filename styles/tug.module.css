@@ -1,0 +1,21 @@
+.tugContainer {
+    display: flex;
+    position: relative;
+}
+
+.tugContainer .carContainer {
+    width: 50%;
+    position: relative;
+}
+
+.tugContainer .car {
+    position: absolute;
+}
+
+.rope {
+    position: absolute;
+    object-fit: contain;
+    left: calc(50% - 340px / 2);
+    top: 50%;
+    width: 340px;
+}

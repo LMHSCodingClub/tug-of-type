@@ -7,7 +7,7 @@ export default defineSchema({
         text: v.id("texts"),
         timer: v.number(),
         host: v.id("users"),
-        mode: v.union(v.literal("Race"), v.literal("Tug")),
+        mode: v.optional(v.union(v.literal("Race"), v.literal("Tug"))),
         winner: v.optional(v.id("users"))
     }),
     standings: defineTable({
@@ -16,13 +16,20 @@ export default defineSchema({
         accuracy: v.optional(v.number()),
         position: v.number(),
         speed: v.optional(v.number())
-    }).index('combo', ["race", "user"]).index('by_race', ['race']).index('by_user', ['user']),
+    }).index('combo', ["race", "user"]).index('by_race', ['race']).index('by_user', ['user', 'position', 'speed', 'accuracy']),
     texts: defineTable({ source: v.string(), words: v.string() }),
     users: defineTable({
-        bestScore: v.number(),
+        bestScore: v.optional(v.number()),
         name: v.string(),
         username: v.optional(v.string()),
         pictureUrl: v.optional(v.string()),
         tokenIdentifier: v.string(),
     }).index("by_token", ["tokenIdentifier"]),
+    tugs: defineTable({
+        ended: v.boolean(),
+        host: v.id("users"),
+        guest: v.optional(v.id('users')),
+        text: v.id("texts"),
+        timer: v.number(),
+    }).index('by_players', ['host', 'guest']),
 });

@@ -24,7 +24,7 @@
     "**/*.ts",
     "**/*.tsx",
     "convex/storeUser.js",
-    "convex/listRaces.js",
+    "convex/listTypes.js",
     "convex/joinRace.js",
     "pages/index.jsx",
     "convex/decrementTimer.js",

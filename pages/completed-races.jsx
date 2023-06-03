@@ -5,9 +5,9 @@ import { useQuery } from "../convex/_generated/react"
 import styles from "../styles/raceList.module.css"
 
 export default function OngoingRacesPage() {
-    const allRaces = useQuery('listRaces', { finished: true }) || [];
+    const allRaces = useQuery('listTypes', { finished: true }) || []
 
-    const sourceName = item => item.text.source.substring(0, item.text.source.indexOf('by'));
+    const sourceName = item => item.text.source.substring(0, item.text.source.indexOf(' by'));
 
     return (
         <Table className={styles.container}>

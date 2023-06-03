@@ -1,8 +1,12 @@
-import styles from "../styles/race.module.css"
+import raceStyles from "../styles/race.module.css"
+import typeStyles from "../styles/type.module.css"
+
 import { useQuery } from "../convex/_generated/react"
 import { Id } from "../convex/_generated/dataModel";
 
 export default function EndedRace({ id }) {
+    const styles = { ...raceStyles, ...typeStyles }
+
     const race = useQuery('readRace', { id })
     const standing = useQuery('readStanding', { raceId: id }) || {};
 

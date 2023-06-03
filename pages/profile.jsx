@@ -1,9 +1,9 @@
-import { Card, CardBody, CardGroup, CardText, CardTitle, List, ListGroup, ListGroupItem, Table } from "reactstrap";
+import Head from "next/head";
+import { Card, CardBody, CardGroup, CardText, CardTitle, ListGroup, ListGroupItem, Table } from "reactstrap";
 import { useQuery } from "../convex/_generated/react";
-import Link from "next/link";
 
 export default function Profile() {
-    const { user, topRaces } = useQuery('readUser') || {}
+    const { user, topRaces, topTugs } = useQuery('readUser') || {}
 
     if (!user || !topRaces) {
         return <p>Loading profile</p>
@@ -11,17 +11,20 @@ export default function Profile() {
 
     return (
         <main className="container">
+            <Head>
+                <title>My Profile | Tug of Type</title>
+            </Head>
             <h1><img src={user.pictureUrl} /> {user.name}</h1>
             <p>@{user.username}</p>
             <CardGroup>
                 <Card>
                     <CardBody>
-                        <CardTitle>Best Speed</CardTitle>{user.bestScore}</CardBody>
+                        <CardTitle>Best Speed</CardTitle>{user.bestSpeed} wpm</CardBody>
                 </Card>
                 <Card>
                     <CardBody>
-                        <CardText>51 races</CardText>
-                        <CardText>11 tugs</CardText>
+                        <CardText>{user.numRaces} races</CardText>
+                        <CardText>{user.numTugs} tugs</CardText>
                     </CardBody>
                 </Card>
             </CardGroup>
@@ -58,9 +61,13 @@ export default function Profile() {
                 <p><img src="/streak.png" height="30" />Streak: 5</p>
             </section>
             <section className="my-3">
-                <h2>Top Tugs</h2>
+                <h2>Tugs</h2>
                 <ListGroup flush>
-
+                    {topTugs.map(item => (
+                        <ListGroupItem>
+                            {item.text.id}
+                        </ListGroupItem>
+                    ))}
                 </ListGroup>
             </section>
         </main>
