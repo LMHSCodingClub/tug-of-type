@@ -1,11 +1,9 @@
 import { useMemo, useRef, useState, useEffect } from "react";
 import { useMutation, useQuery } from "../convex/_generated/react"
-import raceStyles from "../styles/race.module.css"
-import typeStyles from "../styles/type.module.css"
+import styles from "../styles/race.module.css"
 import { Input } from "reactstrap";
 
 export default function OngoingRace({ raceId }) {
-    const styles = { ...typeStyles, ...raceStyles }
     const race = useQuery('readRace', { id: raceId }) || {}
     const promptTextEl = useRef();
     const statsEl = useRef();

@@ -1,14 +1,10 @@
-import Image from "next/image";
+import Head from "next/head";
 import { useState } from "react";
 import { Input } from "reactstrap";
-import tugStyles from "../styles/tug.module.css";
-import Head from "next/head";
-import typeStyles from "../styles/type.module.css"
+import styles from "../styles/tug.module.css";
 
 export default function Tug(props) {
-    const styles = { ...typeStyles, ...tugStyles }
 
-    const [raceTextInput, setRaceTextInput] = useState('');
     const [clientCarPosition, setClientCarPosition] = useState(0.29);
 
     return (
@@ -22,10 +18,10 @@ export default function Tug(props) {
             </div>
             <div className={styles.tugContainer}>
                 <div className={styles.carContainer}>
-                    <p className={styles.car} style={{ right: clientCarPosition * 90 + '%' }}></p>
+                    <img src="/car.png" style={{ position: 'absolute', right: clientCarPosition * 90 + '%' }} />
                 </div>
                 <div className={styles.carContainer}>
-                    <p className={styles.car} style={{ left: clientCarPosition * 90 + '%', transform: 'scaleX(-1)' }}></p>
+                    <img src="/car.png" style={{ position: 'absolute', left: clientCarPosition * 90 + '%', transform: 'scaleX(-1)' }} />
                 </div>
                 <img className={styles.rope} style={{ left: clientCarPosition * 90 + '%' }} src="/rope.png" />
             </div>

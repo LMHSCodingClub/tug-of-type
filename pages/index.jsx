@@ -1,15 +1,13 @@
+import { useConvexAuth } from 'convex/react'
 import Head from 'next/head'
-import Image from 'next/image'
 import { useRouter } from 'next/router'
+import AuthenticatedHomeWidget from "../components/AuthenticatedHomeWidget"
 import { useMutation } from '../convex/_generated/react'
 import styles from '../styles/Home.module.css'
-import { useEffect } from 'react'
-import AuthenticatedHomeWidget from "../components/AuthenticatedHomeWidget"
-import { useConvexAuth } from 'convex/react'
 
 const Home = () => {
   const createRace = useMutation('createRace');
-  const createTug = useMutation('createTug')
+  const createTug = useMutation('tug/createTug')
   const router = useRouter();
 
   const { isAuthenticated } = useConvexAuth();

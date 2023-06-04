@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { Card, CardBody, CardGroup, CardText, CardTitle, ListGroup, ListGroupItem, Table } from "reactstrap";
 import { useQuery } from "../convex/_generated/react";
+import Link from "next/link";
 
 export default function Profile() {
     const { user, topRaces, topTugs } = useQuery('readUser') || {}
@@ -65,7 +66,7 @@ export default function Profile() {
                 <ListGroup flush>
                     {topTugs.map(item => (
                         <ListGroupItem>
-                            {item.text.id}
+                            <Link href={"/tug?id=" + item.text.id}>{item.text.id}</Link>
                         </ListGroupItem>
                     ))}
                 </ListGroup>
