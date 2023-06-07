@@ -2,11 +2,15 @@ import Head from "next/head";
 import { Card, CardBody, CardGroup, CardText, CardTitle, ListGroup, ListGroupItem, Table } from "reactstrap";
 import { useQuery } from "../convex/_generated/react";
 import Link from "next/link";
+import Image from "next/image"
+import { getNumberWithOrdinal } from "../lib/helpers";
 
 export default function Profile() {
-    const { user, topRaces, topTugs } = useQuery('readUser') || {}
+    const user = useQuery('user/readUser')
+    const tugs = useQuery('user/readTugs')
+    const races = useQuery('user/readRaces')
 
-    if (!user || !topRaces) {
+    if (!user || !races) {
         return <p>Loading profile</p>
     }
 
@@ -24,48 +28,48 @@ export default function Profile() {
                 </Card>
                 <Card>
                     <CardBody>
-                        <CardText>{user.numRaces} races</CardText>
-                        <CardText>{user.numTugs} tugs</CardText>
+                        <CardText>{races.count} races</CardText>
+                        <CardText>{tugs.count} tugs</CardText>
                     </CardBody>
                 </Card>
             </CardGroup>
-            <section className="my-3">
+            {races.count > 0 ? (<section className="my-3">
                 <h2>Races</h2>
                 <Table>
                     {/* TODO: Turn racetrack into component and create preview image and put stats below with flexbox wrapped layout */}
                     <thead>
                         <tr>
-                            <th>{/* 'Winner' Icon */}</th>
+                            <th>Place</th>
                             <th>Speed</th>
                             <th>Accuracy</th>
-                            <th>Consistency</th>
                             <th>Date</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {topRaces.map(raceStanding => {
+                        {races.topRaces?.map(raceStanding => {
                             return (
                                 <tr key={raceStanding._id}>
-                                    <td>{raceStanding.won ? <img src='won.png' alt='Crown indicating you won' /> : null}</td>
+                                    <td>{raceStanding.won ? (<>
+                                        <Image width={25} height={25} src='/winner.png' alt='Crown indicating you won' />
+                                        {' '}Winner!
+                                    </>) : getNumberWithOrdinal(raceStanding.place)}</td>
                                     <td>{raceStanding.speed} wpm</td>
                                     <td>{raceStanding.accuracy}%</td>
-                                    <td>74%</td>
                                     <td>{new Date(raceStanding.date).toDateString()}</td>
                                 </tr>
                             )
                         })}
                     </tbody>
                 </Table>
-                <p>Average Speed (from top 5 races): {topRaces.map(item => item.speed).reduce((prev, current) => prev + current) / topRaces.length} wpm</p>
-                <p>Average Accuracy (from top 5 races): {topRaces.map(item => item.accuracy).reduce((prev, current) => prev + current) / topRaces.length}%</p>
-                <p>Average Consistency (from top 5 races): 74%</p>
+                <p>Average Speed (from top 5 races): {races.avgSpeed} wpm</p>
+                <p>Average Accuracy (from top 5 races): {races.avgAccuracy}%</p>
                 <p><img src="/streak.png" height="30" />Streak: 5</p>
-            </section>
+            </section>) : <h2>No races yet! Start your first race</h2>}
             <section className="my-3">
                 <h2>Tugs</h2>
                 <ListGroup flush>
-                    {topTugs.map(item => (
-                        <ListGroupItem>
+                    {tugs.topTugs.map(item => (
+                        <ListGroupItem key={item._id.id}>
                             <Link href={"/tug?id=" + item.text.id}>{item.text.id}</Link>
                         </ListGroupItem>
                     ))}

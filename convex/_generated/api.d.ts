@@ -25,10 +25,12 @@ import type * as listTypes from "../listTypes";
 import type * as readRace from "../readRace";
 import type * as readStanding from "../readStanding";
 import type * as readText from "../readText";
-import type * as readUser from "../readUser";
 import type * as storeUser from "../storeUser";
 import type * as tug_createTug from "../tug/createTug";
 import type * as updatePosition from "../updatePosition";
+import type * as user_readRaces from "../user/readRaces";
+import type * as user_readTugs from "../user/readTugs";
+import type * as user_readUser from "../user/readUser";
 import type * as withUser from "../withUser";
 
 /**
@@ -56,9 +58,11 @@ export type API = ApiFromModules<{
   readRace: typeof readRace;
   readStanding: typeof readStanding;
   readText: typeof readText;
-  readUser: typeof readUser;
   storeUser: typeof storeUser;
   "tug/createTug": typeof tug_createTug;
   updatePosition: typeof updatePosition;
+  "user/readRaces": typeof user_readRaces;
+  "user/readTugs": typeof user_readTugs;
+  "user/readUser": typeof user_readUser;
   withUser: typeof withUser;
 }>;

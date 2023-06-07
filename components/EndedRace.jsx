@@ -3,6 +3,8 @@ import styles from "../styles/race.module.css"
 import { useQuery } from "../convex/_generated/react"
 import { Id } from "../convex/_generated/dataModel";
 
+import { getNumberWithOrdinal } from "../lib/helpers"
+
 export default function EndedRace({ id }) {
     const race = useQuery('readRace', { id })
     const standing = useQuery('readStanding', { raceId: id }) || {};
@@ -28,7 +30,7 @@ export default function EndedRace({ id }) {
                     </article>
                     <article>
                         <img title="Placement" height="30" src="/placement.png" />
-                        <p>1st</p>
+                        <p>{getNumberWithOrdinal(standing?.mine.place)}</p>
                     </article>
                     <article>
                         <img title="Winning Streak" height="30" src="/streak.png" />

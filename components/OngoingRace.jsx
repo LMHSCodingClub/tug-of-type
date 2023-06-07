@@ -30,7 +30,7 @@ export default function OngoingRace({ raceId }) {
             return
         }
         if (race.timer === 0) {
-            if (!standing.mine.speed) { // User did not already finish
+            if (!standing.mine.position < 1) { // User did not already finish
                 endStanding({ standingId: standing.mine._id, speed: typingSpeed(Date.now()), accuracy: typingAccuracy() })
                 endRace({ raceId: race._id });
             }
@@ -129,7 +129,7 @@ export default function OngoingRace({ raceId }) {
     }
 
     return (
-        <div>
+        <div className={styles.container}>
             <div className="d-flex">
                 <p className={styles.timer}>
                     <time>{race.timer}</time>

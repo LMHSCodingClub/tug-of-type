@@ -20,8 +20,6 @@
     padding: 1em;
 }
 
-
-
 .promptContainer {
     display: flex;
 }
@@ -35,7 +33,7 @@
 }
 
 .container:not(.raceEnd) .prompt {
-    height: 255px;
+    max-height: 255px;
 }
 
 .raceEnd .promptContainer>* {
