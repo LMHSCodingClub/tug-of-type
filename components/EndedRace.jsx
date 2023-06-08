@@ -25,10 +25,6 @@ export default function EndedRace({ id }) {
                         <p>{standing.mine.accuracy}%</p>
                     </article>
                     <article>
-                        <img title="Consistency" height="30" src="/consistency.png" />
-                        <p>{Math.round(Math.random() * 25) + 75}%</p>
-                    </article>
-                    <article>
                         <img title="Placement" height="30" src="/placement.png" />
                         <p>{getNumberWithOrdinal(standing?.mine.place)}</p>
                     </article>
@@ -41,7 +37,7 @@ export default function EndedRace({ id }) {
             <div className={styles.leaderboard}>
                 <img src="/track.jpg" />
                 <div className={styles.playerContainer}>
-                    {standing?.players?.map((item, index) => <img className={styles.player} key={item._id.id} src="/car.png" width="70" style={{ position: 'absolute', top: Math.min(index * 55, index * 4 * 55) + 'px', left: item.position * 88 + '%' }} />)}
+                    {standing?.players?.map((item, index) => <img className={styles.player} title={`${item.user.name} (@${item.user.username})`} key={item._id.id} src="/car.png" width="70" style={{ position: 'absolute', top: Math.min(index * 55, index * 4 * 55) + 'px', left: item.position * 88 + '%' }} />)}
                 </div>
 
                 <img src="/track.jpg" />

@@ -50,7 +50,7 @@ export default function Layout(props) {
                     </span>
 
                 </a>
-                <a href="https://lmhscodingclub.com" target="_black" rel="noopener noreferrer">LMHS Coding Club</a>
+                <a href="https://lmhscodingclub.com" target="_black" rel="noopener noreferrer">Built by the LMHS Coding Club</a>
             </footer>
         </div>
     );
