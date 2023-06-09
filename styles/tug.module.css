@@ -3,23 +3,20 @@
     height: 300px;
 }
 
-.tugContainer .carContainer {
+.car {
     position: absolute;
-}
-
-.tugContainer .car {
-    position: absolute;
+    top: 34%;
 }
 
 .rope {
     position: absolute;
-    left: calc(50% - 340px / 2);
-    top: 10px;
-    width: 340px;
-    margin: 1em;
+    top: 50%;
+    left: calc(50%);
+    transform: translateX(-50%);
+    width: 240px;
     height: 10px;
     background-image: url('/rope.png');
-    background-position: center;
+    background-position-y: center;
 }
 
 .tickLines {
@@ -32,4 +29,14 @@
 .tickLines span {
     width: 2px;
     border: 2px dashed blue;
+}
+
+.timer {
+    margin: 0 auto;
+    text-align: center;
+    font-size: 3em;
+    width: 70px;
+    height: 70px;
+    border-radius: 100%;
+    border: 1px solid black;
 }

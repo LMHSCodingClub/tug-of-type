@@ -8,14 +8,14 @@ export default function OngoingRace({ raceId }) {
     const promptTextEl = useRef();
     const statsEl = useRef();
 
-    const decrementTimer = useMutation("decrementTimer");
+    const decrementTimer = useMutation("race/decrementTimer");
 
     const [raceTextInput, setRaceTextInput] = useState('');
     const [clientCarPosition, setClientCarPosition] = useState(0);
     const standing = useQuery('readStanding', { raceId })
     const endStanding = useMutation('endStanding');
     const lastCorrectCharacter = useRef(0);
-    const updatePosition = useMutation('updatePosition')
+    const updatePosition = useMutation('race/updatePosition')
 
     const wrongWordCounter = useRef(0); // Don't need to constantly get the value, only at the end ==> ref
 
@@ -36,7 +36,7 @@ export default function OngoingRace({ raceId }) {
             }
             clearInterval(id);
         } else {
-            decrementTimer({ raceId });
+            decrementTimer({ id: raceId });
         }
     };
 

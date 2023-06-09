@@ -1,6 +1,9 @@
 import { Id } from "./_generated/dataModel";
 import { query } from "./_generated/server";
 
+/**
+ * Get stats about the text
+ */
 export default query(async ({ db }, { raceId, textId }) => {
     let id = textId;
     if (!textId) {

@@ -27,7 +27,9 @@ export default function Profile() {
             <CardGroup>
                 <Card>
                     <CardBody>
-                        <CardTitle>Best Speed</CardTitle>{races.bestSpeed} wpm</CardBody>
+                        <CardText><img src="/speed.png" height="30" /> Best Speed: {races.bestSpeed} wpm</CardText>
+                        <CardText><img src="/streak.png" height="30" /> Streak: 5</CardText>
+                    </CardBody>
                 </Card>
                 <Card>
                     <CardBody>
@@ -63,7 +65,7 @@ export default function Profile() {
                 </Table>
                 <p>Average Speed (from top 5 races): {races.avgSpeed} wpm</p>
                 <p>Average Accuracy (from top 5 races): {races.avgAccuracy}%</p>
-                <p><img src="/streak.png" height="30" />Streak: 5</p>
+
             </section>) : <h2>No races yet! Start your first race</h2>
             }
             <section className="my-3">
@@ -71,7 +73,7 @@ export default function Profile() {
                 <ListGroup flush>
                     {tugs.topTugs.map(item => (
                         <ListGroupItem key={item._id.id}>
-                            <Link href={"/tug?id=" + item.text.id}>{item.text.id}</Link>
+                            <Link href={"/tug?id=" + item._id.id}>{item.text.id}</Link>
                         </ListGroupItem>
                     ))}
                 </ListGroup>

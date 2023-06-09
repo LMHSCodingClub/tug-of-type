@@ -28,7 +28,9 @@ export default defineSchema({
     tugs: defineTable({
         ended: v.boolean(),
         host: v.id("users"),
+        hostProgression: v.number(),
         guest: v.optional(v.id('users')),
+        guestProgression: v.number(),
         text: v.id("texts"),
         timer: v.number(),
     }).index('by_players', ['host', 'guest']),
