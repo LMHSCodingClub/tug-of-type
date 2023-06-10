@@ -1,47 +1,15 @@
-# Convex
+# Tug of Type
 
-This example demonstrates the Convex global state management framework.
+Lower Moreland High School Coding Club's typeracing game has two modes: race mode and tug-of-war mode.
 
-## Deploy your own
+## Tech Stack
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/convex&project-name=convex&repository-name=convex)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
-
-```bash
-npx create-next-app --example convex convex-app
-# or
-yarn create next-app --example convex convex-app
-# or
-pnpm create next-app --example convex convex-app
-```
-
-Log in to Convex,
-
-```bash
-npx convex login
-```
-
-initialize a new Convex project,
-
-```bash
-npx convex init
-```
-
-and then run the following two commands in two different terminals:
-
-```bash
-npx convex dev
-```
-
-```bash
-npm run dev
-```
-
-Once everything is working, commit your code and deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
-
-Use `npx convex deploy && npm run build` as the build command and set the `CONVEX_DEPLOY_KEY` environmental variable in Vercel ([Documentation](https://docs.convex.dev/getting-started/deployment/hosting/vercel)).
+- [Convex](https://convex.dev) - Convex is a new state management platform that takes care of the backend development and database, easily integrating with React apps and sending live updates without extra cofniguration through TCP Sockets. This eliminated the need to use Springboot (a Java framework for back-end development) or Express ( a JavaScript framework for back-end development). All of the Convex functions, found in the `convex/` folder of this repository, tell the database to do certain actions or reads data from the database and sends it back to your browser - the frontend - so that it can be used as a React hook
+- [NextJS](https://nextjs.org) - NextJS is a JavaScript framework built on React that makes the website performant and very easy to build
+- [Bootstrap](https://getbootstrap.com/) - Bootstrap is a CSS framework with ready-made styles for links, buttons, tables, etc. so that the website has a modern look and feel
+- [Reactstrap](https://reactstrap.github.io) - Reactstrap integrates Bootstrap with React so that we can use these components in a way that is optimized for React
+- [ReactJS](https://react.dev/) - ReactJS is a JavaScript library that lets you make "components" on the website that can be reused so that you can develop faster
+- JavaScript - JavaScript a programming language used by websites
+- CSS - Cascading Stylesheets is a language for styling the website (colors, fonts, layout, spacing, and animations)
+- HTML - Though not used directly, React converts the JavaScript into HTML so that the size of the files is the minimum possible, making the page load very quickly and giving it a modern feel
+- [Vercel](https://vercel.com/lmhscodingclub) - Vercel is a hosting platfrom that deploys the front-end (the website that you go to - https://tug-of-war-typeracer.vercel.app) for us, and the Vercel team is the one who created NextJS. We use Vercel to deploy all of the Coding Club [website projects](https://vercel.com/lmhscodingclub)

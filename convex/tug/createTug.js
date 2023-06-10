@@ -1,6 +1,7 @@
 import { mutation } from '../_generated/server'
 import { selectRandomText } from '../lib/helpers'
 import { withUser } from '../withUser'
+
 /**
  * Inserts a new tug into the 'tugs' table
  * @returns The id of the new tug

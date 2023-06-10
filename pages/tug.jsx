@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import { Input } from "reactstrap";
+import { Button, Input } from "reactstrap";
 import styles from "../styles/tug.module.css";
 import { useMutation, useQuery } from "../convex/_generated/react"
 
@@ -10,11 +10,11 @@ export default function Tug(props) {
     const tug = useQuery('tug/readTug', { id: params.get('id') })
     const decrementTimer = useMutation('tug/decrementTimer')
     const updatePosition = useMutation('tug/updatePosition')
+    const joinTugAsGuestPlayer = useMutation('tug/joinTug')
 
     useEffect(() => {
         let id;
-        if (tug?.userIsHost) {
-            console.log(tug.userIsHost)
+        if (tug?.playerType === 'host') {
             id = setInterval(() => {
                 const timer = decrementTimer({ id: tug._id })
                 if (timer.shouldStop) {
@@ -24,7 +24,7 @@ export default function Tug(props) {
         }
 
         return () => clearInterval(id)
-    }, [tug?.userIsHost])
+    }, [tug?.playerType])
 
     const onType = e => {
         updatePosition({ tugId: tug._id, playerType: tug.playerType, position: 2 })
@@ -37,6 +37,7 @@ export default function Tug(props) {
             <Head>
                 <title>Tug of Type</title>
             </Head>
+            <Button color="primary" onClick={() => joinTugAsGuestPlayer({ tugId: tug._id })}>Join</Button>
             <Input onChange={onType} />
             <p className={styles.timer}>{tug.timer}</p>
             <p>{tug.text.words}</p>
@@ -52,6 +53,6 @@ export default function Tug(props) {
                 <img className={styles.car} src="/car.png" height="100" style={{ right: '33.5%', transform: 'scaleX(-1)' }} />
                 <p className={styles.rope}></p>
             </div>
-        </div>
+        </div >
     )
 }

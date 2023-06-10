@@ -1,4 +1,4 @@
-import { mutation } from "./_generated/server";
+import { mutation } from "../_generated/server";
 
 export default mutation(async ({ db }, { raceId }) => {
     const standings = await db.query('standings').withIndex('by_race', q => q.eq('race', raceId)).collect();

@@ -19,8 +19,8 @@ export default function OngoingRace({ raceId }) {
 
     const wrongWordCounter = useRef(0); // Don't need to constantly get the value, only at the end ==> ref
 
-    const joinRace = useMutation('joinRace');
-    const endRace = useMutation('endRace');
+    const joinRace = useMutation('race/joinRace');
+    const endRace = useMutation('race/endRace');
 
     const timerCallback = useRef();
 
