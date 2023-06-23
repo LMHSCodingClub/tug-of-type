@@ -1,5 +1,5 @@
-import { Id } from "./_generated/dataModel";
-import { query } from "./_generated/server";
+import { Id } from "../_generated/dataModel";
+import { query } from "../_generated/server";
 
 /**
  * Get stats about the text

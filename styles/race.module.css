@@ -3,22 +3,7 @@
     position: relative;
 }
 
-.timer {
-    font-size: 2rem;
-    display: flex;
-    justify-content: center;
-}
 
-.timer time {
-    display: inline-flex;
-    place-content: center;
-    place-items: center;
-    border: 1px solid rebeccapurple;
-    border-radius: 100%;
-    width: 100px;
-    height: 100px;
-    padding: 1em;
-}
 
 .promptContainer {
     display: flex;

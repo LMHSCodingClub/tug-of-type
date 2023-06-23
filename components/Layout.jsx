@@ -17,7 +17,7 @@ export default function Layout(props) {
     return (
         <div>
             <Navbar expand="md" container="fluid" style={{ borderBottom: '3px solid #f5b01a' }}>
-                <Image src="/icon.jpg" height={50} width={50} className="me-3" alt="The tug of type logo, represented by people tugging at a rope" />
+                <Image src="/icon.png" height={50} width={50} className="me-3" alt="The tug of type logo, represented by people tugging at a rope" />
                 <Link href="/">Tug of Type</Link>
 
                 <NavbarToggler onClick={toggle} />
@@ -28,7 +28,6 @@ export default function Layout(props) {
                     >
                         <NavItem><Link href="/textbank">Texts</Link></NavItem>
                         <NavItem><Link href="/submit-text">Submit Text</Link></NavItem>
-                        <NavItem><Link href="/ongoing-races">Ongoing Races</Link></NavItem>
                         <NavItem><Link href="/completed-races">Completed Races</Link></NavItem>
                     </Nav>
                     {isAuthenticated ? <AuthenticatedHeaderWidget /> : <Login />}

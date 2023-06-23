@@ -6,10 +6,10 @@ import { Id } from "../convex/_generated/dataModel";
 import { getNumberWithOrdinal } from "../lib/helpers"
 
 export default function EndedRace({ id }) {
-    const race = useQuery('readRace', { id })
-    const standing = useQuery('readStanding', { raceId: id }) || {};
+    const race = useQuery('race/readRace', { id })
+    const standing = useQuery('race/readStanding', { raceId: id }) || {};
 
-    const textLeaderboard = useQuery('readText', { raceId: id })
+    const textLeaderboard = useQuery('text/readText', { raceId: id })
 
     return (
         <div className={styles.endedRace}>

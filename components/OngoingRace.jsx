@@ -2,64 +2,34 @@ import { useMemo, useRef, useState, useEffect } from "react";
 import { useMutation, useQuery } from "../convex/_generated/react"
 import styles from "../styles/race.module.css"
 import { Input } from "reactstrap";
+import Timer from "./Timer";
 
 export default function OngoingRace({ raceId }) {
-    const race = useQuery('readRace', { id: raceId }) || {}
+    const race = useQuery('race/readRace', { id: raceId }) || {}
     const promptTextEl = useRef();
     const statsEl = useRef();
 
-    const decrementTimer = useMutation("race/decrementTimer");
-
     const [raceTextInput, setRaceTextInput] = useState('');
     const [clientCarPosition, setClientCarPosition] = useState(0);
-    const standing = useQuery('readStanding', { raceId })
-    const endStanding = useMutation('endStanding');
-    const lastCorrectCharacter = useRef(0);
+    const standing = useQuery('race/readStanding', { raceId })
+    const endStanding = useMutation('race/endStanding');
     const updatePosition = useMutation('race/updatePosition')
-
-    const wrongWordCounter = useRef(0); // Don't need to constantly get the value, only at the end ==> ref
 
     const joinRace = useMutation('race/joinRace');
     const endRace = useMutation('race/endRace');
 
-    const timerCallback = useRef();
-
-    const timer = (id) => {
-        if (race?.ended || !standing.userIsHost) {
-            clearInterval(id)
-            return
-        }
-        if (race.timer === 0) {
-            if (!standing.mine.position < 1) { // User did not already finish
-                endStanding({ standingId: standing.mine._id, speed: typingSpeed(Date.now()), accuracy: typingAccuracy() })
-                endRace({ raceId: race._id });
-            }
-            clearInterval(id);
-        } else {
-            decrementTimer({ id: raceId });
-        }
-    };
+    const lastCorrectCharacter = useRef(0);
+    const wrongWordCounter = useRef(0); // Don't need to constantly get the value, only at the end ==> ref
 
     useEffect(() => {
-        timerCallback.current = timer;
-    }, [timer]);
-
-    useEffect(() => {
-        if (!(standing || race.ended))
+        // Standing has been fetched and the user is not in the race and the race has not ended
+        if (!standing?.mine && standing?.players && !race.ended)
             joinRace({ race: raceId });
-    }, [])
-
-    useEffect(() => {
-        const id = setInterval(() => {
-            timerCallback.current(id);
-        }, 1000);
-
-        return () => clearInterval(id);
-    }, []);
+    }, [standing?.userIsHost]) // Use a property of standing that does not change once initialized 
 
     const typingSpeed = (endTime) => {
         const minutesToComplete = Math.abs(endTime - race?._creationTime) / 1000 / 60;
-        const numberOfWords = raceTextInput.split(" ").length;
+        const numberOfWords = raceTextInput.length / 5
         const speed = numberOfWords / minutesToComplete;
 
         return Math.round(speed);
@@ -131,9 +101,14 @@ export default function OngoingRace({ raceId }) {
     return (
         <div className={styles.container}>
             <div className="d-flex">
-                <p className={styles.timer}>
-                    <time>{race.timer}</time>
-                </p>
+                {!race?.ended ? (
+                    <Timer onTimerFinish={() => {
+                        if (!standing.mine.position < 1) { // User did not already finish
+                            endStanding({ standingId: standing.mine._id, speed: typingSpeed(Date.now()), accuracy: typingAccuracy() })
+                            endRace({ raceId: race._id });
+                        }
+                    }} typeInfo={{ typeName: 'Race', typeId: race._id }} withMutate={standing?.userIsHost} />
+                ) : null}
                 <div className={styles.carContainer} style={{ position: 'relative' }}>
                     <p
                         className={styles.car}

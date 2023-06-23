@@ -1,4 +1,4 @@
-import { mutation } from "./_generated/server";
+import { mutation } from "../_generated/server";
 
 export default mutation(async ({ db }, { standingId, speed, accuracy }) => {
     const standing = await db.get(standingId)
