@@ -3,6 +3,8 @@ import { useMutation, useQuery } from "../convex/_generated/react"
 import styles from "../styles/race.module.css"
 import { Input } from "reactstrap";
 import Timer from "./Timer";
+import { Id } from "../convex/_generated/dataModel";
+import { useRouter } from "next/router";
 
 export default function OngoingRace({ raceId }) {
     const race = useQuery('race/readRace', { id: raceId }) || {}
@@ -20,6 +22,8 @@ export default function OngoingRace({ raceId }) {
 
     const lastCorrectCharacter = useRef(0);
     const wrongWordCounter = useRef(0); // Don't need to constantly get the value, only at the end ==> ref
+
+    const router = useRouter()
 
     useEffect(() => {
         // Standing has been fetched and the user is not in the race and the race has not ended
@@ -39,7 +43,7 @@ export default function OngoingRace({ raceId }) {
         return Math.round(inputSize / (race?.text.words.length + wrongWordCounter.current) * 100)
     }
 
-    const handleInputChange = e => {
+    const handleInputChange = async e => {
         e.preventDefault();
 
         const inputText = e.target.value;
@@ -68,7 +72,11 @@ export default function OngoingRace({ raceId }) {
             endStanding({ standingId: standing.mine._id, speed: typingSpeed(Date.now()), accuracy: typingAccuracy(position) });
 
             if (standing.opponents.every(item => item.speed)) {
-                endRace({ raceId: race._id })
+                const end = await endRace({ raceId: race._id })
+                console.debug(end)
+                if (end instanceof Id) {
+                    router.push('/practice?id=' + end.id)
+                }
             }
         }
     }

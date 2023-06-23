@@ -3,6 +3,25 @@ import { mutation } from "../_generated/server";
 export default mutation(async ({ db }, { raceId }) => {
     const standings = await db.query('standings').withIndex('by_race', q => q.eq('race', raceId)).collect();
 
+    // If the user was the only one in the race, remove it from the races and convert it to a practice
+    if (standings.length < 2) {
+        const practiceRaceInfo = await db.get(raceId)
+        const practiceStandingInfo = standings[0]
+        const practiceId = await db.insert('practices', {
+            user: practiceStandingInfo.user,
+            speed: practiceStandingInfo.speed,
+            accuracy: practiceStandingInfo.accuracy,
+            text: practiceRaceInfo.text,
+            timer: practiceRaceInfo.timer,
+            ended: true
+        })
+
+        db.delete(raceId)
+        db.delete(practiceStandingInfo._id)
+
+        return practiceId
+    }
+
     // Determine winner by position, then (fallback 1) by speed, and finally (fallback 2) by accuracy
     const winner = standings.reduce((a, b) => {
         if (a.position > b.position) {
@@ -26,5 +45,6 @@ export default mutation(async ({ db }, { raceId }) => {
             return [a, b][Math.round(Math.random())]
         }
     })
+
     db.patch(raceId, { ended: true, winner: winner.user });
 })

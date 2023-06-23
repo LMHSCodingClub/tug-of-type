@@ -18,6 +18,7 @@ import type * as race_decrementTimer from "../race/decrementTimer";
 import type * as race_endRace from "../race/endRace";
 import type * as race_endStanding from "../race/endStanding";
 import type * as race_joinRace from "../race/joinRace";
+import type * as race_readPractice from "../race/readPractice";
 import type * as race_readRace from "../race/readRace";
 import type * as race_readStanding from "../race/readStanding";
 import type * as race_updatePosition from "../race/updatePosition";
@@ -54,6 +55,7 @@ export type API = ApiFromModules<{
   "race/endRace": typeof race_endRace;
   "race/endStanding": typeof race_endStanding;
   "race/joinRace": typeof race_joinRace;
+  "race/readPractice": typeof race_readPractice;
   "race/readRace": typeof race_readRace;
   "race/readStanding": typeof race_readStanding;
   "race/updatePosition": typeof race_updatePosition;

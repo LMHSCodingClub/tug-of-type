@@ -5,5 +5,5 @@ export default mutation(async ({ db }, { standingId, speed, accuracy }) => {
     const previousFinishers = await db.query('standings').withIndex('by_race', q => q.eq('race', standing.race)).filter(q => q.eq(q.field('position'), 1)).collect()
 
     // The player's place is the number of racers who have already finished, which includes this racer, because the standing was already updated with the position 
-    db.patch(standingId, { speed, accuracy, place: previousFinishers.length });
+    db.patch(standingId, { speed, accuracy, place: Math.max(previousFinishers.length, 1) });
 })

@@ -16,8 +16,8 @@ export default query(withUser(async ({ db, user }) => {
         topStandings[i] = { ...topStandings[i], date: race._creationTime, won }
     }
 
-    const avgSpeed = Math.round(userStandings.map(item => item.speed).filter(Number).reduce((prev, curr) => prev + curr) / userStandings.length)
-    const avgAccuracy = Math.round(userStandings.map(item => item.accuracy).filter(Number).reduce((prev, curr) => prev + curr) / userStandings.length)
+    const avgSpeed = Math.round(userStandings.map(item => item.speed).filter(Number).reduce((prev, curr) => prev + curr, 0) / userStandings.length)
+    const avgAccuracy = Math.round(userStandings.map(item => item.accuracy).filter(Number).reduce((prev, curr) => prev + curr, 0) / userStandings.length)
 
     return { topRaces: topStandings, avgSpeed, avgAccuracy, bestSpeed, count: userStandings.length }
 }))

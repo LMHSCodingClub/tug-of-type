@@ -34,4 +34,12 @@ export default defineSchema({
         text: v.id("texts"),
         timer: v.number(),
     }).index('by_players', ['host', 'guest']),
+    practices: defineTable({
+        user: v.id("users"),
+        speed: v.number(),
+        accuracy: v.number(),
+        text: v.id("texts"),
+        timer: v.number(),
+        ended: v.boolean()
+    })
 });

@@ -25,8 +25,6 @@ const Home = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Welcome to LMHS Coding Club's Tug of Type</h1>
-
         <p className={styles.description}>
           <button onClick={async () => {
             const id = await createRace();
