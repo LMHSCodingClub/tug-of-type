@@ -1,6 +1,6 @@
-import { withUser } from "./withUser";
-import { Id } from "./_generated/dataModel";
-import { mutation } from "./_generated/server"
+import { withUser } from "../withUser";
+import { Id } from "../_generated/dataModel";
+import { mutation } from "../_generated/server"
 
 export default mutation(withUser(async ({ db, user }) => {
   const texts = await db.query('texts').collect();

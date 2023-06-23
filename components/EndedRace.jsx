@@ -1,16 +1,15 @@
-import raceStyles from "../styles/race.module.css"
-import typeStyles from "../styles/type.module.css"
+import styles from "../styles/race.module.css"
 
 import { useQuery } from "../convex/_generated/react"
 import { Id } from "../convex/_generated/dataModel";
 
+import { getNumberWithOrdinal } from "../lib/helpers"
+
 export default function EndedRace({ id }) {
-    const styles = { ...raceStyles, ...typeStyles }
+    const race = useQuery('race/readRace', { id })
+    const standing = useQuery('race/readStanding', { raceId: id }) || {};
 
-    const race = useQuery('readRace', { id })
-    const standing = useQuery('readStanding', { raceId: id }) || {};
-
-    const textLeaderboard = useQuery('readText', { raceId: id })
+    const textLeaderboard = useQuery('text/readText', { raceId: id })
 
     return (
         <div className={styles.endedRace}>
@@ -26,12 +25,8 @@ export default function EndedRace({ id }) {
                         <p>{standing.mine.accuracy}%</p>
                     </article>
                     <article>
-                        <img title="Consistency" height="30" src="/consistency.png" />
-                        <p>{Math.round(Math.random() * 25) + 75}%</p>
-                    </article>
-                    <article>
                         <img title="Placement" height="30" src="/placement.png" />
-                        <p>1st</p>
+                        <p>{getNumberWithOrdinal(standing?.mine.place)}</p>
                     </article>
                     <article>
                         <img title="Winning Streak" height="30" src="/streak.png" />
@@ -42,7 +37,7 @@ export default function EndedRace({ id }) {
             <div className={styles.leaderboard}>
                 <img src="/track.jpg" />
                 <div className={styles.playerContainer}>
-                    {standing?.players?.map((item, index) => <img className={styles.player} key={item._id.id} src="/car.png" width="70" style={{ position: 'absolute', top: Math.min(index * 55, index * 4 * 55) + 'px', left: item.position * 88 + '%' }} />)}
+                    {standing?.players?.map((item, index) => <img className={styles.player} title={`${item.user.name} (@${item.user.username})`} key={item._id.id} src="/car.png" width="70" style={{ position: 'absolute', top: Math.min(index * 55, index * 4 * 55) + 'px', left: item.position * 88 + '%' }} />)}
                 </div>
 
                 <img src="/track.jpg" />

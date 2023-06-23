@@ -25,15 +25,15 @@
     "**/*.tsx",
     "convex/storeUser.js",
     "convex/listTypes.js",
-    "convex/joinRace.js",
+    "convex/race/joinRace.js",
     "pages/index.jsx",
     "convex/decrementTimer.js",
-    "convex/createRace.js",
+    "convex/race/createRace.js",
     "convex/incrementCounter.js",
-    "convex/listTexts.js",
+    "convex/text/listTexts.js",
     "convex/listBestScores.js",
     "convex/withUser.js",
-    "convex/readRace.js"
+    "convex/race/readRace.js"
   ],
   "exclude": [
     "node_modules"

@@ -1,21 +1,51 @@
 .tugContainer {
-    display: flex;
     position: relative;
+    height: 300px;
+    background-color: rgb(95, 104, 98);
 }
 
-.tugContainer .carContainer {
-    width: 50%;
-    position: relative;
-}
-
-.tugContainer .car {
+.car {
     position: absolute;
+    top: 34%;
+    height: 100px;
 }
 
 .rope {
     position: absolute;
-    object-fit: contain;
-    left: calc(50% - 340px / 2);
     top: 50%;
-    width: 340px;
+    transform: translateX(-50%);
+    width: 240px;
+    height: 10px;
+    background-image: url('/rope.png');
+    background-position-y: center;
+}
+
+.tickLines {
+    display: flex;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.playerWin,
+.starting,
+.opponentWin {
+    width: 2px;
+    border: 2px solid white;
+}
+
+.timer {
+    margin: 0 auto;
+    text-align: center;
+    font-size: 3em;
+    width: 70px;
+    height: 70px;
+    border-radius: 100%;
+    border: 1px solid black;
+}
+
+.tickLines .starting {
+    border-color: white;
+    border-style: dashed;
+    border-width: 5px;
+    border-left: none;
 }

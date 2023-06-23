@@ -3,13 +3,13 @@ import Head from 'next/head';
 import { Table } from 'reactstrap';
 
 export default function TextBank() {
-    const allTexts = useQuery('listTexts') || [];
+    const allTexts = useQuery('text/listTexts') || [];
     return (
         <main>
             <Head>
-                <title>The Tug of War Typeracer Bank</title>
+                <title>Texts | Tug of Type</title>
             </Head>
-            <h1>The Tug of War Typeracer Bank</h1>
+            <h1>Texts</h1>
             <Table border="2">
                 <thead>
                     <tr>

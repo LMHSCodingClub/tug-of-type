@@ -12,6 +12,7 @@ import {
 } from 'convex/react'
 import { ConvexProviderWithAuth0 } from 'convex/react-auth0'
 import Login from '../components/Login'
+import { useEffect, useState } from 'react'
 
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL || '')
 
@@ -27,7 +28,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       clientId={config.clientId}
       authorizationParams={{
         redirect_uri:
-          typeof window === 'undefined' ? undefined : window.location.origin,
+          typeof location !== 'undefined' ? window.location.origin : '',
       }}
       useRefreshTokens={true}
       cacheLocation="localstorage"

@@ -6,6 +6,13 @@ async function listTypes({ db }, { finished }) {
     const races = await db.query('races').order("desc").filter(isFinished).collect();
     const tugs = await db.query('tugs').order('desc').filter(isFinished).collect()
 
+    const types = await Promise.all([
+        ...races.map(includeOtherInfoAboutType, { mode: "Race" }),
+        ...tugs.map(includeOtherInfoAboutType, { mode: "Tug" })
+    ])
+
+    return types
+
     async function includeOtherInfoAboutType(type) {
         return {
             ...type,
@@ -14,14 +21,6 @@ async function listTypes({ db }, { finished }) {
             mode: this.mode
         }
     }
-
-    const types = await Promise.all([
-        ...races.map(includeOtherInfoAboutType, { mode: "Race" }),
-        ...tugs.map(includeOtherInfoAboutType, { mode: "Tug" })
-    ])
-
-
-    return types
 }
 
 

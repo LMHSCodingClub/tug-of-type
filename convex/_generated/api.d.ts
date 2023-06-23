@@ -10,25 +10,30 @@
  */
 
 import type { ApiFromModules } from "convex/api";
-import type * as createRace from "../createRace";
-import type * as createText from "../createText";
-import type * as decrementTimer from "../decrementTimer";
 import type * as deleteColumn from "../deleteColumn";
-import type * as editUser from "../editUser";
-import type * as endRace from "../endRace";
-import type * as endStanding from "../endStanding";
-import type * as incrementCounter from "../incrementCounter";
-import type * as joinRace from "../joinRace";
 import type * as lib_helpers from "../lib/helpers";
-import type * as listTexts from "../listTexts";
 import type * as listTypes from "../listTypes";
-import type * as readRace from "../readRace";
-import type * as readStanding from "../readStanding";
-import type * as readText from "../readText";
-import type * as readUser from "../readUser";
+import type * as race_createRace from "../race/createRace";
+import type * as race_decrementTimer from "../race/decrementTimer";
+import type * as race_endRace from "../race/endRace";
+import type * as race_endStanding from "../race/endStanding";
+import type * as race_joinRace from "../race/joinRace";
+import type * as race_readRace from "../race/readRace";
+import type * as race_readStanding from "../race/readStanding";
+import type * as race_updatePosition from "../race/updatePosition";
 import type * as storeUser from "../storeUser";
+import type * as text_createText from "../text/createText";
+import type * as text_listTexts from "../text/listTexts";
+import type * as text_readText from "../text/readText";
 import type * as tug_createTug from "../tug/createTug";
-import type * as updatePosition from "../updatePosition";
+import type * as tug_decrementTimer from "../tug/decrementTimer";
+import type * as tug_endTug from "../tug/endTug";
+import type * as tug_joinTug from "../tug/joinTug";
+import type * as tug_readTug from "../tug/readTug";
+import type * as tug_updatePosition from "../tug/updatePosition";
+import type * as user_readRaces from "../user/readRaces";
+import type * as user_readTugs from "../user/readTugs";
+import type * as user_readUser from "../user/readUser";
 import type * as withUser from "../withUser";
 
 /**
@@ -41,24 +46,29 @@ import type * as withUser from "../withUser";
  * `ConvexReactClient` to create app-specific types.
  */
 export type API = ApiFromModules<{
-  createRace: typeof createRace;
-  createText: typeof createText;
-  decrementTimer: typeof decrementTimer;
   deleteColumn: typeof deleteColumn;
-  editUser: typeof editUser;
-  endRace: typeof endRace;
-  endStanding: typeof endStanding;
-  incrementCounter: typeof incrementCounter;
-  joinRace: typeof joinRace;
   "lib/helpers": typeof lib_helpers;
-  listTexts: typeof listTexts;
   listTypes: typeof listTypes;
-  readRace: typeof readRace;
-  readStanding: typeof readStanding;
-  readText: typeof readText;
-  readUser: typeof readUser;
+  "race/createRace": typeof race_createRace;
+  "race/decrementTimer": typeof race_decrementTimer;
+  "race/endRace": typeof race_endRace;
+  "race/endStanding": typeof race_endStanding;
+  "race/joinRace": typeof race_joinRace;
+  "race/readRace": typeof race_readRace;
+  "race/readStanding": typeof race_readStanding;
+  "race/updatePosition": typeof race_updatePosition;
   storeUser: typeof storeUser;
+  "text/createText": typeof text_createText;
+  "text/listTexts": typeof text_listTexts;
+  "text/readText": typeof text_readText;
   "tug/createTug": typeof tug_createTug;
-  updatePosition: typeof updatePosition;
+  "tug/decrementTimer": typeof tug_decrementTimer;
+  "tug/endTug": typeof tug_endTug;
+  "tug/joinTug": typeof tug_joinTug;
+  "tug/readTug": typeof tug_readTug;
+  "tug/updatePosition": typeof tug_updatePosition;
+  "user/readRaces": typeof user_readRaces;
+  "user/readTugs": typeof user_readTugs;
+  "user/readUser": typeof user_readUser;
   withUser: typeof withUser;
 }>;

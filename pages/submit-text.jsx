@@ -6,7 +6,7 @@ import { useMutation } from '../convex/_generated/react'
 import styles from '../styles/Home.module.css'
 
 const SubmitTextPage = () => {
-    const addText = useMutation('createText');
+    const addText = useMutation('text/createText');
     const [newText, setNewText] = useState('');
     const [source, setSource] = useState('');
     const [checked, setChecked] = useState(false);
