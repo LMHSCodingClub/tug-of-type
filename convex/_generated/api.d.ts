@@ -27,6 +27,7 @@ import type * as text_listTexts from "../text/listTexts";
 import type * as text_readText from "../text/readText";
 import type * as tug_createTug from "../tug/createTug";
 import type * as tug_decrementTimer from "../tug/decrementTimer";
+import type * as tug_endTug from "../tug/endTug";
 import type * as tug_joinTug from "../tug/joinTug";
 import type * as tug_readTug from "../tug/readTug";
 import type * as tug_updatePosition from "../tug/updatePosition";
@@ -62,6 +63,7 @@ export type API = ApiFromModules<{
   "text/readText": typeof text_readText;
   "tug/createTug": typeof tug_createTug;
   "tug/decrementTimer": typeof tug_decrementTimer;
+  "tug/endTug": typeof tug_endTug;
   "tug/joinTug": typeof tug_joinTug;
   "tug/readTug": typeof tug_readTug;
   "tug/updatePosition": typeof tug_updatePosition;

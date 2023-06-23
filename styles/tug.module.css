@@ -13,7 +13,6 @@
 .rope {
     position: absolute;
     top: 50%;
-    left: calc(50%);
     transform: translateX(-50%);
     width: 240px;
     height: 10px;

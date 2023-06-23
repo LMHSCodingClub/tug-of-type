@@ -45,12 +45,11 @@ export default function OngoingRace({ raceId }) {
         const inputText = e.target.value;
         setRaceTextInput(inputText)
         const position = inputText.length;
-        const proportionOfRaceCompleted = position / race?.text?.words.length;
 
         if (race?.ended) return
 
         // Increases or decreases the x-position of the car in proportion to total length of prompt
-
+        const proportionOfRaceCompleted = position / race?.text?.words.length;
         if (inputText === race.text?.words.substring(0, position)) { // Text is accurate so far
             lastCorrectCharacter.current = position - 1;
             setClientCarPosition(proportionOfRaceCompleted);

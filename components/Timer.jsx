@@ -24,8 +24,7 @@ export default function Timer({
             onTimerFinish() // Update backend with data tangentially related to the timer component
             clearInterval(id);
         } else if (withMutate) {
-            // JavaScript computed property names that dynamically figures out which Convex function to use
-            decrementTimer({ [`${typeName.toLowerCase()}Id`]: typeId });
+            decrementTimer({ id: typeId });
         }
     };
 
