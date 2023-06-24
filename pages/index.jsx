@@ -19,7 +19,7 @@ const Home = () => {
   return (
     <div>
       <Head>
-        <title>Tug of War Typeracer | LMHS Coding Club</title>
+        <title>Tug of Type | LMHS Coding Club</title>
         <meta name="description" content="A typeracing game" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

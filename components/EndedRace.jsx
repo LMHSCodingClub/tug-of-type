@@ -9,7 +9,7 @@ export default function EndedRace({ id }) {
     const race = useQuery('race/readRace', { id })
     const standing = useQuery('race/readStanding', { raceId: id }) || {};
 
-    const textLeaderboard = useQuery('text/readText', { raceId: id })
+    const textLeaderboard = useQuery('text/readText', { typeId: new Id('races', id) })
 
     return (
         <div className={styles.endedRace}>

@@ -4,11 +4,11 @@ import { query } from "../_generated/server";
 /**
  * Get stats about the text
  */
-export default query(async ({ db }, { raceId, textId }) => {
+export default query(async ({ db }, { typeId, textId }) => {
     let id = textId;
     if (!textId) {
-        const currentRace = await db.get(new Id('races', raceId))
-        id = currentRace.text
+        const currentType = await db.get(typeId)
+        id = currentType.text
     }
 
     const baseInfo = await db.get(id);

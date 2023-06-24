@@ -5,6 +5,7 @@ import { Input } from "reactstrap";
 import Timer from "./Timer";
 import { Id } from "../convex/_generated/dataModel";
 import { useRouter } from "next/router";
+import { scrolledToBottom } from "../lib/helpers";
 
 export default function OngoingRace({ raceId }) {
     const race = useQuery('race/readRace', { id: raceId }) || {}
@@ -100,10 +101,6 @@ export default function OngoingRace({ raceId }) {
     const isRight = useMemo(() => {
         return !raceTextInput || race?.text?.words.substring(0, raceTextInput.length) === raceTextInput || raceTextInput.length !== 0
     }, [raceTextInput])
-
-    const scrolledToBottom = (element) => {
-        return Math.abs(element.scrollHeight - element.scrollTop - element.clientHeight) < 1
-    }
 
     return (
         <div className={styles.container}>

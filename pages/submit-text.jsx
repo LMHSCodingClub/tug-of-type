@@ -43,8 +43,8 @@ const SubmitTextPage = () => {
                 }}>
                     <FormGroup>
                         <Label htmlFor="words">Add a text to the dealership</Label>
-                        <Input required id="words" type="textarea" cols="100" rows="10" style={{ resize: 'none' }} value={newText} onChange={e => setNewText(e.target.value)} />
-                        <Label htmlFor="source">Source - use the format "<strong>Title</strong> by <strong>Author/Playwright</strong>"</Label>
+                        <Input minLength={75} required id="words" type="textarea" cols="100" rows="10" style={{ resize: 'none' }} value={newText} onChange={e => setNewText(e.target.value)} />
+                        <Label maxLength={150} htmlFor="source">Source - use the format "<strong>Title</strong> by <strong>Author/Playwright</strong>"</Label>
                         <Input required id="source" value={source} onChange={e => setSource(e.target.value)} />
                     </FormGroup>
 

@@ -1,6 +1,6 @@
 .tugContainer {
     position: relative;
-    height: 300px;
+    height: 150px;
     background-color: rgb(95, 104, 98);
 }
 
@@ -12,7 +12,7 @@
 
 .rope {
     position: absolute;
-    top: 50%;
+    top: 100px;
     transform: translateX(-50%);
     width: 240px;
     height: 10px;

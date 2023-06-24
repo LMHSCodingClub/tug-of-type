@@ -10,10 +10,11 @@ export default function Profile() {
     const user = useQuery('user/readUser')
     const tugs = useQuery('user/readTugs')
     const races = useQuery('user/readRaces')
+    const practices = useQuery('user/readPractices')
 
     const router = useRouter()
 
-    if (!user || !races) {
+    if (!user || !races || !practices || !tugs) {
         return <p>Loading profile</p>
     }
 
@@ -35,6 +36,7 @@ export default function Profile() {
                     <CardBody>
                         <CardText>{races.count} races</CardText>
                         <CardText>{tugs.count} tugs</CardText>
+                        <CardText>{practices.count} practices</CardText>
                     </CardBody>
                 </Card>
             </CardGroup>
@@ -78,7 +80,32 @@ export default function Profile() {
                     ))}
                 </ListGroup>
             </section>
-        </main >
+            <section className="my-3">
+                <h2>Practices</h2>
+                <Table>
+                    <thead>
+                        <tr>
+                            <th>Speed</th>
+                            <th>Accuracy</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {practices.topPractices.map(practice => {
+                            return (
+                                <tr className="link" onClick={() => router.push(`/practice?id=${practice._id.id}`)} key={practice._id.id}>
+                                    <td>{practice.speed} wpm</td>
+                                    <td>{practice.accuracy}%</td>
+                                    <td>{new Date(practice._creationTime).toDateString()}</td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </Table>
+                <p>Average Speed (from top 5 races): {practices.avgSpeed} wpm</p>
+                <p>Average Accuracy (from top 5 races): {practices.avgAccuracy}%</p>
+            </section>
+        </main>
     )
 }
 

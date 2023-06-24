@@ -29,8 +29,12 @@ export default defineSchema({
         ended: v.boolean(),
         host: v.id("users"),
         hostProgression: v.number(),
+        hostSpeed: v.optional(v.number()),
+        hostAccuracy: v.optional(v.number()),
         guest: v.optional(v.id('users')),
         guestProgression: v.number(),
+        guestSpeed: v.optional(v.number()),
+        guestAccuracy: v.optional(v.number()),
         text: v.id("texts"),
         timer: v.number(),
     }).index('by_players', ['host', 'guest']),
@@ -41,5 +45,5 @@ export default defineSchema({
         text: v.id("texts"),
         timer: v.number(),
         ended: v.boolean()
-    })
+    }).index('by_user', ['user'])
 });
