@@ -23,7 +23,7 @@ const SubmitTextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <main className={styles.main}>
+            <main>
                 <h1 className={styles.title}>
                     Text Submission Wizard
                 </h1>
