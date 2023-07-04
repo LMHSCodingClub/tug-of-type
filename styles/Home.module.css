@@ -2,16 +2,13 @@
   padding: 1rem 2rem;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 }
 
 .main {
   padding: 4rem 0;
   flex: 10;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
 }
 
 .container button {
@@ -31,11 +28,10 @@
 
 .footer {
   display: flex;
+  justify-content: center;
   gap: 10px;
   padding: 2rem 0;
   border-top: 1px solid #eaeaea;
-  justify-content: center;
-  align-items: center;
 }
 
 .title a {

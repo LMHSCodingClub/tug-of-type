@@ -10,9 +10,9 @@
  */
 
 import type { ApiFromModules } from "convex/api";
-import type * as deleteColumn from "../deleteColumn";
 import type * as lib_helpers from "../lib/helpers";
 import type * as listTypes from "../listTypes";
+import type * as oneTimeMutations from "../oneTimeMutations";
 import type * as race_createRace from "../race/createRace";
 import type * as race_decrementTimer from "../race/decrementTimer";
 import type * as race_endRace from "../race/endRace";
@@ -49,9 +49,9 @@ import type * as withUser from "../withUser";
  * `ConvexReactClient` to create app-specific types.
  */
 export type API = ApiFromModules<{
-  deleteColumn: typeof deleteColumn;
   "lib/helpers": typeof lib_helpers;
   listTypes: typeof listTypes;
+  oneTimeMutations: typeof oneTimeMutations;
   "race/createRace": typeof race_createRace;
   "race/decrementTimer": typeof race_decrementTimer;
   "race/endRace": typeof race_endRace;

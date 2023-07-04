@@ -1,7 +1,8 @@
 .tugContainer {
     position: relative;
-    height: 150px;
+    height: 140px;
     background-color: rgb(95, 104, 98);
+    grid-area: 1 / 2 / -1 / 3;
 }
 
 .car {
@@ -18,6 +19,10 @@
     height: 10px;
     background-image: url('/rope.png');
     background-position-y: center;
+}
+
+.prompt {
+    height: 210px;
 }
 
 .tickLines {
@@ -48,4 +53,41 @@
     border-style: dashed;
     border-width: 5px;
     border-left: none;
+}
+
+.inputBox {
+    height: 100%;
+    resize: none;
+}
+
+.textsContainer {
+    height: 50%;
+}
+
+/* Ended Tug */
+
+.endedTug {
+    display: grid;
+    margin: 50px 40px 10px 30px;
+    grid-gap: 10px;
+    grid-template-columns: 1fr 55% 1fr;
+    grid-template-rows: 175px auto;
+}
+
+.endedTug .hostNumbers {
+    grid-area: 1 / 1;
+}
+
+.guestNumbers {
+    grid-area: 1 / 3;
+}
+
+.textLeaderboard {
+    grid-row: 2;
+    grid-column: 1 / 3;
+}
+
+.textInfo {
+    grid-row: 2 / -1;
+    grid-column: 3;
 }

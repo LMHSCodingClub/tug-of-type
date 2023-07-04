@@ -3,22 +3,12 @@
     position: relative;
 }
 
-
-
 .promptContainer {
     display: flex;
 }
 
-.prompt {
-    white-space: pre-wrap;
-    user-select: none;
-    -webkit-user-select: none;
-    overflow-y: auto;
-    width: 100%;
-}
-
 .container:not(.raceEnd) .prompt {
-    max-height: 255px;
+    max-height: 300px;
 }
 
 .raceEnd .promptContainer>* {
@@ -36,6 +26,7 @@
 
 .inputBox {
     resize: none;
+    height: 100%;
 }
 
 .endedRace {

@@ -7,7 +7,7 @@ export default function Timer({
     withMutate = false // Whether to change the timer value, if false then only read and display the timer
 }) {
     const decrementTimer = useMutation(`${typeName.toLowerCase()}/decrementTimer`);
-    const { timer: timeValue } = useQuery(`${typeName.toLowerCase()}/read${typeName}`, { id: typeId }) || {}
+    const { timer: timeValue, ended } = useQuery(`${typeName.toLowerCase()}/read${typeName}`, { id: typeId }) || {}
     const timerCallback = useRef();
 
     useEffect(() => {
@@ -22,7 +22,8 @@ export default function Timer({
     const timer = (id) => {
         if (timeValue === 0) {
             onTimerFinish() // Update backend with data tangentially related to the timer component
-            clearInterval(id);
+            if (withMutate)
+                clearInterval(id);
         } else if (withMutate) {
             decrementTimer({ id: typeId });
         }

@@ -12,4 +12,12 @@ const deleteColumn = (table, column) => (
     })
 )
 
+export const replaceCarriageReturns = internalMutation(async ({ db }) => {
+    const rows = await db.query('texts').collect()
+    for (const row of rows) {
+        row.words = row.words.replace(/\n/g, ' ')
+        await db.replace(row._id, row)
+    }
+})
+
 export const removeMode = deleteColumn('races', 'mode')

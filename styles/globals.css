@@ -22,3 +22,11 @@ a {
 .link:hover {
   cursor: pointer
 }
+
+.prompt {
+  white-space: pre-wrap;
+  user-select: none;
+  -webkit-user-select: none;
+  overflow-y: auto;
+  width: 100%;
+}

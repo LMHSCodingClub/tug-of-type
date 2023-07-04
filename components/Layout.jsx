@@ -28,7 +28,7 @@ export default function Layout(props) {
                     >
                         <NavItem><Link href="/textbank">Texts</Link></NavItem>
                         <NavItem><Link href="/submit-text">Submit Text</Link></NavItem>
-                        <NavItem><Link href="/completed-races">Completed Races</Link></NavItem>
+                        <NavItem><Link href="/completed-races">Completed Types</Link></NavItem>
                     </Nav>
                     {isAuthenticated ? <AuthenticatedHeaderWidget /> : <Login />}
                 </Collapse>
