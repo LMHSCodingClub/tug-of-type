@@ -21,7 +21,7 @@ export default function Timer({
 
     const timer = (id) => {
         if (timeValue === 0) {
-            onTimerFinish() // Update backend with data tangentially related to the timer component
+            onTimerFinish()
             if (withMutate)
                 clearInterval(id);
         } else if (withMutate) {

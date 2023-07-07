@@ -1,7 +1,7 @@
 .tugContainer {
     position: relative;
     height: 140px;
-    background-color: rgb(149, 161, 153, 0.2);
+    background-color: rgb(149, 161, 153);
     grid-area: 1 / 2 / -1 / 3;
 }
 

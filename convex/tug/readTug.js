@@ -4,6 +4,9 @@ import { withUser } from "../withUser"
 
 export default query(withUser(async ({ db, user }, { id }) => {
     const tug = await db.get(new Id('tugs', id))
+
+    if (!tug) return false
+
     tug.text = await db.get(new Id('texts', tug.text))
     tug.host = await db.get(tug.host)
 

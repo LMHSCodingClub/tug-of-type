@@ -8,5 +8,13 @@ import { withUser } from '../withUser'
  */
 export default mutation(withUser(async ({ db, user }) => {
     const text = await selectRandomText(db)
-    return await db.insert('tugs', { host: user._id, timer: 90, ended: false, text, hostProgression: 0, guestProgression: 0 })
+    return await db.insert('tugs', {
+        host: user._id,
+        timer: 90,
+        status: 'OJ',
+        ended: false,
+        text,
+        hostProgression: 0,
+        guestProgression: 0
+    })
 }))

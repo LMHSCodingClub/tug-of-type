@@ -23,13 +23,23 @@ export default function Tug(props) {
     const regenerateText = useMutation('tug/regenerateText')
 
     const [joinModal, showJoinModal] = useState(true)
-    const [textInput, setTugTextInput] = useState('')
+    const [textInput, setTugTextInput] = useState("")
     const lastCorrectCharacter = useRef(0);
     const promptTextEl = useRef();
     const wrongWordCounter = useRef(0)
     let netProgression = tug?.hostProgression - tug?.guestProgression
-    let tugEnded = tug?.hostSpeed && tug?.hostAccuracy && tug.guestSpeed && tug?.guestAccuracy
-    let lastProportion = 0;
+    let tugEnded = !(isNaN(tug?.hostSpeed) || isNaN(tug?.hostAccuracy) || isNaN(tug.guestSpeed) || isNaN(tug?.guestAccuracy))
+    let lastProportion = useRef(0);
+
+    useEffect(() => {
+        setTugTextInput("")
+        if (!isNaN(textInput.length / tug?.text?.words.length))
+            lastProportion.current += textInput.length / tug.text.words.length
+    }, [tug?.text?.words])
+
+    if (!tug) {
+        return <p>The tug does not exist.</p>
+    }
 
     const onJoin = () => {
         joinTugAsGuestPlayer({ tugId: tug._id })
@@ -37,11 +47,6 @@ export default function Tug(props) {
     }
 
     const onSpectate = () => showJoinModal(false)
-
-    useEffect(() => {
-        setTugTextInput("")
-        lastProportion = textInput.length / tug?.text?.words.length
-    }, [tug?.text.words])
 
     const handleInputChange = async e => {
         e.preventDefault()
@@ -55,20 +60,29 @@ export default function Tug(props) {
         const position = userInput.length;
 
         const accurateSoFar = userInput === tug.text.words.substring(0, position)
-        const proportionOfTextCompleted = position / tug?.text?.words.length + lastProportion
+        const proportionOfTextCompleted = position / tug?.text?.words.length + lastProportion.current
         if (accurateSoFar) {
             lastCorrectCharacter.current = position - 1;
-            updatePosition({ tugId: tug._id, playerType: tug.playerType, position: Math.round(proportionOfTextCompleted * 100) / 100 })
+            // Scale up the position to 110% of original value so that the car reaching the end does not match the text regeneration (otherwise the game cannot end)
+            const carPosition = Math.round(proportionOfTextCompleted * 100) / 100
+            updatePosition({
+                tugId: tug._id,
+                playerType: tug.playerType,
+                position: carPosition
+            })
         } else {
             wrongWordCounter.current++
         }
 
-        if (proportionOfTextCompleted >= 1) {
+        if (accurateSoFar && position / tug?.text?.words.length >= 1) {
             return regenerateText({ tugId: tug._id })
         }
 
-        if (Math.abs(netProgression) >= 0.54)
+        console.debug(netProgression)
+
+        if (Math.abs(netProgression) >= 0.54) {
             postFinalTugData()
+        }
     }
 
     const calculateColorOfLetter = (position) => {
@@ -83,18 +97,14 @@ export default function Tug(props) {
 
     if (!tug) return <p>Loading</p>
 
-    if (tug.guestSpeed && tug.guestAccuracy && tug.hostSpeed && tug.hostAccuracy) return <EndedTug id={tug._id.id} />
+    if (tugEnded) return <EndedTug id={tug._id.id} />
 
     function postFinalTugData() {
-        console.group('[postFinalTugData]', new Date().toLocaleTimeString())
-        console.log('Posting %s wpm to tug datastore', typingSpeed(textInput.length, tug._creationTime))
-        console.log('Posting %s% to tug datastore', typingAccuracy(textInput.length, tug.text.words.length, wrongWordCounter.current))
-        console.groupEnd()
         endTug({
             playerType: tug.playerType,
             id: tug._id,
             speed: typingSpeed(textInput.length, tug._creationTime),
-            accuracy: typingAccuracy(textInput.length, tug.text.words.length, wrongWordCounter.current)
+            accuracy: typingAccuracy(textInput.length, wrongWordCounter.current)
         })
     }
 
@@ -117,7 +127,9 @@ export default function Tug(props) {
             {!tugEnded && tug.guest ? (
                 <Timer onTimerFinish={onTimerFinish} typeInfo={{ typeName: 'Tug', typeId: tug._id }} withMutate={tug.playerType === 'host'} />
             ) : null}
-            <p style={{ textAlign: 'center' }}>{!tug.guest ? "Waiting for opponent..." : ""}</p>
+            <div style={{ textAlign: 'center' }}>
+                <TugGameStatus tug={tug} />
+            </div>
             <TugArena id={tug._id.id} />
             <Row className={`py-4 pe-5 ${styles.textsContainer}`}>
                 <div className="col-sm-5">
@@ -125,7 +137,8 @@ export default function Tug(props) {
                         value={textInput}
                         className={styles.inputBox}
                         onChange={handleInputChange}
-                        disabled={tugEnded || !tug.guest || tug.playerType === 'spectator'}
+                        hidden={tug.playerType === 'spectator'}
+                        disabled={tugEnded || !tug.guest}
                         type="textarea"
                         autoFocus
                     />
@@ -140,4 +153,9 @@ export default function Tug(props) {
             </Row>
         </div>
     )
+}
+
+function TugGameStatus({ tug }) {
+    if (!tug.guest) return <p>Waiting for opponent...</p>
+    if (tug.ended) return <p>Winner!</p>
 }

@@ -27,6 +27,16 @@ export default defineSchema({
     }).index("by_token", ["tokenIdentifier"]),
     tugs: defineTable({
         ended: v.boolean(),
+        status: v.union(
+            v.literal("OJ"), // OJ: Open to Join
+            v.literal("AP"), // AP: Active Play
+            v.literal("EC"), // EC: Ending and Calculating
+            v.literal("OV"), // OV: Overtime
+            v.literal("DO"), // DO: Double Overtime
+            v.literal("SD"), // SD: Sudden Death
+            v.literal("WH"), // WH: Winner-Host
+            v.literal("WG")  // WG: Winner-Guest
+        ),
         host: v.id("users"),
         guest: v.optional(v.id('users')),
         hostProgression: v.number(),
