@@ -8,8 +8,12 @@ import { scrolledToBottom, typingAccuracy, typingSpeed } from "../lib/helpers";
 import { timingSafeEqual } from "crypto";
 import EndedTug from "../components/EndedTug";
 import TugArena from "../components/TugArena";
+import { useConvexAuth } from "convex/react";
 
 export default function Tug(props) {
+    const { isAuthenticated } = useConvexAuth()
+    if (!isAuthenticated) return <p>You must log in before you can play</p>
+
     const params = new URLSearchParams(window.location.search);
     const tug = useQuery('tug/readTug', { id: params.get('id') })
 
@@ -86,14 +90,12 @@ export default function Tug(props) {
         console.log('Posting %s wpm to tug datastore', typingSpeed(textInput.length, tug._creationTime))
         console.log('Posting %s% to tug datastore', typingAccuracy(textInput.length, tug.text.words.length, wrongWordCounter.current))
         console.groupEnd()
-        setTimeout(() => {
-            endTug({
-                playerType: tug.playerType,
-                id: tug._id,
-                speed: typingSpeed(textInput.length, tug._creationTime),
-                accuracy: typingAccuracy(textInput.length, tug.text.words.length, wrongWordCounter.current)
-            })
-        }, 100)
+        endTug({
+            playerType: tug.playerType,
+            id: tug._id,
+            speed: typingSpeed(textInput.length, tug._creationTime),
+            accuracy: typingAccuracy(textInput.length, tug.text.words.length, wrongWordCounter.current)
+        })
     }
 
     const onTimerFinish = () => postFinalTugData()

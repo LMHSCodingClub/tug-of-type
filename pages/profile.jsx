@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image"
 import { getNumberWithOrdinal } from "../lib/helpers";
 import { useRouter } from "next/router";
+import TugArena from "../components/TugArena";
 
 export default function Profile() {
     const user = useQuery('user/readUser')
@@ -75,7 +76,8 @@ export default function Profile() {
                 <ListGroup flush>
                     {tugs.topTugs.map(item => (
                         <ListGroupItem key={item._id.id}>
-                            <Link href={"/tug?id=" + item._id.id}>{item.text.id}</Link>
+                            <Link href={"/tug?id=" + item._id.id}>{item.host.username} vs {item.guest.username}</Link>
+                            <TugArena mini id={item._id} />
                         </ListGroupItem>
                     ))}
                 </ListGroup>

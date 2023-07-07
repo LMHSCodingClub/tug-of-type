@@ -3,10 +3,10 @@ import styles from "../styles/tug.module.css"
 
 export default function TugArena(props) {
     const tug = useQuery('tug/readTug', { id: props.id })
-    let netProgression = tug.hostProgression - tug.guestProgression
-
+    let netProgression = tug?.hostProgression - tug?.guestProgression
+    console.log(props.mini ? { scale: 0.4 } : {})
     return (
-        <div className={styles.tugContainer}>
+        <div className={`${styles.tugContainer} ${props.mini ? styles.mini : ''}`}>
             <div className={styles.tickLines}>
                 <span></span>
                 <span className={styles.playerWin}></span>

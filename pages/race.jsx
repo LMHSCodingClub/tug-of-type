@@ -2,8 +2,12 @@ import { useRouter } from "next/router";
 import EndedRace from "../components/EndedRace";
 import OngoingRace from "../components/OngoingRace";
 import { useQuery } from '../convex/_generated/react';
+import { useConvexAuth } from "convex/react";
 
 export default function Race() {
+    const { isAuthenticated } = useConvexAuth()
+    if (!isAuthenticated) return <p>You must log in before you can play</p>
+
     const params = new URLSearchParams(window.location.search);
     const race = useQuery('race/readRace', { id: params.get('id') })
     const router = useRouter()
