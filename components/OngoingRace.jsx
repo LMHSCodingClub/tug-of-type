@@ -5,7 +5,7 @@ import { Input, Row } from "reactstrap";
 import Timer from "./Timer";
 import { Id } from "../convex/_generated/dataModel";
 import { useRouter } from "next/router";
-import { scrolledToBottom } from "../lib/helpers";
+import { scrolledToBottom, typingSpeed } from "../lib/helpers";
 
 export default function OngoingRace({ raceId }) {
     const race = useQuery('race/readRace', { id: raceId }) || {}
@@ -31,14 +31,6 @@ export default function OngoingRace({ raceId }) {
         if (!standing?.mine && standing?.players && !race.ended)
             joinRace({ race: raceId });
     }, [standing?.userIsHost]) // Use a property of standing that does not change once initialized 
-
-    const typingSpeed = (endTime) => {
-        const minutesToComplete = Math.abs(endTime - race?._creationTime) / 1000 / 60;
-        const numberOfWords = raceTextInput.length / 5
-        const speed = numberOfWords / minutesToComplete;
-
-        return Math.round(speed);
-    }
 
     const typingAccuracy = (inputSize = raceTextInput.length) => {
         return Math.round(inputSize / (race?.text.words.length + wrongWordCounter.current) * 100)
@@ -66,7 +58,7 @@ export default function OngoingRace({ raceId }) {
 
         // If user has completed the text accurately
         if ((proportionOfRaceCompleted === 1 && inputText === race?.text?.words)) {
-            endStanding({ standingId: standing.mine._id, speed: typingSpeed(Date.now()), accuracy: typingAccuracy(position) });
+            endStanding({ standingId: standing.mine._id, speed: typingSpeed(raceTextInput.length, race._creationTime), accuracy: typingAccuracy(position) });
 
             if (standing.opponents.every(item => item.speed)) {
                 const end = await endRace({ raceId: race._id })
@@ -104,7 +96,7 @@ export default function OngoingRace({ raceId }) {
                 {!race?.ended ? (
                     <Timer onTimerFinish={() => {
                         if (!standing.mine.position < 1) { // User did not already finish the text
-                            endStanding({ standingId: standing.mine._id, speed: typingSpeed(Date.now()), accuracy: typingAccuracy() })
+                            endStanding({ standingId: standing.mine._id, speed: typingSpeed(raceTextInput.length, race._creationTime), accuracy: typingAccuracy() })
                             endRace({ raceId: race._id });
                         }
                     }} typeInfo={{ typeName: 'Race', typeId: race._id }} withMutate={standing?.userIsHost} />

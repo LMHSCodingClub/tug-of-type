@@ -31,9 +31,7 @@
     justify-content: space-between;
 }
 
-.playerWin,
-.starting,
-.opponentWin {
+.tickLines span[class]:not(.starting){
     width: 2px;
     border: 2px solid white;
 }
@@ -53,6 +51,18 @@
     border-style: dashed;
     border-width: 5px;
     border-left: none;
+}
+
+.tickLines .doubleOvertime {
+    opacity: 0.3;
+}
+
+.tickLines .overtime {
+    opacity: 0.5;
+}
+
+.tickLines .normalWin {
+    opacity: 1.0;
 }
 
 .inputBox {

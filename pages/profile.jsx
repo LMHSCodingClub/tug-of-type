@@ -76,8 +76,9 @@ export default function Profile() {
                 <ListGroup flush>
                     {tugs.topTugs.map(item => (
                         <ListGroupItem key={item._id.id}>
-                            <Link href={"/tug?id=" + item._id.id}>{item.host.username} vs {item.guest.username}</Link>
+                            <Link href={"/tug?id=" + item._id.id}>{item.host.username} vs {item.guest.username}
                             <TugArena mini id={item._id} />
+                            </Link>
                         </ListGroupItem>
                     ))}
                 </ListGroup>

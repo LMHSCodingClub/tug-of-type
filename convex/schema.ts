@@ -43,6 +43,7 @@ export default defineSchema({
         guestProgression: v.number(),
         text: v.id("texts"),
         timer: v.number(),
+        startTime: v.optional(v.number()),
         hostSpeed: v.optional(v.number()),
         hostAccuracy: v.optional(v.number()),
         guestSpeed: v.optional(v.number()),

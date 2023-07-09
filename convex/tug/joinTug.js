@@ -13,5 +13,5 @@ export default mutation(withUser(async ({ db, user }, { tugId }) => {
         return false;
     }
 
-    db.patch(tugId, { guest: user._id, status: 'AP' })
+    db.patch(tugId, { guest: user._id, status: 'AP', startTime: Date.now() })
 }))

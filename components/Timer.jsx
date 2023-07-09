@@ -3,6 +3,7 @@ import { useMutation, useQuery } from "../convex/_generated/react"
 
 export default function Timer({
     onTimerFinish,
+    initialTime=120,
     typeInfo: { typeName, typeId },
     withMutate = false // Whether to change the timer value, if false then only read and display the timer
 }) {
@@ -17,7 +18,7 @@ export default function Timer({
             }, 1000);
             return () => clearInterval(id);
         }
-    }, [withMutate]);
+    }, [withMutate, initialTime]);
 
     const timer = (id) => {
         if (timeValue === 0) {

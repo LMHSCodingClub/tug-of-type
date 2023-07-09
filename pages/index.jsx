@@ -4,8 +4,9 @@ import { useRouter } from 'next/router'
 import AuthenticatedHomeWidget from "../components/AuthenticatedHomeWidget"
 import { useMutation, useQuery } from '../convex/_generated/react'
 import styles from '../styles/Home.module.css'
-import { Table } from 'reactstrap'
+import {Button, Table} from 'reactstrap'
 import Link from 'next/link'
+import {useAuth0} from "@auth0/auth0-react";
 
 const Home = () => {
   const createRace = useMutation('race/createRace');
@@ -13,8 +14,27 @@ const Home = () => {
   const router = useRouter();
 
   const { isAuthenticated } = useConvexAuth();
+  const { loginWithRedirect } = useAuth0()
 
   const allRaces = useQuery('listTypes', { finished: false }) || [];
+
+  const handleCreateRaceClick = async () => {
+    if (isAuthenticated) {
+      const id = await createRace();
+      router.push(`/race?id=${id}`);
+    } else {
+      loginWithRedirect()
+    }
+  }
+
+  const handleCreateTugClick = async () => {
+    if (isAuthenticated) {
+      const id = await createTug();
+      router.push(`/tug?id=${id}`)
+    } else {
+      loginWithRedirect()
+    }
+  }
 
   return (
     <div>
@@ -26,16 +46,8 @@ const Home = () => {
 
       <main className={styles.main}>
         <p className={styles.description}>
-          <button onClick={async () => {
-            const id = await createRace();
-            router.push(`/race?id=${id}`);
-          }}>
-            Create a Race
-          </button>
-          <button onClick={async () => {
-            const id = await createTug();
-            router.push(`/tug?id=${id}`)
-          }}>Create a Tug</button>
+          <Button color='primary' onClick={handleCreateRaceClick}>Host a Race</Button>
+          <Button color='primary' onClick={handleCreateTugClick}>Host a Tug</Button>
         </p>
         {isAuthenticated ? <AuthenticatedHomeWidget /> : null}
         <section className={styles.container}>

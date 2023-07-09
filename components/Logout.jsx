@@ -5,7 +5,7 @@ export default function Logout(props) {
     const { logout } = useAuth0();
 
     return (
-        <Button color="primary"
+        <Button color="danger"
             onClick={() =>
                 logout({ logoutParams: { returnTo: window.location.origin } })
             }

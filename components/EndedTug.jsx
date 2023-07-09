@@ -1,16 +1,25 @@
-import { useQuery } from "../convex/_generated/react"
+import {useMutation, useQuery} from "../convex/_generated/react"
 import styles from "../styles/tug.module.css"
 import TugArena from "./TugArena"
+import {useEffect} from "react";
 
 export default function EndedTug({ id }) {
-    const tug = useQuery('tug/readTug', { id })
+    console.log("Id", id)
+    const tug = useQuery('tug/readTug', { id: id.id })
     const textLeaderboard = useQuery('text/readText', { textId: tug.text._id })
+    const winTug = useMutation('tug/winTug')
+
+    useEffect(() => {
+        if (tug?.status === 'EC') {
+            winTug({ id })
+        }
+    }, [tug?.status])
 
     return (
         <div className={styles.endedTug}>
-            <PlayerStats playerType='host' tug={tug} />
-            <PlayerStats playerType='guest' tug={tug} />
-            <TugArena id={tug._id.id} />
+            <PlayerStats playerType='host' tug={tug} won={tug.status === 'WH'} />
+            <PlayerStats playerType='guest' tug={tug} won={tug.status === 'WG'} />
+            <TugArena id={id.id} />
             <div className={styles.textInfo}>
                 <strong>{tug.text.source}</strong>
                 <blockquote>{tug.text.words}</blockquote>
@@ -25,10 +34,14 @@ export default function EndedTug({ id }) {
     )
 }
 
-function PlayerStats({ playerType, tug }) {
+function PlayerStats({ playerType, tug, won }) {
     return (
         <article className={`${playerType}Numbers`}>
-            <h3>{playerType[0].toUpperCase()}{playerType.substring(1).toLowerCase()}</h3>
+            <h3>
+                {won ? <img src='winner.png' height='30' /> : null}
+                <span> {playerType[0].toUpperCase()}{playerType.substring(1).toLowerCase()}</span>
+                <span>{tug.playerType === playerType ? ' (You)': ''}</span>
+            </h3>
             <p>
                 <img title="Speed" height="30" src="/speed.png" />
                 <span> {tug[playerType + 'Speed']} wpm</span>

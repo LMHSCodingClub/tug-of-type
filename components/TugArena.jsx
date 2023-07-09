@@ -9,11 +9,19 @@ export default function TugArena(props) {
         <div className={`${styles.tugContainer} ${props.mini ? styles.mini : ''}`}>
             <div className={styles.tickLines}>
                 <span></span>
-                <span className={styles.playerWin}></span>
+                <span className={styles.normalWin}></span>
+                <span></span>
+                <span className={styles.overtime}></span>
+                <span></span>
+                <span className={styles.doubleOvertime}></span>
                 <span></span>
                 <span className={styles.starting}></span>
                 <span></span>
-                <span className={styles.opponentWin}></span>
+                <span className={styles.doubleOvertime}></span>
+                <span></span>
+                <span className={styles.overtime}></span>
+                <span></span>
+                <span className={styles.normalWin}></span>
                 <span></span>
             </div>
             <img className={styles.car} src="/car.png" style={{ left: 33.2 - netProgression / 3 * 100 + '%' }} />

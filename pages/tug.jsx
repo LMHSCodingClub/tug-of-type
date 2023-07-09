@@ -5,10 +5,10 @@ import Timer from "../components/Timer";
 import { useMutation, useQuery } from "../convex/_generated/react";
 import styles from "../styles/tug.module.css";
 import { scrolledToBottom, typingAccuracy, typingSpeed } from "../lib/helpers";
-import { timingSafeEqual } from "crypto";
 import EndedTug from "../components/EndedTug";
 import TugArena from "../components/TugArena";
 import { useConvexAuth } from "convex/react";
+import TugGameStatus from "../components/TugGameStatus";
 
 export default function Tug(props) {
     const { isAuthenticated } = useConvexAuth()
@@ -21,6 +21,7 @@ export default function Tug(props) {
     const updatePosition = useMutation('tug/updatePosition')
     const joinTugAsGuestPlayer = useMutation('tug/joinTug')
     const regenerateText = useMutation('tug/regenerateText')
+    const enterOvertime = useMutation('tug/enterOvertime')
 
     const [joinModal, showJoinModal] = useState(true)
     const [textInput, setTugTextInput] = useState("")
@@ -29,7 +30,9 @@ export default function Tug(props) {
     const wrongWordCounter = useRef(0)
     let netProgression = tug?.hostProgression - tug?.guestProgression
     let tugEnded = !(isNaN(tug?.hostSpeed) || isNaN(tug?.hostAccuracy) || isNaN(tug.guestSpeed) || isNaN(tug?.guestAccuracy))
-    let lastProportion = useRef(0);
+    const lastProportion = useRef(0);
+
+    const [initialTime, setInitialTime] = useState(90)
 
     useEffect(() => {
         setTugTextInput("")
@@ -97,18 +100,23 @@ export default function Tug(props) {
 
     if (!tug) return <p>Loading</p>
 
-    if (tugEnded) return <EndedTug id={tug._id.id} />
+    if (tugEnded) return <EndedTug id={tug._id} />
 
     function postFinalTugData() {
         endTug({
             playerType: tug.playerType,
             id: tug._id,
-            speed: typingSpeed(textInput.length, tug._creationTime),
+            speed: typingSpeed(textInput.length, tug.startTime),
             accuracy: typingAccuracy(textInput.length, wrongWordCounter.current)
         })
     }
 
-    const onTimerFinish = () => postFinalTugData()
+    const onTimerFinish = async () => {
+        if (tug.playerType === 'host') {
+            const newInitialTime = await enterOvertime({id: tug._id})
+            setInitialTime(newInitialTime)
+        }
+    }
 
     return (
         <div className={styles.container}>
@@ -125,7 +133,7 @@ export default function Tug(props) {
                 </Modal>
             ) : null}
             {!tugEnded && tug.guest ? (
-                <Timer onTimerFinish={onTimerFinish} typeInfo={{ typeName: 'Tug', typeId: tug._id }} withMutate={tug.playerType === 'host'} />
+                <Timer onTimerFinish={onTimerFinish} typeInfo={{ typeName: 'Tug', typeId: tug._id }} withMutate={tug.playerType === 'host'} initialTime={initialTime} />
             ) : null}
             <div style={{ textAlign: 'center' }}>
                 <TugGameStatus tug={tug} />
@@ -153,9 +161,4 @@ export default function Tug(props) {
             </Row>
         </div>
     )
-}
-
-function TugGameStatus({ tug }) {
-    if (!tug.guest) return <p>Waiting for opponent...</p>
-    if (tug.ended) return <p>Winner!</p>
 }

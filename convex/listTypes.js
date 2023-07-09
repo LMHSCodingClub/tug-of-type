@@ -3,15 +3,15 @@ import { query } from './_generated/server';
 async function listTypes({ db }, { finished }) {
     const isFinished = q => q.eq(q.field('ended'), finished)
 
-    const races = await db.query('races').order("desc").filter(isFinished).collect();
-    const tugs = await db.query('tugs').order('desc').filter(isFinished).collect()
+    const races = await db.query('races').filter(isFinished).collect();
+    const tugs = await db.query('tugs').filter(isFinished).collect()
 
     const types = await Promise.all([
         ...races.map(includeOtherInfoAboutType, { mode: "Race" }),
         ...tugs.map(includeOtherInfoAboutType, { mode: "Tug" })
     ])
 
-    return types
+    return types.sort((b, a) => a._creationTime - b._creationTime)
 
     async function includeOtherInfoAboutType(type) {
         return {
@@ -23,8 +23,5 @@ async function listTypes({ db }, { finished }) {
     }
 }
 
-
-
 export default query(listTypes)
-
 
