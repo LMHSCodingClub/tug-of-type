@@ -5,7 +5,8 @@ import { Input, Row } from "reactstrap";
 import Timer from "./Timer";
 import { Id } from "../convex/_generated/dataModel";
 import { useRouter } from "next/router";
-import { scrolledToBottom, typingSpeed } from "../lib/helpers";
+import { scrolledToBottom } from "../lib/helpers";
+import { typingSpeed, typingTime } from "../lib/metrics";
 
 export default function OngoingRace({ raceId }) {
     const race = useQuery('race/readRace', { id: raceId }) || {}
@@ -58,7 +59,12 @@ export default function OngoingRace({ raceId }) {
 
         // If user has completed the text accurately
         if ((proportionOfRaceCompleted === 1 && inputText === race?.text?.words)) {
-            endStanding({ standingId: standing.mine._id, speed: typingSpeed(raceTextInput.length, race._creationTime), accuracy: typingAccuracy(position) });
+            endStanding({
+                standingId: standing.mine._id,
+                speed: typingSpeed(raceTextInput.length, race._creationTime),
+                accuracy: typingAccuracy(position),
+                time: typingTime(race._creationTime)
+            });
 
             if (standing.opponents.every(item => item.speed)) {
                 const end = await endRace({ raceId: race._id })

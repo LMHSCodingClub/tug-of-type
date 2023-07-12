@@ -15,6 +15,10 @@ export default defineSchema({
         accuracy: v.optional(v.number()),
         position: v.number(),
         speed: v.optional(v.number()),
+        time: v.optional(v.object({
+            minutes: v.number(),
+            seconds: v.number()
+        })),
         place: v.optional(v.number())
     }).index('combo', ["race", "user"]).index('by_race', ['race']).index('by_user', ['user', 'position', 'speed', 'accuracy']),
     texts: defineTable({ source: v.string(), words: v.string() }),

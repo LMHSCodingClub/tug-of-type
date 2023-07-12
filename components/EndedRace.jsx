@@ -4,6 +4,7 @@ import { useQuery } from "../convex/_generated/react"
 import { Id } from "../convex/_generated/dataModel";
 
 import { getNumberWithOrdinal } from "../lib/helpers"
+import {Stopwatch, Watch} from "react-bootstrap-icons";
 
 export default function EndedRace({ id }) {
     const race = useQuery('race/readRace', { id })
@@ -32,22 +33,26 @@ export default function EndedRace({ id }) {
                         <img title="Winning Streak" height="30" src="/streak.png" />
                         <p>5</p>
                     </article>
+                    <article title={`You took ${standing.mine.time?.minutes || 1} minute and ${standing.mine.time?.seconds || 55} seconds to complete this race`}>
+                        <Watch height={30} width={30} />
+                        <p>{`${standing.mine.time?.minutes || 1}:${standing.mine.time?.seconds || 55}`}</p>
+                    </article>
                 </div>
             ) : null}
             <div className={styles.leaderboard}>
-                <img src="/track.jpg" />
+                <img className={styles.track} src="/track.jpg" />
                 <div className={styles.playerContainer}>
-                    {standing?.players?.map((item, index) => <img className={styles.player} title={`${item.user.name} (@${item.user.username})`} key={item._id.id} src="/car.png" width="70" style={{ position: 'absolute', top: Math.min(index * 55, index * 4 * 55) + 'px', left: item.position * 88 + '%' }} />)}
+                    {standing?.players?.map((item, index) => <img className={styles.player} title={`${item.user.name} (@${item.user.username})`} key={item._id.id} src="/car.png" alt="Car" width="70" style={{ position: 'absolute', top: Math.min(index * 55, index * 4 * 55) + 'px', left: item.position * 88 + '%' }} />)}
                 </div>
 
-                <img src="/track.jpg" />
+                <img className={styles.track} src="/track.jpg" />
             </div>
             <div className={styles.textInfo}>
                 <strong>{race.text.source}</strong>
                 <blockquote>{race.text.words}</blockquote>
             </div>
-            <h2 style={{ gridRow: 3, gridColumn: 2, justifySelf: 'center' }}>Top Racers of this Text</h2>
-            <div style={{ gridRow: 4, gridColumn: 2, justifySelf: 'center' }} className={styles.textLeaderboard}>
+            <div className={styles.textLeaderboard}>
+                <h2>Top Racers of this Text</h2>
                 <ol>
                     {textLeaderboard?.topTypers.map(item => <li key={item.standing._id.id}>{item.user.name} at {item.standing.speed} wpm</li>)}
                 </ol>

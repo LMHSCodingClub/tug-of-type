@@ -4,7 +4,8 @@ import { Button, Input, Modal, ModalFooter, ModalHeader, Row } from "reactstrap"
 import Timer from "../components/Timer";
 import { useMutation, useQuery } from "../convex/_generated/react";
 import styles from "../styles/tug.module.css";
-import { scrolledToBottom, typingAccuracy, typingSpeed } from "../lib/helpers";
+import { scrolledToBottom } from "../lib/helpers";
+import { typingAccuracy, typingSpeed } from "../lib/metrics"
 import EndedTug from "../components/EndedTug";
 import TugArena from "../components/TugArena";
 import { useConvexAuth } from "convex/react";
