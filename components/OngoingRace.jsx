@@ -102,7 +102,12 @@ export default function OngoingRace({ raceId }) {
                 {!race?.ended ? (
                     <Timer onTimerFinish={() => {
                         if (!standing.mine.position < 1) { // User did not already finish the text
-                            endStanding({ standingId: standing.mine._id, speed: typingSpeed(raceTextInput.length, race._creationTime), accuracy: typingAccuracy() })
+                            endStanding({
+                                standingId: standing.mine._id,
+                                speed: typingSpeed(raceTextInput.length, race._creationTime),
+                                accuracy: typingAccuracy(raceTextInput.length),
+                                time: typingTime(race._creationTime)
+                            })
                             endRace({ raceId: race._id });
                         }
                     }} typeInfo={{ typeName: 'Race', typeId: race._id }} withMutate={standing?.userIsHost} />

@@ -4,7 +4,7 @@ import { query } from "../_generated/server";
 /**
  * Get stats about the text
  */
-export default query(async ({ db }, { typeId, textId }) => {
+export default query(async ({ db }, { typeId, textId, gameMode }) => {
     let id = textId;
     if (!textId) {
         const currentType = await db.get(typeId)
@@ -22,6 +22,7 @@ export default query(async ({ db }, { typeId, textId }) => {
         const standing = await db.query('standings').withIndex('combo', q => q.eq('race', race._id).eq('user', race.winner)).first();
         topTypers.push({ user, standing })
     }
+
 
     return {
         baseInfo,

@@ -57,6 +57,10 @@ export default defineSchema({
         user: v.id("users"),
         speed: v.number(),
         accuracy: v.number(),
+        time: v.optional(v.object({
+            minutes: v.number(),
+            seconds: v.number()
+        })),
         text: v.id("texts"),
         timer: v.number(),
         ended: v.boolean()

@@ -1,10 +1,13 @@
 import EndedRace from "../components/EndedRace";
 import { useQuery } from "../convex/_generated/react";
 import styles from "../styles/race.module.css"
+import {Id} from "../convex/_generated/dataModel";
+import {Watch} from "react-bootstrap-icons";
 
 export default function Practice(props) {
     const params = new URLSearchParams(window.location.search);
     const practice = useQuery('race/readPractice', { id: params.get('id') })
+    const textLeaderboard = useQuery('text/readText', { typeId: new Id('practices', params.get('id')) })
 
     if (!practice) return <p>Loading...</p>
 
@@ -20,6 +23,10 @@ export default function Practice(props) {
                     <img title="Accuracy" height="30" src="/accuracy.png" />
                     <p>{practice.accuracy}%</p>
                 </article>
+                <article>
+                    <Watch />
+                    <p>{practice.time}</p>
+                </article>
             </div>
             <div className={styles.leaderboard}>
                 <img src="/track.jpg" />
@@ -30,15 +37,15 @@ export default function Practice(props) {
                 <img src="/track.jpg" />
             </div>
             <div className={styles.textInfo}>
-                <strong>{practice.text.source}</strong>
-                <blockquote>{practice.text.words}</blockquote>
+                <strong>{textLeaderboard.baseInfo.source}</strong>
+                <blockquote>{textLeaderboard.baseInfo.words}</blockquote>
             </div>
-            <h2 style={{ gridRow: 3, gridColumn: 2, justifySelf: 'center' }}>Top Racers of this Text</h2>
-            {/* <div style={{ gridRow: 4, gridColumn: 2, justifySelf: 'center' }} className={styles.textLeaderboard}>
+            <div className={styles.textLeaderboard}>
+                <h2>Top Racers of this Text</h2>
                 <ol>
                     {textLeaderboard?.topTypers.map(item => <li key={item.standing._id.id}>{item.user.name} at {item.standing.speed} wpm</li>)}
                 </ol>
-            </div> */}
+            </div>
         </div>
     )
 }
