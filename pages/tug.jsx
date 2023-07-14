@@ -11,6 +11,8 @@ import TugArena from "../components/TugArena";
 import { useConvexAuth } from "convex/react";
 import TugGameStatus from "../components/TugGameStatus";
 
+const REGULAR_WIN_THRESHOLD = 0.75, OVERTIME_WIN_THRESHOLD = 0.66, DOUBLE_OVERTIME_WIN_THRESHOLD = 0.53
+
 export default function Tug(props) {
     const { isAuthenticated } = useConvexAuth()
     if (!isAuthenticated) return <p>You must log in before you can play</p>
@@ -19,6 +21,7 @@ export default function Tug(props) {
     const tug = useQuery('tug/readTug', { id: params.get('id') })
 
     const endTug = useMutation('tug/endTug')
+    const winTug = useMutation('tug/winTug')
     const updatePosition = useMutation('tug/updatePosition')
     const joinTugAsGuestPlayer = useMutation('tug/joinTug')
     const regenerateText = useMutation('tug/regenerateText')
@@ -37,9 +40,11 @@ export default function Tug(props) {
 
     useEffect(() => {
         setTugTextInput("")
-        if (!isNaN(textInput.length / tug?.text?.words.length))
-            lastProportion.current += textInput.length / tug.text.words.length
     }, [tug?.text?.words])
+
+    useEffect(() => {
+        if (tug?.ended) postFinalTugData()
+    }, [tug?.ended])
 
     if (!tug) {
         return <p>The tug does not exist.</p>
@@ -60,20 +65,27 @@ export default function Tug(props) {
         }
 
         const userInput = e.target.value
-        setTugTextInput(userInput)
         const position = userInput.length;
+        const accurateSoFar = textInput === tug.text.words.substring(0, textInput.length)
+        // Let user type new text
+        if (userInput.length >= textInput.length) {
+            setTugTextInput(userInput)
+        } else if (!accurateSoFar && userInput.length >= lastCorrectCharacter.current) {
+            // Let the user fix existing text with Delete/Backspace buttons
+            setTugTextInput(userInput)
+        }
 
-        const accurateSoFar = userInput === tug.text.words.substring(0, position)
-        const proportionOfTextCompleted = position / tug?.text?.words.length + lastProportion.current
-        if (accurateSoFar) {
+        if (accurateSoFar && userInput.length >= textInput.length) {
             lastCorrectCharacter.current = position - 1;
+            lastProportion.current += 1 / tug?.text.words.length
             // Scale up the position to 110% of original value so that the car reaching the end does not match the text regeneration (otherwise the game cannot end)
-            const carPosition = Math.round(proportionOfTextCompleted * 100) / 100
-            updatePosition({
+            const carPosition = Math.round(lastProportion.current * 100) / 100
+            await updatePosition({
                 tugId: tug._id,
                 playerType: tug.playerType,
                 position: carPosition
             })
+            console.log(Math.abs(netProgression))
         } else {
             wrongWordCounter.current++
         }
@@ -82,9 +94,10 @@ export default function Tug(props) {
             return regenerateText({ tugId: tug._id })
         }
 
-        console.debug(netProgression)
-
-        if (Math.abs(netProgression) >= 0.54) {
+        if (tug.status === 'AP' && Math.abs(netProgression) >= REGULAR_WIN_THRESHOLD
+            || tug.status === 'OV' && Math.abs(netProgression) >= OVERTIME_WIN_THRESHOLD
+            || tug.status === 'DO' && Math.abs(netProgression) >= DOUBLE_OVERTIME_WIN_THRESHOLD
+            || tug.status === 'SD') {
             postFinalTugData()
         }
     }
@@ -101,15 +114,16 @@ export default function Tug(props) {
 
     if (!tug) return <p>Loading</p>
 
-    if (tugEnded) return <EndedTug id={tug._id} />
+    if (tug.status === 'WH' || tug.status === 'WG') return <EndedTug id={tug._id} />
 
     function postFinalTugData() {
         endTug({
             playerType: tug.playerType,
             id: tug._id,
-            speed: typingSpeed(textInput.length, tug.startTime),
-            accuracy: typingAccuracy(textInput.length, wrongWordCounter.current)
+            speed: typingSpeed(lastCorrectCharacter.current, tug.startTime),
+            accuracy: typingAccuracy(lastCorrectCharacter.current, wrongWordCounter.current)
         })
+        winTug({id: tug._id})
     }
 
     const onTimerFinish = async () => {
@@ -149,6 +163,8 @@ export default function Tug(props) {
                         hidden={tug.playerType === 'spectator'}
                         disabled={tugEnded || !tug.guest}
                         type="textarea"
+                        autoCorrect="off"
+                        autoComplete="off"
                         autoFocus
                     />
                 </div>
