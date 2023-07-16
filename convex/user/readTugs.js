@@ -12,6 +12,8 @@ export default query(withUser(async ({ db, user }) => {
         .order('desc').collect()
     )
 
+    tugs = tugs.filter(tug => tug.status !== 'OJ')
+
     for (let i = 0; i < tugs.length; i++) {
         const host = await db.get(tugs[i].host)
         const guest = await db.get(tugs[i].guest)
@@ -19,5 +21,5 @@ export default query(withUser(async ({ db, user }) => {
         tugs[i] = { ...tugs[i], host, guest }
     }
 
-    return { tugs, topTugs: tugs.slice(0, 5), count: tugs.length || 0 }
+    return { tugs, topTugs: tugs.filter(tug => tug.ended).slice(0, 5), count: tugs.length || 0 }
 }))

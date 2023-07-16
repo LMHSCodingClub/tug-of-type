@@ -6,6 +6,7 @@ import Image from "next/image"
 import { getNumberWithOrdinal } from "../lib/helpers";
 import { useRouter } from "next/router";
 import TugArena from "../components/TugArena";
+import {useConvexAuth} from "convex/react";
 
 export default function Profile() {
     const user = useQuery('user/readUser')
@@ -14,6 +15,10 @@ export default function Profile() {
     const practices = useQuery('user/readPractices')
 
     const router = useRouter()
+
+    const { isAuthenticated } = useConvexAuth()
+
+    if (!isAuthenticated) return "You must log in to view your profile"
 
     if (!user || !races || !practices || !tugs) {
         return <p>Loading profile</p>
