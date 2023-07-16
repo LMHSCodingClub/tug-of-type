@@ -2,6 +2,7 @@ import {useMutation, useQuery} from "../convex/_generated/react"
 import styles from "../styles/tug.module.css"
 import TugArena from "./TugArena"
 import {useEffect} from "react";
+import Head from "next/head";
 
 export default function EndedTug({ id }) {
     console.log("Id", id)
@@ -17,6 +18,9 @@ export default function EndedTug({ id }) {
 
     return (
         <div className={styles.endedTug}>
+            <Head>
+                <title>Tug of Type</title>
+            </Head>
             <PlayerStats playerType='host' tug={tug} won={tug.status === 'WH'} />
             <PlayerStats playerType='guest' tug={tug} won={tug.status === 'WG'} />
             <TugArena mini id={id.id} />

@@ -11,12 +11,13 @@ export default mutation(async ({ db }, { raceId }) => {
             user: practiceStandingInfo.user,
             speed: practiceStandingInfo.speed,
             accuracy: practiceStandingInfo.accuracy,
+            time: practiceStandingInfo.time,
             text: practiceRaceInfo.text,
             timer: practiceRaceInfo.timer,
             ended: true
         })
 
-        db.delete(raceId)
+        if (raceId.tableName === 'races') db.delete(raceId)
         db.delete(practiceStandingInfo._id)
 
         return practiceId

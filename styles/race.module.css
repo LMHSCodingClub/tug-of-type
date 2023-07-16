@@ -8,7 +8,8 @@
 }
 
 .container:not(.raceEnd) .prompt {
-    max-height: 300px;
+    max-height: 400px;
+    overflow: auto;
 }
 
 .raceEnd .promptContainer>* {

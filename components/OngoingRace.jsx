@@ -46,6 +46,10 @@ export default function OngoingRace({ raceId }) {
 
         if (race?.ended) return
 
+        if (raceTextInput.length % 60 === 0) {
+            promptTextEl.current.scroll({ top: promptTextEl.current.scrollTop + 30, behavior: 'smooth' })
+        }
+
         // Increases or decreases the x-position of the car in proportion to total length of prompt
         const proportionOfRaceCompleted = position / race?.text?.words.length;
         if (inputText === race.text?.words.substring(0, position)) { // Text is accurate so far
@@ -141,7 +145,7 @@ export default function OngoingRace({ raceId }) {
                     />
                 </div>
                 <article className={`${styles.promptContainer} col-sm-8`}>
-                    <p className="h3 prompt" ref={promptTextEl}>
+                    <p className={`h3 ${styles.prompt}`} ref={promptTextEl}>
                         {race.text?.words.split('').map((item, index) => (
                             <span key={index} style={{ color: calculateColorOfLetter(index) }}>
                                 {item}

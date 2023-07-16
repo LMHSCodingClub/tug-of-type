@@ -3,6 +3,7 @@ import { useQuery } from "../convex/_generated/react";
 import styles from "../styles/race.module.css"
 import {Id} from "../convex/_generated/dataModel";
 import {Watch} from "react-bootstrap-icons";
+import Head from "next/head";
 
 export default function Practice(props) {
     const params = new URLSearchParams(window.location.search);
@@ -13,6 +14,9 @@ export default function Practice(props) {
 
     return (
         <div className={styles.endedRace}>
+            <Head>
+                <title>Practice | Tug of Type</title>
+            </Head>
             <h2>Your Stats</h2>
             <div className={styles.numbers}>
                 <article>
@@ -24,8 +28,8 @@ export default function Practice(props) {
                     <p>{practice.accuracy}%</p>
                 </article>
                 <article>
-                    <Watch />
-                    <p>{practice.time}</p>
+                    <Watch title="Time" />
+                    <p>{practice.time?.minutes}:{practice.time?.seconds}</p>
                 </article>
             </div>
             <div className={styles.leaderboard}>
