@@ -1,24 +1,30 @@
 .tugContainer {
     position: relative;
     height: 140px;
-    background-color: rgb(149, 161, 153);
     grid-area: 1 / 2 / -1 / 3;
+    background: #f2f2f2;
+    border-radius: 5px;
 }
 
 .car {
     position: absolute;
-    top: 34%;
+    top: 30%;
     height: 100px;
 }
 
 .rope {
     position: absolute;
-    top: 100px;
+    top: 90px;
     transform: translateX(-50%);
-    width: 240px;
+    width: 170px;
     height: 10px;
     background-image: url('/rope.png');
     background-position-y: center;
+}
+
+.mini .rope {
+    width: 32px;
+    transform: translateX(31%)
 }
 
 .prompt {
@@ -31,9 +37,18 @@
     justify-content: space-between;
 }
 
-.tickLines span[class]:not(.starting){
+.tickLines span {
+    transition: opacity 0.3s;
+}
+
+.normalWin ~ .normalWin, .overtime ~ .overtime, .doubleOvertime ~ .doubleOvertime {
     width: 2px;
-    border: 2px solid white;
+    border: 4px solid rgb(12, 38, 146)
+}
+
+.normalWin, .overtime, .doubleOvertime {
+    width: 2px;
+    border: 4px solid rgb(244, 214, 92)
 }
 
 .timer {
@@ -53,16 +68,20 @@
     border-left: none;
 }
 
-.tickLines .doubleOvertime {
-    opacity: 0.3;
+.AP .doubleOvertime, .OJ .doubleOvertime {
+    opacity: 0.1;
 }
 
-.tickLines .overtime {
-    opacity: 0.5;
+.AP .overtime, .OJ .overtime, .OV .doubleOvertime {
+    opacity: 0.2;
 }
 
-.tickLines .normalWin {
+.AP .normalWin, .OJ .normalWin, .OV .overtime, .DO .doubleOvertime {
     opacity: 1.0;
+}
+
+.OV .normalWin, .DO .overtime, .DO .normalWin {
+    opacity: 0;
 }
 
 .inputBox {

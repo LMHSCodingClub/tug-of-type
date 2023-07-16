@@ -19,7 +19,7 @@ export default function EndedTug({ id }) {
         <div className={styles.endedTug}>
             <PlayerStats playerType='host' tug={tug} won={tug.status === 'WH'} />
             <PlayerStats playerType='guest' tug={tug} won={tug.status === 'WG'} />
-            <TugArena id={id.id} />
+            <TugArena mini id={id.id} />
             <div className={styles.textInfo}>
                 <strong>{tug.text.source}</strong>
                 <blockquote>{tug.text.words}</blockquote>

@@ -11,7 +11,8 @@ import TugArena from "../components/TugArena";
 import { useConvexAuth } from "convex/react";
 import TugGameStatus from "../components/TugGameStatus";
 
-const REGULAR_WIN_THRESHOLD = 0.75, OVERTIME_WIN_THRESHOLD = 0.66, DOUBLE_OVERTIME_WIN_THRESHOLD = 0.53
+// Kind-of hard-coded. To make more intuitive, rethink relationship b/w front-end positioning and back-end 'progression' data
+const REGULAR_WIN_THRESHOLD = 1.07, OVERTIME_WIN_THRESHOLD = 0.6, DOUBLE_OVERTIME_WIN_THRESHOLD = 0.09
 
 export default function Tug(props) {
     const { isAuthenticated } = useConvexAuth()
